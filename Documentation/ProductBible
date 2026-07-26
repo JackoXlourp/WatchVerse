@@ -45,6 +45,51 @@ Everything has purpose.
 
 ---
 
+## Journey Experience
+
+The Journey is the heart of WatchVerse. Every design decision should reinforce the feeling that the user is progressing through an epic story, not simply browsing a collection of movies or series.
+
+### Continue Where You Left Off
+
+WatchVerse always remembers where the user left off and makes continuing effortless.
+When the user taps **Continue**, they are taken directly to their current position in the selected universe. They should never have to search for the next movie or episode.
+
+### Journey Carousel
+
+The primary navigation experience is a timeline carousel ordered according to the user's chosen viewing order (Release Order, Chronological Order, etc.).
+The carousel always opens centered on the user's current position.
+Users can freely scroll backward to revisit completed titles or forward to preview upcoming titles.
+Selecting any title opens its detailed information page.
+
+### Visual Language
+
+The state of every title should be immediately understandable without reading text.
+
+**Completed**
+- Display a subtle watched indicator (such as a checkmark).
+- Posters remain clearly recognizable.
+- Completed titles should be slightly less visually prominent than the current title.
+
+**Current**
+- Always the largest card in the carousel.
+- Visually highlighted (for example with a gold border or other premium accent).
+- Acts as the primary focal point of the screen.
+
+**Upcoming**
+- Displayed normally with no special emphasis.
+- Clearly visible while allowing the current title to remain the focus.
+
+### Progress Through the Story
+
+Progress should feel alive.
+
+When a title is marked as watched:
+- The completed title transitions into the "Completed" state.
+- The next title smoothly becomes the current title.
+- The visual focus shifts naturally, reinforcing the feeling of moving forward through the journey.
+
+The user should always feel that they are advancing through an ongoing adventure rather than checking items off a list.
+
 # Core Principles
 
 ## Journey over Checklist
