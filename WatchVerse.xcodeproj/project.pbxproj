@@ -10,6 +10,7 @@
 		505094EA3016C0A8004E8760 /* WatchVerseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505094E73016C0A8004E8760 /* WatchVerseApp.swift */; };
 		505094F53016C879004E8760 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505094F43016C879004E8760 /* RootView.swift */; };
 		505094F73016C9D0004E8760 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505094F63016C9D0004E8760 /* MainTabView.swift */; };
+		505095053016CE1E004E8760 /* JourneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505095043016CE1E004E8760 /* JourneyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +34,7 @@
 		505094E73016C0A8004E8760 /* WatchVerseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVerseApp.swift; sourceTree = "<group>"; };
 		505094F43016C879004E8760 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		505094F63016C9D0004E8760 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		505095043016CE1E004E8760 /* JourneyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyView.swift; sourceTree = "<group>"; };
 		507CAA7F30163EAA00F8E384 /* WatchVerse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchVerse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		507CAA8E30163EAE00F8E384 /* WatchVerseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WatchVerseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		507CAA9830163EAE00F8E384 /* WatchVerseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WatchVerseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +104,7 @@
 		505094F33016C7DC004E8760 /* Journey */ = {
 			isa = PBXGroup;
 			children = (
+				505095043016CE1E004E8760 /* JourneyView.swift */,
 			);
 			path = Journey;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 			files = (
 				505094EA3016C0A8004E8760 /* WatchVerseApp.swift in Sources */,
 				505094F53016C879004E8760 /* RootView.swift in Sources */,
+				505095053016CE1E004E8760 /* JourneyView.swift in Sources */,
 				505094F73016C9D0004E8760 /* MainTabView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
