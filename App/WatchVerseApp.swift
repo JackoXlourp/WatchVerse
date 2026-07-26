@@ -11,7 +11,7 @@ import SwiftUI
 struct WatchVerseApp: App {
     var body: some Scene{
         WindowGroup {
-            ContentView()
+            RootView()
         }
     }
 }

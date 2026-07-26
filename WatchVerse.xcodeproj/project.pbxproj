@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		505094EA3016C0A8004E8760 /* WatchVerseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505094E73016C0A8004E8760 /* WatchVerseApp.swift */; };
+		505094F53016C879004E8760 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505094F43016C879004E8760 /* RootView.swift */; };
+		505094F73016C9D0004E8760 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505094F63016C9D0004E8760 /* MainTabView.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		507CAA8F30163EAE00F8E384 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +30,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		505094E73016C0A8004E8760 /* WatchVerseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVerseApp.swift; sourceTree = "<group>"; };
+		505094F43016C879004E8760 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		505094F63016C9D0004E8760 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		507CAA7F30163EAA00F8E384 /* WatchVerse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchVerse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		507CAA8E30163EAE00F8E384 /* WatchVerseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WatchVerseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		507CAA9830163EAE00F8E384 /* WatchVerseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WatchVerseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,13 +81,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		505094F13016C603004E8760 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				505094E73016C0A8004E8760 /* WatchVerseApp.swift */,
+				505094F43016C879004E8760 /* RootView.swift */,
+				505094F63016C9D0004E8760 /* MainTabView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		505094F23016C79C004E8760 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				505094F33016C7DC004E8760 /* Journey */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		505094F33016C7DC004E8760 /* Journey */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Journey;
+			sourceTree = "<group>";
+		};
 		507CAA7630163EAA00F8E384 = {
 			isa = PBXGroup;
 			children = (
-				507CAA8130163EAA00F8E384 /* WatchVerse */,
+				505094F23016C79C004E8760 /* Features */,
+				505094F13016C603004E8760 /* App */,
 				507CAA9130163EAE00F8E384 /* WatchVerseTests */,
 				507CAA9B30163EAE00F8E384 /* WatchVerseUITests */,
 				507CAA8030163EAA00F8E384 /* Products */,
+				507CAA8130163EAA00F8E384 /* WatchVerse */,
 			);
 			sourceTree = "<group>";
 		};
@@ -236,6 +272,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				505094EA3016C0A8004E8760 /* WatchVerseApp.swift in Sources */,
+				505094F53016C879004E8760 /* RootView.swift in Sources */,
+				505094F73016C9D0004E8760 /* MainTabView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
