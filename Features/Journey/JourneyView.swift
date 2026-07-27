@@ -9,6 +9,7 @@ import SwiftUI
 
 struct JourneyView: View {
     @State private var currentIndex = 1
+    @State private var dragOffset: CGSize = .zero
     
     private var currentMovie: Movie {
         marvelMovies[currentIndex]
@@ -98,9 +99,35 @@ struct JourneyView: View {
                     }
                 }
                 .frame(maxWidth: .infinity)
+                .offset(x:dragOffset.width)
                 
                 Spacer()
             }
+            .gesture(
+                DragGesture()
+                    .onChanged{ value in
+                        dragOffset = value.translation
+                    }
+                
+                .onEnded { value in
+                    
+                    if value.translation.width < -50 {
+                        if currentIndex < marvelMovies.count - 1 {
+                            currentIndex += 1
+                        }
+                    }
+                    
+                    if value.translation.width > 50 {
+                        if currentIndex > 0 {
+                            currentIndex -= 1
+                        }
+                    }
+                    
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                        dragOffset = .zero
+                    }
+                }
+            )
             .padding()
         }
     }
