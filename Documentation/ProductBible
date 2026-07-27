@@ -129,6 +129,17 @@ It isn't finished.
 
 ---
 
+## Design System
+
+### Universe Header
+Every universe begins with a branded header composed of two parts:
+- A distinctive badge representing the universe (e.g., Marvel, Star Wars, Harry Potter).
+- A subtitle identifying the specific journey (e.g., Cinematic Universe, Skywalker Saga).
+The badge should become a recognizable visual identity for each universe while maintaining a consistent layout throughout the app.
+The universe header replaces generic page titles and immediately communicates where the user is in their journey.
+
+---
+
 # Success
 Success is not measured by downloads.
 Success is when someone finishes a movie...
