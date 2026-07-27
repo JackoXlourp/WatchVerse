@@ -12,10 +12,25 @@ struct JourneyView: View {
         ZStack {
             Color.black
                 .ignoresSafeArea()
-            
-            Text("Journey")
-                .font(.largeTitle)
-                .foregroundStyle(.white)
+            VStack {
+                HStack {
+                    Text("Marvel")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.red)
+                    
+                    Divider()
+                        .frame(height: 20)
+                        .overlay(.white)
+                    
+                    Text("Cinematic Universe")
+                        .font(.title2)
+                        .foregroundStyle(.white)
+                }
+                
+                Spacer()
+            }
+            .padding()
         }
     }
 }
