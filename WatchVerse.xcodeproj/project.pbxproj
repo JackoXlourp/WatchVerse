@@ -38,6 +38,9 @@
 		507CAA7F30163EAA00F8E384 /* WatchVerse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchVerse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		507CAA8E30163EAE00F8E384 /* WatchVerseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WatchVerseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		507CAA9830163EAE00F8E384 /* WatchVerseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WatchVerseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5083E4313016EA5D004A7AE7 /* guardians1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = guardians1.jpeg; sourceTree = "<group>"; };
+		5083E4323016EA5D004A7AE7 /* hulk2008.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = hulk2008.jpeg; sourceTree = "<group>"; };
+		5083E4333016EA5D004A7AE7 /* ironman2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ironman2.jpeg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -112,6 +115,7 @@
 		507CAA7630163EAA00F8E384 = {
 			isa = PBXGroup;
 			children = (
+				5083E4223016E8ED004A7AE7 /* Resources */,
 				505094F23016C79C004E8760 /* Features */,
 				505094F13016C603004E8760 /* App */,
 				507CAA9130163EAE00F8E384 /* WatchVerseTests */,
@@ -129,6 +133,24 @@
 				507CAA9830163EAE00F8E384 /* WatchVerseUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		5083E4223016E8ED004A7AE7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5083E4233016E8FC004A7AE7 /* Images */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		5083E4233016E8FC004A7AE7 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				5083E4313016EA5D004A7AE7 /* guardians1.jpeg */,
+				5083E4323016EA5D004A7AE7 /* hulk2008.jpeg */,
+				5083E4333016EA5D004A7AE7 /* ironman2.jpeg */,
+			);
+			path = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

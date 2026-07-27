@@ -31,9 +31,32 @@ struct JourneyView: View {
                 Spacer()
                     .frame(height: 100)
                 
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(.gray.opacity(0.25))
-                    .frame(height: 260)
+                VStack {
+                    HStack(spacing: -20) {
+                        
+                        Image("guardians1")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 120, height: 185)
+                            .clipShape(RoundedRectangle(cornerRadius: 16))
+                    
+                        Image("ironman2")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 190, height: 275)
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                            .contentShape(RoundedRectangle(cornerRadius: 16))
+                            .zIndex(1)
+                            .shadow(color: .black.opacity(0.45), radius: 18, x:0, y: 12)
+                    
+                        Image("hulk2008")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 120, height: 185)
+                            .clipShape(RoundedRectangle(cornerRadius: 16))
+                    }
+                }
+                .frame(maxWidth: .infinity)
                 
                 Spacer()
             }
