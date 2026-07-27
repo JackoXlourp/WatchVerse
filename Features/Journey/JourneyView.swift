@@ -29,6 +29,13 @@ struct JourneyView: View {
                 }
                 
                 Spacer()
+                    .frame(height: 100)
+                
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(.gray.opacity(0.25))
+                    .frame(height: 260)
+                
+                Spacer()
             }
             .padding()
         }
