@@ -140,6 +140,16 @@ The universe header replaces generic page titles and immediately communicates wh
 
 ---
 
+### Screen Hierarchy
+The Journey screen is intentionally designed to draw the user's attention toward the carousel.
+The universe header provides context but should not compete with the carousel for visual attention. A generous amount of whitespace separates the header from the carousel, allowing the carousel to become the primary focal point of the screen.
+Spacing values may evolve during development, but the visual hierarchy should always remain:
+1. Universe Header
+2. Carousel (primary focus)
+3. Progress and supporting information
+
+---
+
 # Success
 Success is not measured by downloads.
 Success is when someone finishes a movie...
