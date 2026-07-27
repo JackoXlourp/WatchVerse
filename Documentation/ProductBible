@@ -1,215 +1,288 @@
 # WatchVerse Product Bible
 
-Version 1.0
-Last Updated: July 26, 2026
+**Version:** 1.0  
+**Last Updated:** July 26, 2026
 
 ---
 
-# Our Mission
-WatchVerse exists to transform watching movies and television into a journey.
+# Mission
+
+WatchVerse transforms watching movies and television into a journey.
+
 Most apps track what you've watched.
+
 WatchVerse helps you experience stories in the best possible way.
-We believe every great story deserves an equally great companion.
+
+Every great story deserves an equally great companion.
 
 ---
 
-# Our Vision
-WatchVerse is a premium companion app that guides users through cinematic universes and television franchises.
-Rather than acting as a checklist or database, WatchVerse creates an immersive experience that celebrates progress, builds anticipation, and helps users discover what comes next.
+# Vision
+
+WatchVerse is a premium companion app for cinematic universes and television franchises.
+
+Rather than acting as a checklist or database, it creates an experience that celebrates progress, builds anticipation, and helps users discover what comes next.
+
 Our goal is simple:
-Make every marathon unforgettable.
+
+> **Make every marathon unforgettable.**
 
 ---
 
 # Design Philosophy
+
 WatchVerse lives between Apple's elegance and Disney's sense of wonder.
+
 Every screen should feel:
-• Premium
-• Calm
-• Cinematic
-• Intentional
-• Beautiful
-• Fast
+
+- Premium
+- Calm
+- Cinematic
+- Intentional
+- Beautiful
+- Fast
+
 The interface should disappear.
+
 The stories should take center stage.
 
 ---
 
-# The WatchVerse Experience
-Opening WatchVerse should feel like entering another universe.
-Animations are subtle.
-Progress feels rewarding.
-Navigation feels effortless.
-Nothing exists purely for decoration.
-Everything has purpose.
-
----
-
-## Journey Experience
-
-The Journey is the heart of WatchVerse. Every design decision should reinforce the feeling that the user is progressing through an epic story, not simply browsing a collection of movies or series.
-
-### Continue Where You Left Off
-
-WatchVerse always remembers where the user left off and makes continuing effortless.
-When the user taps **Continue**, they are taken directly to their current position in the selected universe. They should never have to search for the next movie or episode.
-
-### Journey Carousel
-
-The primary navigation experience is a timeline carousel ordered according to the user's chosen viewing order (Release Order, Chronological Order, etc.).
-The carousel always opens centered on the user's current position.
-Users can freely scroll backward to revisit completed titles or forward to preview upcoming titles.
-Selecting any title opens its detailed information page.
-
-### Visual Language
-
-The state of every title should be immediately understandable without reading text.
-
-**Completed**
-- Display a subtle watched indicator (such as a checkmark).
-- Posters remain clearly recognizable.
-- Completed titles should be slightly less visually prominent than the current title.
-
-**Current**
-- Always the largest card in the carousel.
-- Visually highlighted (for example with a gold border or other premium accent).
-- Acts as the primary focal point of the screen.
-
-**Upcoming**
-- Displayed normally with no special emphasis.
-- Clearly visible while allowing the current title to remain the focus.
-
-### Progress Through the Story
-
-Progress should feel alive.
-
-When a title is marked as watched:
-- The completed title transitions into the "Completed" state.
-- The next title smoothly becomes the current title.
-- The visual focus shifts naturally, reinforcing the feeling of moving forward through the journey.
-
-The user should always feel that they are advancing through an ongoing adventure rather than checking items off a list.
-
 # Core Principles
 
 ## Journey over Checklist
-Users should feel like they are travelling through a universe rather than checking items from a list.
-WatchVerse always remembers where the user left off and makes continuing effortless.
+
+Users should feel like they are progressing through a story, not completing a list.
+
+Every interaction should reinforce the feeling of moving forward through an adventure.
 
 ---
 
 ## Motion Has Meaning
-Animations communicate progress.
-Transitions create immersion.
+
+Animations exist to communicate progress, guide attention, and create immersion.
+
 Nothing moves without purpose.
 
 ---
 
 ## Beauty Matters
-Good design is not optional.
-Every screen should be something we're proud to look at.
+
+Visual polish is a feature.
+
+Every screen should feel crafted with care.
 
 ---
 
-## Every Franchise Deserves Care
+## Every Universe Deserves Care
 
-Marvel.
-Star Wars.
-Lord of the Rings.
-Harry Potter.
-Every universe deserves a handcrafted experience.
+Every franchise deserves the same attention to detail, whether it's Marvel, Star Wars, Lord of the Rings, Harry Potter, or something else entirely.
 
 ---
 
 ## We Build for Ourselves First
-Before asking if users will enjoy a feature, we ask ourselves.
-Would we happily use this tonight?
-If not...
-It isn't finished.
+
+Before asking whether users will enjoy a feature, we ask ourselves:
+
+> **Would we happily use this tonight?**
+
+If the answer is no, it isn't finished.
 
 ---
 
-## Design System
+# The WatchVerse Experience
 
-### Universe Header
-Every universe begins with a branded header composed of two parts:
-- A distinctive badge representing the universe (e.g., Marvel, Star Wars, Harry Potter).
-- A subtitle identifying the specific journey (e.g., Cinematic Universe, Skywalker Saga).
-The badge should become a recognizable visual identity for each universe while maintaining a consistent layout throughout the app.
-The universe header replaces generic page titles and immediately communicates where the user is in their journey.
+Opening WatchVerse should feel like entering another universe.
 
----
+Navigation is effortless.
 
-### Screen Hierarchy
-The Journey screen is intentionally designed to draw the user's attention toward the carousel.
-The universe header provides context but should not compete with the carousel for visual attention. A generous amount of whitespace separates the header from the carousel, allowing the carousel to become the primary focal point of the screen.
-Spacing values may evolve during development, but the visual hierarchy should always remain:
-1. Universe Header
-2. Carousel (primary focus)
-3. Progress and supporting information
+Animations are subtle.
+
+Progress feels rewarding.
+
+Nothing exists purely for decoration.
+
+Everything has purpose.
 
 ---
 
-# Success
-Success is not measured by downloads.
-Success is when someone finishes a movie...
-...opens WatchVerse...
-...and immediately feels excited for what's next.
+# Journey Experience
+
+The Journey is the heart of WatchVerse.
+
+Every design decision should reinforce the feeling that the user is progressing through an epic story.
+
+## Continue Watching
+
+WatchVerse always remembers where the user left off.
+
+When the user taps **Continue**, they are taken directly to their current position within that universe.
+
+Continuing should always feel effortless.
+
+---
+
+## Journey Carousel
+
+The carousel is the primary navigation experience.
+
+It is ordered according to the user's selected viewing order (Release Order, Chronological Order, etc.).
+
+The current title is always centered.
+
+Users can freely explore past or future titles while always knowing where they are in their journey.
+
+Selecting any title opens its detail page.
+
+---
+
+## Visual Hierarchy
+
+The carousel communicates progress without relying on text.
+
+### Completed
+
+- Clearly recognizable
+- Slightly de-emphasized
+- Marked as watched
+
+### Current
+
+- Largest poster
+- Primary focal point
+- Visually elevated above surrounding titles
+
+### Upcoming
+
+- Fully visible
+- Ready to be explored
+- Secondary to the current title
+
+---
+
+## Progress
+
+Completing a title should feel rewarding.
+
+When a title is marked as watched:
+
+- The completed title transitions naturally.
+- The next title becomes the focus.
+- The journey moves forward.
+
+Progress should feel like advancing through a story—not checking off another item.
+
+---
+
+# Design System
+
+## Universe Header
+
+Every universe begins with a recognizable identity.
+
+Each header contains:
+
+- A distinctive branded badge
+- A journey subtitle
+
+Examples:
+
+- **Marvel** — Cinematic Universe
+- **Star Wars** — Skywalker Saga
+- **Harry Potter** — Wizarding World
+
+The layout remains consistent while allowing every universe to maintain its own visual identity.
 
 ---
 
 # Product Philosophy
-We never add features simply because another app has them.
+
+We never build features simply because another app has them.
+
 Every feature must answer one question:
-Does this make the journey better?
-If the answer is no...
-We don't build it.
+
+> **Does this make the journey better?**
+
+If the answer is no, we don't build it.
 
 ---
 
-# Version 1.0
-The first release focuses entirely on the Marvel Cinematic Universe.
-The objective is not to support every franchise.
-The objective is to build the best possible MCU companion app.
+# Success
 
-Version 1 includes:
-• Beautiful Journey screen
-• Animated Energy Core
-• Chronological MCU timeline
-• Movie & Series pages
-• Continue Watching
-• Progress tracking
-• Statistics
-• Offline database
-• Elegant animations
-• Dark & Light mode
+Success isn't measured by downloads.
+
+Success is when someone finishes a movie...
+
+...opens WatchVerse...
+
+...and immediately feels excited for what's next.
+
+---
+
+# Version 1
+
+The first release focuses exclusively on the Marvel Cinematic Universe.
+
+The goal isn't to support every franchise.
+
+The goal is to build the best possible MCU companion experience.
+
+### Includes
+
+- Journey screen
+- Interactive carousel
+- Chronological and Release viewing orders
+- Movie & Series pages
+- Continue Watching
+- Progress tracking
+- Statistics
+- Offline database
+- Elegant animations
+- Dark & Light Mode
 
 ---
 
 # Future Vision
+
 Once Version 1 becomes an experience we genuinely love using ourselves, WatchVerse will expand into additional universes.
-Potential future collections include:
-• Star Wars
-• Lord of the Rings
-• Harry Potter
-• DC
-• Alien
-• Predator
-• Jurassic Park
-• X-Men
-• Mission: Impossible
-• Fast & Furious
+
+Potential collections include:
+
+- Star Wars
+- Lord of the Rings
+- Harry Potter
+- DC
+- Alien
+- Predator
+- Jurassic Park
+- X-Men
+- Mission: Impossible
+- Fast & Furious
 
 Eventually, users may even create their own custom journeys.
 
 ---
 
 # Our Promise
+
 We will never sacrifice quality for speed.
+
 We would rather release one beautiful experience than ten unfinished ones.
+
 WatchVerse is built to last.
+
 Every story deserves a journey.
 
-This document is our compass.
-Features may change. Designs may evolve. Technologies will improve.
-But the mission of WatchVerse—to make every story feel like a journey—remains the same.
+---
+
+> **This document is our compass.**
+>
+> Features may change.
+>
+> Designs may evolve.
+>
+> Technologies will improve.
+>
+> **Our mission never will.**
+>
+> **Make every story feel like a journey.**
