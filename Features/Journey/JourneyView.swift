@@ -11,19 +11,7 @@ struct JourneyView: View {
     @State private var currentIndex = 1
     @State private var dragOffset: CGSize = .zero
     
-    private var currentMovie: Movie {
-        marvelMovies[currentIndex]
-    }
-    
-    private var leftMovie: Movie? {
-        guard currentIndex > 0 else { return nil }
-        return marvelMovies[currentIndex - 1]
-    }
-    
-    private var rightMovie: Movie? {
-        guard currentIndex < marvelMovies.count - 1 else { return nil }
-        return marvelMovies[currentIndex + 1]
-    }
+    private let posterSpacing: CGFloat = 190
     
     var body: some View {
         ZStack {
@@ -32,7 +20,7 @@ struct JourneyView: View {
             VStack {
                 HStack {
                     Text("Marvel")
-                        .font(.largeTitle)
+                        .font(.system(size: 40, weight: .bold))
                         .fontWeight(.bold)
                         .foregroundStyle(.red)
                     
@@ -41,7 +29,7 @@ struct JourneyView: View {
                         .overlay(.white)
                     
                     Text("Cinematic Universe")
-                        .font(.title2)
+                        .font(.system(size: 24, weight: .medium))
                         .foregroundStyle(.white)
                 }
                 
@@ -49,57 +37,26 @@ struct JourneyView: View {
                     .frame(height: 100)
                 
                 VStack {
-                    HStack(spacing: -20) {
-                        
-                        if let leftMovie {
-                            Image(leftMovie.poster)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 120, height: 185)
-                                .clipped()
-                                .clipShape(RoundedRectangle(cornerRadius: 16))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 16)
-                                        .stroke(Color.white.opacity(0.12), lineWidth: 1)
-                                )
-                        } else {
-                            Color.clear
-                                .frame(width: 120, height: 185)
-                        }
-                    
-                        Image(currentMovie.poster)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 190, height: 275)
-                            .clipped()
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 20)
-                                    .stroke(Color(red: 0.86, green: 0.72, blue: 0.28), lineWidth: 1.5)
+                    ZStack {
+                        ForEach(Array(marvelMovies.enumerated()), id: \.element.id) { index, movie in
+                            
+                            let offset = CGFloat(index - currentIndex) * posterSpacing + dragOffset.width
+                            
+                            let centerProgress = max(
+                                0,
+                                1 - abs(offset) / posterSpacing
                             )
-                            .contentShape(RoundedRectangle(cornerRadius: 16))
-                            .zIndex(1)
-                            .shadow(color: .black.opacity(0.45), radius: 18, x:0, y: 12)
-                    
-                        if let rightMovie {
-                            Image(rightMovie.poster)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 120, height: 185)
-                                .clipped()
-                                .clipShape(RoundedRectangle(cornerRadius: 16))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 16)
-                                        .stroke(Color.white.opacity(0.12), lineWidth: 1)
-                                )
-                        } else {
-                            Color.clear
-                                .frame(width: 120, height: 185)
+                            
+                            MoviePosterView(
+                                movie: movie,
+                                centerProgress: centerProgress
+                            )
+                            .offset(x: offset)
                         }
                     }
                 }
                 .frame(maxWidth: .infinity)
-                .offset(x:dragOffset.width)
+                
                 
                 Spacer()
             }
@@ -111,19 +68,18 @@ struct JourneyView: View {
                 
                 .onEnded { value in
                     
-                    if value.translation.width < -50 {
-                        if currentIndex < marvelMovies.count - 1 {
-                            currentIndex += 1
-                        }
-                    }
+                    let movement = Int((-value.translation.width / posterSpacing).rounded())
                     
-                    if value.translation.width > 50 {
-                        if currentIndex > 0 {
-                            currentIndex -= 1
-                        }
-                    }
+                    let newIndex = max(
+                        0,
+                        min(
+                            currentIndex + movement,
+                            marvelMovies.count - 1
+                        )
+                    )
                     
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                        currentIndex = newIndex
                         dragOffset = .zero
                     }
                 }

@@ -11,6 +11,8 @@
 		505094F53016C879004E8760 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505094F43016C879004E8760 /* RootView.swift */; };
 		505094F73016C9D0004E8760 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505094F63016C9D0004E8760 /* MainTabView.swift */; };
 		505095053016CE1E004E8760 /* JourneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505095043016CE1E004E8760 /* JourneyView.swift */; };
+		5083E44A30180B36004A7AE7 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E44830180B36004A7AE7 /* Movie.swift */; };
+		5083E44F301826DD004A7AE7 /* MoviePosterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E44E301826DD004A7AE7 /* MoviePosterView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +43,8 @@
 		5083E4313016EA5D004A7AE7 /* guardians1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = guardians1.jpeg; sourceTree = "<group>"; };
 		5083E4323016EA5D004A7AE7 /* hulk2008.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = hulk2008.jpeg; sourceTree = "<group>"; };
 		5083E4333016EA5D004A7AE7 /* ironman2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ironman2.jpeg; sourceTree = "<group>"; };
+		5083E44830180B36004A7AE7 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		5083E44E301826DD004A7AE7 /* MoviePosterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePosterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -108,6 +112,8 @@
 			isa = PBXGroup;
 			children = (
 				505095043016CE1E004E8760 /* JourneyView.swift */,
+				5083E44830180B36004A7AE7 /* Movie.swift */,
+				5083E44E301826DD004A7AE7 /* MoviePosterView.swift */,
 			);
 			path = Journey;
 			sourceTree = "<group>";
@@ -297,7 +303,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5083E44A30180B36004A7AE7 /* Movie.swift in Sources */,
 				505094EA3016C0A8004E8760 /* WatchVerseApp.swift in Sources */,
+				5083E44F301826DD004A7AE7 /* MoviePosterView.swift in Sources */,
 				505094F53016C879004E8760 /* RootView.swift in Sources */,
 				505095053016CE1E004E8760 /* JourneyView.swift in Sources */,
 				505094F73016C9D0004E8760 /* MainTabView.swift in Sources */,
