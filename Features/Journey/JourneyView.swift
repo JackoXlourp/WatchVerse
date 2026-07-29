@@ -11,6 +11,7 @@ struct JourneyView: View {
     @State private var currentIndex = 1
     @State private var dragOffset: CGSize = .zero
     @State private var path = NavigationPath()
+    @State private var viewModel = JourneyViewModel()
     
     private let posterSpacing: CGFloat = 190
     
@@ -42,7 +43,7 @@ struct JourneyView: View {
                     
                     VStack {
                         ZStack {
-                            ForEach(Array(marvelMovies.enumerated()), id: \.element.id) { index, movie in
+                            ForEach(Array(viewModel.movies.enumerated()), id: \.element.id) { index, movie in
                                 
                                 let offset = CGFloat(index - currentIndex) * posterSpacing + dragOffset.width
                                 
@@ -81,7 +82,7 @@ struct JourneyView: View {
                                         0,
                                         min(
                                             currentIndex + movement,
-                                            marvelMovies.count - 1
+                                            viewModel.movieCount - 1
                                         )
                                     )
                                     
@@ -104,16 +105,16 @@ struct JourneyView: View {
                         
                         
                         
-                        Text(marvelMovies[currentIndex].title)
+                        Text(viewModel.movie(at: currentIndex).title)
                             .font(.title2.weight(.bold))
                             .foregroundStyle(.white)
                             .multilineTextAlignment(.center)
                         
-                        Text("\(String(marvelMovies[currentIndex].year)) • \(marvelMovies[currentIndex].runtime)")
+                        Text("\(String(viewModel.movies[currentIndex].year)) • \(viewModel.movies[currentIndex].runtime)")
                             .font(.subheadline)
                             .foregroundStyle(.gray)
                         
-                        Text(marvelMovies[currentIndex].phase)
+                        Text(viewModel.movies[currentIndex].phase)
                             .font(.caption.weight(.semibold))
                             .foregroundStyle(.white)
                             .padding(.horizontal, 12)
@@ -137,11 +138,11 @@ struct JourneyView: View {
                             .textCase(.uppercase)
                             .tracking(2)
                         
-                        Text("\(currentIndex + 1) of \(marvelMovies.count)")
+                        Text("\(currentIndex + 1) of \(viewModel.movieCount)")
                             .font(.headline)
                             .foregroundStyle(.white)
                         
-                        Text("\(Int((Double(currentIndex + 1) / Double(marvelMovies.count)) * 100)) % Complete")
+                        Text("\(Int((Double(currentIndex + 1) / Double(viewModel.movieCount)) * 100)) % Complete")
                             .font(.subheadline)
                             .foregroundStyle(.gray)
                         

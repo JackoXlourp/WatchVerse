@@ -50,7 +50,7 @@ struct MovieDetailView: View {
                 Button {
                     
                 } label: {
-                    Label("Mark as Watched", systemImage: "chechmark.circle.fill")
+                    Label("Mark as Watched", systemImage: "checkmark.circle.fill")
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -73,7 +73,7 @@ struct MovieDetailView: View {
                 
                 VStack(alignment: .leading, spacing: 12) {
                     
-                    Text("DIrector")
+                    Text("Director")
                         .font(.title2)
                         .fontWeight(.bold)
                     
