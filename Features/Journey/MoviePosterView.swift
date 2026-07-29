@@ -10,6 +10,7 @@ import SwiftUI
 struct MoviePosterView: View {
     let movie: Movie
     let centerProgress: CGFloat
+    let onTap: () -> Void
     
     private var posterWidth: CGFloat {
         140 + (80 * centerProgress)
@@ -59,6 +60,9 @@ struct MoviePosterView: View {
             x: 0,
             y: 12
         )
-            .zIndex(centerProgress)
+        .zIndex(centerProgress)
+        .onTapGesture {
+            onTap()
+        }
     }
 }

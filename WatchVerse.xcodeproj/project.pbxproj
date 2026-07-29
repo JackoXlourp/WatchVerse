@@ -13,6 +13,7 @@
 		505095053016CE1E004E8760 /* JourneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505095043016CE1E004E8760 /* JourneyView.swift */; };
 		5083E44A30180B36004A7AE7 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E44830180B36004A7AE7 /* Movie.swift */; };
 		5083E44F301826DD004A7AE7 /* MoviePosterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E44E301826DD004A7AE7 /* MoviePosterView.swift */; };
+		5083E45B30197563004A7AE7 /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E45A30197563004A7AE7 /* MovieDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		5083E4333016EA5D004A7AE7 /* ironman2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ironman2.jpeg; sourceTree = "<group>"; };
 		5083E44830180B36004A7AE7 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		5083E44E301826DD004A7AE7 /* MoviePosterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePosterView.swift; sourceTree = "<group>"; };
+		5083E45A30197563004A7AE7 /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -114,6 +116,7 @@
 				505095043016CE1E004E8760 /* JourneyView.swift */,
 				5083E44830180B36004A7AE7 /* Movie.swift */,
 				5083E44E301826DD004A7AE7 /* MoviePosterView.swift */,
+				5083E45A30197563004A7AE7 /* MovieDetailView.swift */,
 			);
 			path = Journey;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				5083E44F301826DD004A7AE7 /* MoviePosterView.swift in Sources */,
 				505094F53016C879004E8760 /* RootView.swift in Sources */,
 				505095053016CE1E004E8760 /* JourneyView.swift in Sources */,
+				5083E45B30197563004A7AE7 /* MovieDetailView.swift in Sources */,
 				505094F73016C9D0004E8760 /* MainTabView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
