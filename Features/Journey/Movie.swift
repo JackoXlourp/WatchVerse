@@ -17,6 +17,10 @@ struct Movie: Identifiable, Hashable {
     let runtime: String
     let phase: String
     
+    let synopsis: String
+    let director: String
+    let genres: [String]
+    
     var isWatched: Bool
 }
 
@@ -27,6 +31,13 @@ let marvelMovies: [Movie] = [
         year: 2008,
         runtime: "1h 52m",
         phase: "Phase One",
+        synopsis: " Coming soon!",
+        director: "Uknown",
+        genres: [
+            "Action",
+            "Adventure",
+            "Sci-Fi"
+        ],
         isWatched: false
     ),
     
@@ -36,6 +47,13 @@ let marvelMovies: [Movie] = [
         year: 2010,
         runtime: "2h 4m",
         phase: "Phase One",
+        synopsis: "Coming Soon!",
+        director: "Uknown",
+        genres: [
+            "Action",
+            "Adventure",
+            "Sci-Fi"
+        ],
         isWatched: false
     ),
     
@@ -45,6 +63,13 @@ let marvelMovies: [Movie] = [
         year: 2014,
         runtime: "2h 1m",
         phase: "Phase Two",
+        synopsis: "Comming Soon!",
+        director: "Uknown",
+        genres: [
+            "Action",
+            "Adventure",
+            "Sci-Fi"
+        ],
         isWatched: false
     )
 ]
