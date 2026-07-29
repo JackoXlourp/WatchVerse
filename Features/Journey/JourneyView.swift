@@ -10,12 +10,13 @@ import SwiftUI
 struct JourneyView: View {
     @State private var currentIndex = 1
     @State private var dragOffset: CGSize = .zero
+    @State private var path = NavigationPath()
     
     private let posterSpacing: CGFloat = 190
     
     var body: some View {
         
-        NavigationStack {
+        NavigationStack(path: $path) {
             
             ZStack {
                 Color.black
@@ -54,8 +55,12 @@ struct JourneyView: View {
                                     movie: movie,
                                     centerProgress: centerProgress,
                                     onTap: {
-                                        withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                                            currentIndex = index
+                                        if index == currentIndex {
+                                            path.append(movie)
+                                        } else {
+                                            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                                                currentIndex = index
+                                            }
                                         }
                                     }
                                 )
@@ -146,6 +151,9 @@ struct JourneyView: View {
                 }
                 
                 .padding()
+            }
+            .navigationDestination(for: Movie.self) { movie in
+                MovieDetailView(movie: movie)
             }
         }
     }
