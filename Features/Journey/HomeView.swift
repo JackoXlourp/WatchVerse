@@ -52,5 +52,5 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
-        .environment(JourneyViewModel(journey: marvelUniverse))
+        .environment(JourneyViewModel(journey: universes[0]))
 }

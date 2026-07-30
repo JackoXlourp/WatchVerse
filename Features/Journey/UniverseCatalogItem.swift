@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+struct UniverseCatalogItem: Codable {
+    let id: String
+    let file: String
+    let state: UniverseState
+}
+
+enum UniverseState: String, Codable {
+    case available
+    case comingSoon
+}

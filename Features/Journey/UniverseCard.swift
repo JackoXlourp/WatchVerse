@@ -48,7 +48,7 @@ struct UniverseCard: View {
         Color.black
             .ignoresSafeArea()
 
-        UniverseCard(universe: marvelUniverse)
+        UniverseCard(universe: universes[0])
             .padding()
     }
 }

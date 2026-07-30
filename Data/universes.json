@@ -3,20 +3,5 @@
         "id": "mcu",
         "state": "available",
         "file": "marvel"
-    },
-    {
-        "id": "lotr",
-        "state": "comingSoon",
-        "file": "lotr"
-    },
-    {
-        "id": "harry-potter",
-        "state": "comingSoon",
-        "file": "harrypotter"
-    },
-    {
-        "id": "avatar",
-        "state": "comingSoon",
-        "file": "avatar"
     }
 ]
