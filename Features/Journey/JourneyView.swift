@@ -29,7 +29,7 @@ struct JourneyView: View {
                             .frame(height: 20)
                         
                         HStack {
-                            Text("Marvel")
+                            Text(viewModel.journey.title)
                                 .font(.system(size: 40, weight: .bold))
                                 .fontWeight(.bold)
                                 .foregroundStyle(.red)
@@ -38,7 +38,7 @@ struct JourneyView: View {
                                 .frame(height: 20)
                                 .overlay(.white)
                             
-                            Text("Cinematic Universe")
+                            Text(viewModel.journey.subtitle)
                                 .font(.system(size: 24, weight: .medium))
                                 .foregroundStyle(.white)
                         }
@@ -144,7 +144,7 @@ struct JourneyView: View {
                                     .textCase(.uppercase)
                                     .tracking(2)
                                 
-                                Text("Marvel Cinematic Universe")
+                                Text(viewModel.journey.fullTitle)
                                     .font(.headline)
                                     .foregroundStyle(.white)
                                 
@@ -178,7 +178,7 @@ struct JourneyView: View {
                                     .font(.title2.bold())
                                     .foregroundStyle(.green)
                                 
-                                Text("You've completed the Marvel Cinematic Universe.")
+                                Text("You've completed \(viewModel.journey.fullTitle)!")
                                     .font(.subheadline)
                                     .foregroundStyle(.gray)
                                     .multilineTextAlignment(.center)

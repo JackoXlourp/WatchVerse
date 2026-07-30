@@ -11,11 +11,13 @@ import SwiftUI
 class JourneyViewModel {
     
     private let watchedMoviesKey = "watchedMovies"
+    let journey: Journey
     
     var movies: [Movie]
     
     init() {
-        movies = marvelMovies
+        journey = marverJourney
+        movies = journey.movies
         loadWatchedMovies()
     }
     
