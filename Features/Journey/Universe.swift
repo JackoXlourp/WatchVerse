@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Journey: Identifiable {
+struct Universe: Identifiable {
     let id: String
     
     let title: String

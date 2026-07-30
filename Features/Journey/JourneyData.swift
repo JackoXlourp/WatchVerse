@@ -7,7 +7,7 @@
 
 import Foundation
 
-let marvelJourney = Journey(
+let marvelUniverse = Universe(
     id: "mcu",
     title: "Marvel",
     subtitle: "Cinematic Universe",
@@ -19,5 +19,5 @@ let marvelJourney = Journey(
 )
 
 let journeys = [
-    marvelJourney
+    marvelUniverse
 ]

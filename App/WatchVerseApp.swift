@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct WatchVerseApp: App {
     
-    @State private var viewModel = JourneyViewModel(journey: marvelJourney)
+    @State private var viewModel = JourneyViewModel(journey: marvelUniverse)
     
     var body: some Scene{
         WindowGroup {
