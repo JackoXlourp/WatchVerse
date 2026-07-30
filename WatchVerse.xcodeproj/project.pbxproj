@@ -16,12 +16,13 @@
 		5083E45B30197563004A7AE7 /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E45A30197563004A7AE7 /* MovieDetailView.swift */; };
 		5083E469301A4937004A7AE7 /* JourneyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E468301A4937004A7AE7 /* JourneyViewModel.swift */; };
 		5083E47F301BAD2F004A7AE7 /* Universe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E47E301BAD2F004A7AE7 /* Universe.swift */; };
-		5083E481301BADE0004A7AE7 /* JourneyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E480301BADE0004A7AE7 /* JourneyData.swift */; };
+		5083E481301BADE0004A7AE7 /* UniverseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E480301BADE0004A7AE7 /* UniverseData.swift */; };
 		5083E483301BB9EB004A7AE7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E482301BB9EB004A7AE7 /* HomeView.swift */; };
 		5083E485301BDE7D004A7AE7 /* UniverseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E484301BDE7D004A7AE7 /* UniverseCard.swift */; };
 		5083E48B301BF95E004A7AE7 /* JSONLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E48A301BF95E004A7AE7 /* JSONLoader.swift */; };
 		5083E48C301BFC30004A7AE7 /* marvel.json in Resources */ = {isa = PBXBuildFile; fileRef = 5083E487301BF21F004A7AE7 /* marvel.json */; };
 		5083E48D301BFC37004A7AE7 /* universes.json in Resources */ = {isa = PBXBuildFile; fileRef = 5083E488301BF5EF004A7AE7 /* universes.json */; };
+		5083E491301C0A75004A7AE7 /* UniverseCatalogItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E490301C0A75004A7AE7 /* UniverseCatalogItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,12 +58,13 @@
 		5083E45A30197563004A7AE7 /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
 		5083E468301A4937004A7AE7 /* JourneyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyViewModel.swift; sourceTree = "<group>"; };
 		5083E47E301BAD2F004A7AE7 /* Universe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Universe.swift; sourceTree = "<group>"; };
-		5083E480301BADE0004A7AE7 /* JourneyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyData.swift; sourceTree = "<group>"; };
+		5083E480301BADE0004A7AE7 /* UniverseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniverseData.swift; sourceTree = "<group>"; };
 		5083E482301BB9EB004A7AE7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		5083E484301BDE7D004A7AE7 /* UniverseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniverseCard.swift; sourceTree = "<group>"; };
 		5083E487301BF21F004A7AE7 /* marvel.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = marvel.json; sourceTree = "<group>"; };
 		5083E488301BF5EF004A7AE7 /* universes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = universes.json; sourceTree = "<group>"; };
 		5083E48A301BF95E004A7AE7 /* JSONLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONLoader.swift; sourceTree = "<group>"; };
+		5083E490301C0A75004A7AE7 /* UniverseCatalogItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniverseCatalogItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -136,8 +138,9 @@
 				5083E45A30197563004A7AE7 /* MovieDetailView.swift */,
 				5083E468301A4937004A7AE7 /* JourneyViewModel.swift */,
 				5083E47E301BAD2F004A7AE7 /* Universe.swift */,
-				5083E480301BADE0004A7AE7 /* JourneyData.swift */,
+				5083E480301BADE0004A7AE7 /* UniverseData.swift */,
 				5083E484301BDE7D004A7AE7 /* UniverseCard.swift */,
+				5083E490301C0A75004A7AE7 /* UniverseCatalogItem.swift */,
 			);
 			path = Journey;
 			sourceTree = "<group>";
@@ -349,10 +352,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5083E44A30180B36004A7AE7 /* Movie.swift in Sources */,
+				5083E491301C0A75004A7AE7 /* UniverseCatalogItem.swift in Sources */,
 				505094EA3016C0A8004E8760 /* WatchVerseApp.swift in Sources */,
 				5083E44F301826DD004A7AE7 /* MoviePosterView.swift in Sources */,
 				5083E469301A4937004A7AE7 /* JourneyViewModel.swift in Sources */,
-				5083E481301BADE0004A7AE7 /* JourneyData.swift in Sources */,
+				5083E481301BADE0004A7AE7 /* UniverseData.swift in Sources */,
 				5083E47F301BAD2F004A7AE7 /* Universe.swift in Sources */,
 				5083E48B301BF95E004A7AE7 /* JSONLoader.swift in Sources */,
 				5083E485301BDE7D004A7AE7 /* UniverseCard.swift in Sources */,

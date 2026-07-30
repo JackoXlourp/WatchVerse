@@ -1,26 +1,22 @@
 [
     {
         "id": "mcu",
-        "title": "Marvel Cinematic Universe",
-        "status": "available",
+        "state": "available",
         "file": "marvel"
     },
     {
         "id": "lotr",
-        "title": "The Lord of the Rings",
-        "status": "comingSoon",
+        "state": "comingSoon",
         "file": "lotr"
     },
     {
         "id": "harry-potter",
-        "title": "Harry Potter",
-        "status": "comingSoon",
+        "state": "comingSoon",
         "file": "harrypotter"
     },
     {
         "id": "avatar",
-        "title": "Avatar",
-        "status": "comingSoon",
+        "state": "comingSoon",
         "file": "avatar"
     }
 ]
