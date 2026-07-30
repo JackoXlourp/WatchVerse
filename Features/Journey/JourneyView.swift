@@ -11,7 +11,7 @@ struct JourneyView: View {
     @State private var currentIndex = 0
     @State private var dragOffset: CGSize = .zero
     @State private var path = NavigationPath()
-    @State private var viewModel = JourneyViewModel()
+    @State private var viewModel = JourneyViewModel(journey: marvelJourney)
     
     private let posterSpacing: CGFloat = 190
     

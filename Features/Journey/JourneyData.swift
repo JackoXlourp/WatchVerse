@@ -7,7 +7,7 @@
 
 import Foundation
 
-let marverJourney = Journey(
+let marvelJourney = Journey(
     id: "mcu",
     title: "Marvel",
     subtitle: "Cinematic Universe",
@@ -17,3 +17,7 @@ let marverJourney = Journey(
     banner: "marvel-banner",
     movies: marvelMovies
 )
+
+let journeys = [
+    marvelJourney
+]

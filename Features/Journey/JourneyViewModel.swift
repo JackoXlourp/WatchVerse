@@ -15,9 +15,9 @@ class JourneyViewModel {
     
     var movies: [Movie]
     
-    init() {
-        journey = marverJourney
-        movies = journey.movies
+    init(journey: Journey) {
+        self.journey = journey
+        self.movies = journey.movies
         loadWatchedMovies()
     }
     
