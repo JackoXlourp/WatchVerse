@@ -28,9 +28,25 @@ class JourneyViewModel {
         movies.filter(\.isWatched).count
     }
     
+    var isJourneyComplete: Bool {
+        watchedCount == movieCount
+    }
+    
+    var currentMovie: Movie? {
+        movies.first(where: { !$0.isWatched })
+    }
+    
+    var currentMovieIndex: Int? {
+        movies.firstIndex(where: { !$0.isWatched})
+    }
+    
     func markMovieWatched(id: UUID) {
         guard let index = movies.firstIndex(where: { $0.id == id }) else {return}
         movies[index].isWatched = true
+    }
+    
+    func nextCurrentMovieIndex() -> Int? {
+        currentMovieIndex
     }
 }
 

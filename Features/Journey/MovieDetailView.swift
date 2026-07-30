@@ -11,6 +11,7 @@ struct MovieDetailView: View {
     
     let movie: Movie
     let viewModel: JourneyViewModel
+    let onMovieWatched: (() -> Void)?
     
     private var currentMovie: Movie {
         viewModel.movie(at: viewModel.movies.firstIndex(where: { $0.id == movie.id })!)
@@ -54,6 +55,7 @@ struct MovieDetailView: View {
                 
                 Button {
                     viewModel.markMovieWatched(id: movie.id)
+                    onMovieWatched?()
                 } label: {
                     Label(
                         currentMovie.isWatched ? "Watched" : "Mark as Watched",
