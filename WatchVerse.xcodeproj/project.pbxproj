@@ -19,6 +19,9 @@
 		5083E481301BADE0004A7AE7 /* JourneyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E480301BADE0004A7AE7 /* JourneyData.swift */; };
 		5083E483301BB9EB004A7AE7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E482301BB9EB004A7AE7 /* HomeView.swift */; };
 		5083E485301BDE7D004A7AE7 /* UniverseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E484301BDE7D004A7AE7 /* UniverseCard.swift */; };
+		5083E48B301BF95E004A7AE7 /* JSONLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E48A301BF95E004A7AE7 /* JSONLoader.swift */; };
+		5083E48C301BFC30004A7AE7 /* marvel.json in Resources */ = {isa = PBXBuildFile; fileRef = 5083E487301BF21F004A7AE7 /* marvel.json */; };
+		5083E48D301BFC37004A7AE7 /* universes.json in Resources */ = {isa = PBXBuildFile; fileRef = 5083E488301BF5EF004A7AE7 /* universes.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +61,8 @@
 		5083E482301BB9EB004A7AE7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		5083E484301BDE7D004A7AE7 /* UniverseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniverseCard.swift; sourceTree = "<group>"; };
 		5083E487301BF21F004A7AE7 /* marvel.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = marvel.json; sourceTree = "<group>"; };
+		5083E488301BF5EF004A7AE7 /* universes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = universes.json; sourceTree = "<group>"; };
+		5083E48A301BF95E004A7AE7 /* JSONLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -140,9 +145,10 @@
 		507CAA7630163EAA00F8E384 = {
 			isa = PBXGroup;
 			children = (
-				5083E486301BF1DD004A7AE7 /* Data */,
-				5083E4223016E8ED004A7AE7 /* Resources */,
 				505094F23016C79C004E8760 /* Features */,
+				5083E486301BF1DD004A7AE7 /* Data */,
+				5083E489301BF93D004A7AE7 /* Services */,
+				5083E4223016E8ED004A7AE7 /* Resources */,
 				505094F13016C603004E8760 /* App */,
 				507CAA9130163EAE00F8E384 /* WatchVerseTests */,
 				507CAA9B30163EAE00F8E384 /* WatchVerseUITests */,
@@ -182,9 +188,18 @@
 		5083E486301BF1DD004A7AE7 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				5083E488301BF5EF004A7AE7 /* universes.json */,
 				5083E487301BF21F004A7AE7 /* marvel.json */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		5083E489301BF93D004A7AE7 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				5083E48A301BF95E004A7AE7 /* JSONLoader.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -307,6 +322,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5083E48D301BFC37004A7AE7 /* universes.json in Resources */,
+				5083E48C301BFC30004A7AE7 /* marvel.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,6 +354,7 @@
 				5083E469301A4937004A7AE7 /* JourneyViewModel.swift in Sources */,
 				5083E481301BADE0004A7AE7 /* JourneyData.swift in Sources */,
 				5083E47F301BAD2F004A7AE7 /* Universe.swift in Sources */,
+				5083E48B301BF95E004A7AE7 /* JSONLoader.swift in Sources */,
 				5083E485301BDE7D004A7AE7 /* UniverseCard.swift in Sources */,
 				505094F53016C879004E8760 /* RootView.swift in Sources */,
 				505095053016CE1E004E8760 /* JourneyView.swift in Sources */,

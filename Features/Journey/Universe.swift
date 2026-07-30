@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Universe: Identifiable {
+struct Universe: Identifiable, Codable {
     let id: String
     
     let title: String
