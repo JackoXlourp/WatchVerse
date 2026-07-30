@@ -9,6 +9,8 @@ import Foundation
 
 let catalog = JSONLoader.load("universes", as: [UniverseCatalogItem].self)
 
-let universes = catalog.map {
-    JSONLoader.load($0.file, as: Universe.self)
-}
+let universes = catalog
+    .filter { $0.state == .available}
+    .map {
+        JSONLoader.load($0.file, as: Universe.self)
+    }
