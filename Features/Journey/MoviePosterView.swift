@@ -24,32 +24,56 @@ struct MoviePosterView: View {
         
         ZStack {
             
+            if movie.isWatched && centerProgress > 0.5 {
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(.green.opacity(0.35))
+                    .blur(radius: 24)
+                    .scaleEffect(1.08)
+            }
+            
             Image(movie.poster)
                 .resizable()
                 .scaledToFill()
-                .frame(
-                    width: posterWidth,
-                    height: posterHeight
+                .saturation(
+                    !movie.isWatched || centerProgress > 0.5 ? 1 : 0
+                )
+                .opacity(
+                    !movie.isWatched || centerProgress > 0.5 ? 1 :0.65
                 )
                 .clipShape(
                     RoundedRectangle(
                         cornerRadius: 16 + (4 * centerProgress)
                     )
                 )
+                .overlay(alignment: .topTrailing) {
+                    if movie.isWatched {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 30))
+                            .scaleEffect(0.8 + (0.2 * centerProgress))
+                            .foregroundStyle(centerProgress > 0.5 ? .green : .white)
+                            .opacity(centerProgress > 0.5 ? 1 : 0.6)
+                            .shadow(radius: centerProgress > 0.5 ? 8 : 0)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                            .padding(8 + (4 * centerProgress))
+                    }
+                }
             
             RoundedRectangle(
                 cornerRadius: 16 + (4 * centerProgress)
             )
             .stroke(
-                centerProgress > 0.5
-                ? Color(red:0.86, green: 0.72, blue: 0.28)
-                : Color.white.opacity(0.12),
-            )
-            .frame(
-                width: posterWidth,
-                height: posterHeight
+                movie.isWatched && centerProgress > 0.5
+                ? .green
+                : centerProgress > 0.5
+                    ? Color(red:0.86, green: 0.72, blue: 0.28)
+                    : Color.white.opacity(0.12),
+                lineWidth: movie.isWatched && centerProgress > 0.5 ? 3 : 2
             )
         }
+        .frame(
+            width: posterWidth,
+            height: posterHeight
+        )
         .frame(
             width: 190,
             height: 275

@@ -66,6 +66,7 @@ struct JourneyView: View {
                                     }
                                 )
                                 .offset(x: offset)
+                                .zIndex(Double(centerProgress))
                             }
                         }
                         .gesture(
@@ -154,7 +155,10 @@ struct JourneyView: View {
                 .padding()
             }
             .navigationDestination(for: Movie.self) { movie in
-                MovieDetailView(movie: movie)
+                MovieDetailView(
+                    movie: movie,
+                    viewModel: viewModel
+                )
             }
         }
     }

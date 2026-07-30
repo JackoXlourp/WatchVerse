@@ -10,6 +10,11 @@ import SwiftUI
 struct MovieDetailView: View {
     
     let movie: Movie
+    let viewModel: JourneyViewModel
+    
+    private var currentMovie: Movie {
+        viewModel.movie(at: viewModel.movies.firstIndex(where: { $0.id == movie.id })!)
+    }
     
     var body: some View {
         
@@ -19,7 +24,7 @@ struct MovieDetailView: View {
                 
                 HStack(alignment: .top, spacing: 20) {
                     
-                    Image(movie.poster)
+                    Image(currentMovie.poster)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 150)
@@ -27,15 +32,15 @@ struct MovieDetailView: View {
                     
                     VStack(alignment: .leading, spacing: 12) {
                         
-                        Text(movie.title)
+                        Text(currentMovie.title)
                             .font(.title)
                             .fontWeight(.bold)
                         
-                        Text(String(movie.year) + "•" + movie.runtime)
+                        Text(String(currentMovie.year) + "•" + movie.runtime)
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                         
-                        Text(movie.phase)
+                        Text(currentMovie.phase)
                             .font(.caption)
                             .fontWeight(.semibold)
                             .padding(.horizontal, 12)
@@ -48,16 +53,24 @@ struct MovieDetailView: View {
                 }
                 
                 Button {
-                    
+                    viewModel.markMovieWatched(id: movie.id)
                 } label: {
-                    Label("Mark as Watched", systemImage: "checkmark.circle.fill")
+                    Label(
+                        currentMovie.isWatched ? "Watched" : "Mark as Watched",
+                        systemImage: currentMovie.isWatched
+                        ? "checkmark.circle.fill"
+                        : "circle"
+                    )
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.yellow)
+                        .background(
+                            currentMovie.isWatched ? Color.green: Color.yellow
+                        )
                         .foregroundStyle(.black)
                         .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
+                .disabled(currentMovie.isWatched)
                 
                 VStack(alignment: .leading, spacing: 12) {
                     
@@ -65,7 +78,7 @@ struct MovieDetailView: View {
                         .font(.title2)
                         .fontWeight(.bold)
                     
-                    Text(movie.synopsis)
+                    Text(currentMovie.synopsis)
                         .font(.body)
                         .foregroundStyle(.secondary)
                         .lineSpacing(4)
@@ -77,7 +90,7 @@ struct MovieDetailView: View {
                         .font(.title2)
                         .fontWeight(.bold)
                     
-                    Text(movie.director)
+                    Text(currentMovie.director)
                         .foregroundStyle(.secondary)
                 }
                 
@@ -89,7 +102,7 @@ struct MovieDetailView: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            ForEach(movie.genres, id: \.self) { genre in
+                            ForEach(currentMovie.genres, id: \.self) { genre in
                                 Text(genre)
                                     .font(.caption)
                                     .fontWeight(.semibold)
@@ -104,13 +117,9 @@ struct MovieDetailView: View {
             }
             .padding()
         }
-        .navigationTitle(movie.title)
+        .navigationTitle(currentMovie.title)
         .navigationBarTitleDisplayMode(.inline)
     }
 }
 
-#Preview {
-    NavigationStack {
-        MovieDetailView(movie: marvelMovies[0])
-    }
-}
+
