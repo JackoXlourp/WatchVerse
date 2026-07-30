@@ -8,7 +8,7 @@
 import Foundation
 
 struct Movie: Identifiable, Hashable {
-    let id = UUID()
+    let id: String
     
     let title: String
     let poster: String
@@ -26,6 +26,7 @@ struct Movie: Identifiable, Hashable {
 
 let marvelMovies: [Movie] = [
     Movie(
+        id: "hulk-2208",
         title: "The Incredible Hulk",
         poster: "hulk2008",
         year: 2008,
@@ -42,6 +43,7 @@ let marvelMovies: [Movie] = [
     ),
     
     Movie(
+        id: "iron-man-2",
         title: "Iron Man 2",
         poster: "ironman2",
         year: 2010,
@@ -58,6 +60,7 @@ let marvelMovies: [Movie] = [
     ),
     
     Movie(
+        id:"guardians-1",
         title: "Guardians of the Galaxy",
         poster: "guardians1",
         year: 2014,
