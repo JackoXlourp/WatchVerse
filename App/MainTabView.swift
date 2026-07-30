@@ -10,7 +10,7 @@ import SwiftUI
 struct MainTabView: View {
     var body: some View {
         TabView {
-            JourneyView()
+            HomeView()
                 .tabItem {
                     Label("Journey", systemImage: "map.fill")
                 }

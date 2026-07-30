@@ -17,6 +17,7 @@
 		5083E469301A4937004A7AE7 /* JourneyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E468301A4937004A7AE7 /* JourneyViewModel.swift */; };
 		5083E47F301BAD2F004A7AE7 /* Journey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E47E301BAD2F004A7AE7 /* Journey.swift */; };
 		5083E481301BADE0004A7AE7 /* JourneyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E480301BADE0004A7AE7 /* JourneyData.swift */; };
+		5083E483301BB9EB004A7AE7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E482301BB9EB004A7AE7 /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		5083E468301A4937004A7AE7 /* JourneyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyViewModel.swift; sourceTree = "<group>"; };
 		5083E47E301BAD2F004A7AE7 /* Journey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Journey.swift; sourceTree = "<group>"; };
 		5083E480301BADE0004A7AE7 /* JourneyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyData.swift; sourceTree = "<group>"; };
+		5083E482301BB9EB004A7AE7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -119,6 +121,7 @@
 		505094F33016C7DC004E8760 /* Journey */ = {
 			isa = PBXGroup;
 			children = (
+				5083E482301BB9EB004A7AE7 /* HomeView.swift */,
 				505095043016CE1E004E8760 /* JourneyView.swift */,
 				5083E44830180B36004A7AE7 /* Movie.swift */,
 				5083E44E301826DD004A7AE7 /* MoviePosterView.swift */,
@@ -323,6 +326,7 @@
 				5083E47F301BAD2F004A7AE7 /* Journey.swift in Sources */,
 				505094F53016C879004E8760 /* RootView.swift in Sources */,
 				505095053016CE1E004E8760 /* JourneyView.swift in Sources */,
+				5083E483301BB9EB004A7AE7 /* HomeView.swift in Sources */,
 				5083E45B30197563004A7AE7 /* MovieDetailView.swift in Sources */,
 				505094F73016C9D0004E8760 /* MainTabView.swift in Sources */,
 			);

@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct WatchVerseApp: App {
+    
+    @State private var viewModel = JourneyViewModel(journey: marvelJourney)
+    
     var body: some Scene{
         WindowGroup {
             RootView()
+                .environment(viewModel)
         }
     }
 }

@@ -26,7 +26,7 @@ class JourneyViewModel {
     }
     
     var nextMovie: Movie? {
-        nil
+        movies.first(where: { !$0.isWatched})
     }
     
     func movie(at index: Int) -> Movie {
