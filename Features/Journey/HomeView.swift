@@ -41,7 +41,9 @@ struct HomeView: View {
                             .font(.headline)
                             .foregroundStyle(.white)
 
-                        UniverseCard(universe: viewModel.journey)
+                        ForEach(viewModel.universes) { universe in
+                            UniverseCard(universe: universe)
+                        }
                     }
                     .padding()
                 }
@@ -52,5 +54,10 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
-        .environment(JourneyViewModel(journey: universes[0]))
+        .environment(
+            JourneyViewModel(
+                journey: universes[0],
+                universes: universes
+            )
+        )
 }

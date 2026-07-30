@@ -12,11 +12,13 @@ class JourneyViewModel {
     
     private let watchedMoviesKey = "watchedMovies"
     let journey: Universe
+    let universes: [Universe]
     
     var movies: [Movie]
     
-    init(journey: Universe) {
+    init(journey: Universe, universes: [Universe]) {
         self.journey = journey
+        self.universes = universes
         self.movies = journey.movies
         loadWatchedMovies()
     }
