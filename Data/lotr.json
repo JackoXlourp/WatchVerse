@@ -4,8 +4,8 @@
   "subtitle": "The Journey Through Middle-Earth",
   "fullTitle": "The Lord of The Rings",
   "description": "The complete Marvel Cinematic Universe in release order.",
-  "logo": "hulk2008",
-  "banner": "hulk2008",
+  "logo": "lotr-logo",
+  "banner": "lotr-banner",
   "movies": [
     {
       "id": "hulk-2008",

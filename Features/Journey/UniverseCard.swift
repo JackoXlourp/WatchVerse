@@ -26,11 +26,6 @@ struct UniverseCard: View {
                 
                 HStack(spacing: 12) {
                     
-                    Image(universe.logo)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 28)
-                    
                     Text(universe.title)
                         .font(.headline)
                         .foregroundStyle(.white)

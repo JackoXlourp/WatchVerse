@@ -40,10 +40,19 @@ struct HomeView: View {
                         Text("Your Universes")
                             .font(.headline)
                             .foregroundStyle(.white)
-
-                        ForEach(viewModel.universes) { universe in
-                            UniverseCard(universe: universe)
+                        
+                        LazyVGrid(
+                            columns: [
+                                GridItem(.flexible()),
+                                GridItem(.flexible())
+                            ],
+                            spacing: 20
+                        ) {
+                            ForEach(viewModel.universes) { universe in
+                                UniverseCard(universe: universe)
+                            }
                         }
+                        
                     }
                     .padding()
                 }
