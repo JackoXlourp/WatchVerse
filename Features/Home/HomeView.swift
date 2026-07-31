@@ -49,7 +49,10 @@ struct HomeView: View {
                             spacing: 20
                         ) {
                             ForEach(viewModel.universes) { universe in
-                                UniverseCard(universe: universe)
+                                UniverseCard(
+                                    universe: universe,
+                                    compact: true
+                                )
                             }
                         }
                         

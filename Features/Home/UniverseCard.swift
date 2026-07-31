@@ -9,6 +9,7 @@ import SwiftUI
 struct UniverseCard: View {
 
     let universe: Universe
+    var compact = false
 
     var body: some View {
         
@@ -21,7 +22,9 @@ struct UniverseCard: View {
                 Image(universe.banner)
                     .resizable()
                     .scaledToFill()
-                    .frame(height: 120)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: compact ? 80 : 120)
+                    .clipped()
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                 
                 HStack(spacing: 12) {

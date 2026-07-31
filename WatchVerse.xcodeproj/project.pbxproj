@@ -51,9 +51,6 @@
 		507CAA7F30163EAA00F8E384 /* WatchVerse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchVerse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		507CAA8E30163EAE00F8E384 /* WatchVerseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WatchVerseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		507CAA9830163EAE00F8E384 /* WatchVerseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WatchVerseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5083E4313016EA5D004A7AE7 /* guardians1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = guardians1.jpeg; sourceTree = "<group>"; };
-		5083E4323016EA5D004A7AE7 /* hulk2008.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = hulk2008.jpeg; sourceTree = "<group>"; };
-		5083E4333016EA5D004A7AE7 /* ironman2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ironman2.jpeg; sourceTree = "<group>"; };
 		5083E44830180B36004A7AE7 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		5083E44E301826DD004A7AE7 /* MoviePosterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePosterView.swift; sourceTree = "<group>"; };
 		5083E45A30197563004A7AE7 /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
@@ -125,7 +122,9 @@
 		505094F23016C79C004E8760 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				5083E494301C26F8004A7AE7 /* Home */,
 				505094F33016C7DC004E8760 /* Journey */,
+				5083E495301C2711004A7AE7 /* Shared */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -133,16 +132,11 @@
 		505094F33016C7DC004E8760 /* Journey */ = {
 			isa = PBXGroup;
 			children = (
-				5083E482301BB9EB004A7AE7 /* HomeView.swift */,
 				505095043016CE1E004E8760 /* JourneyView.swift */,
 				5083E44830180B36004A7AE7 /* Movie.swift */,
 				5083E44E301826DD004A7AE7 /* MoviePosterView.swift */,
 				5083E45A30197563004A7AE7 /* MovieDetailView.swift */,
 				5083E468301A4937004A7AE7 /* JourneyViewModel.swift */,
-				5083E47E301BAD2F004A7AE7 /* Universe.swift */,
-				5083E480301BADE0004A7AE7 /* UniverseData.swift */,
-				5083E484301BDE7D004A7AE7 /* UniverseCard.swift */,
-				5083E490301C0A75004A7AE7 /* UniverseCatalogItem.swift */,
 			);
 			path = Journey;
 			sourceTree = "<group>";
@@ -153,12 +147,11 @@
 				505094F23016C79C004E8760 /* Features */,
 				5083E486301BF1DD004A7AE7 /* Data */,
 				5083E489301BF93D004A7AE7 /* Services */,
-				5083E4223016E8ED004A7AE7 /* Resources */,
 				505094F13016C603004E8760 /* App */,
+				507CAA8130163EAA00F8E384 /* WatchVerse */,
 				507CAA9130163EAE00F8E384 /* WatchVerseTests */,
 				507CAA9B30163EAE00F8E384 /* WatchVerseUITests */,
 				507CAA8030163EAA00F8E384 /* Products */,
-				507CAA8130163EAA00F8E384 /* WatchVerse */,
 			);
 			sourceTree = "<group>";
 		};
@@ -170,24 +163,6 @@
 				507CAA9830163EAE00F8E384 /* WatchVerseUITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		5083E4223016E8ED004A7AE7 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				5083E4233016E8FC004A7AE7 /* Images */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		5083E4233016E8FC004A7AE7 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				5083E4313016EA5D004A7AE7 /* guardians1.jpeg */,
-				5083E4323016EA5D004A7AE7 /* hulk2008.jpeg */,
-				5083E4333016EA5D004A7AE7 /* ironman2.jpeg */,
-			);
-			path = Images;
 			sourceTree = "<group>";
 		};
 		5083E486301BF1DD004A7AE7 /* Data */ = {
@@ -206,6 +181,25 @@
 				5083E48A301BF95E004A7AE7 /* JSONLoader.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		5083E494301C26F8004A7AE7 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				5083E482301BB9EB004A7AE7 /* HomeView.swift */,
+				5083E484301BDE7D004A7AE7 /* UniverseCard.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		5083E495301C2711004A7AE7 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				5083E47E301BAD2F004A7AE7 /* Universe.swift */,
+				5083E490301C0A75004A7AE7 /* UniverseCatalogItem.swift */,
+				5083E480301BADE0004A7AE7 /* UniverseData.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
