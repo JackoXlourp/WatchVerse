@@ -3,5 +3,10 @@
         "id": "mcu",
         "state": "available",
         "file": "marvel"
+    },
+    {
+        "id": "lotr",
+        "file": "lotr",
+        "state": "available"
     }
 ]

@@ -24,12 +24,16 @@ struct UniverseCard: View {
                     .frame(height: 120)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                 
-                HStack {
+                HStack(spacing: 12) {
                     
                     Image(universe.logo)
                         .resizable()
                         .scaledToFit()
                         .frame(height: 28)
+                    
+                    Text(universe.title)
+                        .font(.headline)
+                        .foregroundStyle(.white)
                     
                     Spacer()
                 }
