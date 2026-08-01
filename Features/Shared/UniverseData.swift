@@ -16,3 +16,7 @@ let comingSoonUniverses = catalog.filter { $0.state == .comingSoon}
 let universes = availableUniverses.map {
     JSONLoader.load($0.file, as: Universe.self)
 }
+
+let comingSoon = comingSoonUniverses.map {
+    JSONLoader.load($0.file, as: Universe.self)
+}

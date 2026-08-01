@@ -6,6 +6,7 @@
   "description": "The complete Marvel Cinematic Universe in release order.",
   "logo": "lotr-logo",
   "banner": "lotr-banner",
+  "poster": "placeholder-poster",
   "movies": [
     {
       "id": "hulk-2008",

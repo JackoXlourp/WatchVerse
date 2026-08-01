@@ -18,6 +18,7 @@ struct Universe: Identifiable, Codable {
     
     let logo: String
     let banner: String
+    let poster: String
     
     let movies: [Movie]
 }

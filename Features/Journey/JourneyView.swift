@@ -68,6 +68,7 @@ struct JourneyView: View {
                             .offset(x: offset)
                             .zIndex(Double(centerProgress))
                         }
+                        //Reset button
                     }
                     .frame(maxWidth: .infinity)
                     .gesture(

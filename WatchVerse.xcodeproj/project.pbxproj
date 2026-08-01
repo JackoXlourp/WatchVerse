@@ -24,6 +24,7 @@
 		5083E48D301BFC37004A7AE7 /* universes.json in Resources */ = {isa = PBXBuildFile; fileRef = 5083E488301BF5EF004A7AE7 /* universes.json */; };
 		5083E491301C0A75004A7AE7 /* UniverseCatalogItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E490301C0A75004A7AE7 /* UniverseCatalogItem.swift */; };
 		5083E493301C1D3C004A7AE7 /* lotr.json in Resources */ = {isa = PBXBuildFile; fileRef = 5083E492301C1D32004A7AE7 /* lotr.json */; };
+		5083E4A1301D550D004A7AE7 /* HeroUniverseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E4A0301D550D004A7AE7 /* HeroUniverseCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		5083E48A301BF95E004A7AE7 /* JSONLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONLoader.swift; sourceTree = "<group>"; };
 		5083E490301C0A75004A7AE7 /* UniverseCatalogItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniverseCatalogItem.swift; sourceTree = "<group>"; };
 		5083E492301C1D32004A7AE7 /* lotr.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lotr.json; sourceTree = "<group>"; };
+		5083E4A0301D550D004A7AE7 /* HeroUniverseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroUniverseCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -168,8 +170,8 @@
 		5083E486301BF1DD004A7AE7 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				5083E492301C1D32004A7AE7 /* lotr.json */,
 				5083E488301BF5EF004A7AE7 /* universes.json */,
+				5083E492301C1D32004A7AE7 /* lotr.json */,
 				5083E487301BF21F004A7AE7 /* marvel.json */,
 			);
 			path = Data;
@@ -188,6 +190,7 @@
 			children = (
 				5083E482301BB9EB004A7AE7 /* HomeView.swift */,
 				5083E484301BDE7D004A7AE7 /* UniverseCard.swift */,
+				5083E4A0301D550D004A7AE7 /* HeroUniverseCard.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -359,6 +362,7 @@
 				5083E48B301BF95E004A7AE7 /* JSONLoader.swift in Sources */,
 				5083E485301BDE7D004A7AE7 /* UniverseCard.swift in Sources */,
 				505094F53016C879004E8760 /* RootView.swift in Sources */,
+				5083E4A1301D550D004A7AE7 /* HeroUniverseCard.swift in Sources */,
 				505095053016CE1E004E8760 /* JourneyView.swift in Sources */,
 				5083E483301BB9EB004A7AE7 /* HomeView.swift in Sources */,
 				5083E45B30197563004A7AE7 /* MovieDetailView.swift in Sources */,

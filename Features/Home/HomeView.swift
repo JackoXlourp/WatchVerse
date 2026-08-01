@@ -33,7 +33,7 @@ struct HomeView: View {
                             .font(.headline)
                             .foregroundStyle(.white)
 
-                        UniverseCard(universe: viewModel.journey)
+                        HeroUniverseCard(universe: viewModel.journey)
 
                         // MARK: Your Universes
 
@@ -50,9 +50,29 @@ struct HomeView: View {
                         ) {
                             ForEach(viewModel.universes) { universe in
                                 UniverseCard(
-                                    universe: universe,
-                                    compact: true
+                                    universe: universe
                                 )
+                            }
+                        }
+                        
+                        // MARK: Coming Soon!
+                        
+                        Text("Coming Soon")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                        
+                        LazyVGrid(
+                            columns: [
+                                GridItem(.flexible()),
+                                GridItem(.flexible())
+                            ],
+                            spacing: 20
+                        ) {
+                            ForEach(comingSoon) { universe in
+                                    UniverseCard(
+                                        universe: universe,
+                                        isLocked: true
+                                    )
                             }
                         }
                         
