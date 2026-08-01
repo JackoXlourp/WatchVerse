@@ -62,6 +62,13 @@ class JourneyViewModel {
         currentMovieIndex
     }
     
+    func resetJourney() {
+        for index in movies.indices {
+            movies[index].isWatched = false
+        }
+        saveWatchedMovies()
+    }
+    
     private func saveWatchedMovies() {
         let watchedIDs = movies
             .filter(\.isWatched)

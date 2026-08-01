@@ -68,7 +68,65 @@ struct JourneyView: View {
                             .offset(x: offset)
                             .zIndex(Double(centerProgress))
                         }
-                        //Reset button
+                        
+                        if currentIndex == viewModel.movieCount {
+                            
+                            Button {
+                                
+                                withAnimation(.spring(response: 0.4, dampingFraction: 0.55)) {
+                                    viewModel.resetJourney()
+                                    currentIndex = 0
+                                }
+                                
+                            } label: {
+                                
+                                ZStack {
+                                    
+                                    Image(viewModel.journey.poster)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 180, height: 280)
+                                        .blur(radius: 5)
+                                        .overlay(Color.black.opacity(0.18))
+                                        .clipShape(RoundedRectangle(cornerRadius: 24))
+                                    
+                                    VStack(spacing: 16) {
+                                        
+                                        Image(systemName: "film.stack.fill")
+                                            .font(.system(size: 40))
+                                            .foregroundStyle(.white)
+                                        
+                                        Text("The End")
+                                            .font(.title.bold())
+                                            .foregroundStyle(.white)
+                                        
+                                        if viewModel.isJourneyComplete {
+                                            
+                                            Text("You've completed")
+                                                .font(.subheadline)
+                                                .foregroundStyle(.white.opacity(0.85))
+                                            
+                                            Text(viewModel.journey.fullTitle)
+                                                .font(.headline)
+                                                .foregroundStyle(.white)
+                                                .multilineTextAlignment(.center)
+                                            
+                                        }
+                                        
+                                        Divider()
+                                            .overlay(.white.opacity(0.3))
+                                            .padding(.horizontal, 20)
+                                        
+                                        Label("Start Journey Again", systemImage: "arrow.counterclockwise")
+                                            .font(.headline)
+                                            .foregroundStyle(.white)
+                                    }
+                                }
+                                .frame(width: 180, height: 280)
+                            }
+                            .offset(x: dragOffset.width)
+                        }
+                        
                     }
                     .frame(maxWidth: .infinity)
                     .gesture(
@@ -85,7 +143,7 @@ struct JourneyView: View {
                                     0,
                                     min(
                                         currentIndex + movement,
-                                        viewModel.movieCount - 1
+                                        viewModel.movieCount
                                     )
                                 )
                                 
@@ -96,7 +154,7 @@ struct JourneyView: View {
                             }
                     )
                     
-                    if !viewModel.isJourneyComplete {
+                    if !viewModel.isJourneyComplete && currentIndex < viewModel.movieCount {
                         VStack(spacing: 8) {
                             
                             Text("Current Movie")
