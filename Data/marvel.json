@@ -1,188 +1,189 @@
 {
-  "id": "mcu",
-  "title": "Marvel",
-  "subtitle": "Cinematic Universe",
-  "fullTitle": "Marvel Cinematic Universe",
-  "description": "The complete Marvel Cinematic Universe in release order.",
-  "logo": "hulk2008",
-  "banner": "hulk2008",
-  "poster": "placeholder-poster",
-  "movies": [
-    {
-  "id": "eyes-of-wakanda",
-  "title": "Eyes of Wakanda",
-  "poster": "eyesofwakanda",
-  "year": 2025,
-  "runtime": "4 Episodes",
-  "phase": "Phase Six",
-  "synopsis": "Across centuries of hidden history, Wakandan warriors known as the Hatut Zeraze undertake dangerous missions around the world to recover stolen Vibranium artifacts and protect Wakanda's greatest secret.",
-  "director": "Todd Harris",
-  "genres": [
-    "Action",
-    "Adventure",
-    "Animation",
-    "Superhero"
-  ],
-  "isWatched": false
-	},
-	{
-  "id": "captain-america-the-first-avenger",
-  "title": "Captain America: The First Avenger",
-  "poster": "captainamerica1",
-  "year": 2011,
-  "runtime": "2h 4m",
-  "phase": "Phase One",
-  "synopsis": "During World War II, Steve Rogers transforms from a determined young soldier into Captain America, becoming the world's first Super Soldier as he battles the Red Skull and Hydra to stop a powerful new weapon.",
-  "director": "Joe Johnston",
-  "genres": [
-    "Action",
-    "Adventure",
-    "Sci-Fi"
-  ],
-  "isWatched": false
-},
-{
-  "id": "agent-carter-one-shot",
-  "title": "Marvel One-Shot: Agent Carter",
-  "poster": "agentcarteroneshot",
-  "year": 2013,
-  "runtime": "15m",
-  "phase": "Phase Two",
-  "synopsis": "One year after the end of World War II, Peggy Carter takes on a dangerous solo mission that could change the future of the Strategic Scientific Reserve.",
-  "director": "Louis D'Esposito",
-  "genres": [
-    "Action",
-    "Adventure",
-    "Short"
-  ],
-  "isWatched": false
-},
-{
-  "id": "captain-marvel",
-  "title": "Captain Marvel",
-  "poster": "captainmarvel",
-  "year": 2019,
-  "runtime": "2h 4m",
-  "phase": "Phase Three",
-  "synopsis": "After an elite Kree warrior crash-lands on Earth, Carol Danvers begins uncovering the truth about her past, leading her to embrace extraordinary powers that will shape the future of the galaxy.",
-  "director": "Anna Boden & Ryan Fleck",
-  "genres": [
-    "Action",
-    "Adventure",
-    "Sci-Fi"
-  ],
-  "isWatched": false
-},
-{
-  "id": "iron-man",
-  "title": "Iron Man",
-  "poster": "ironman",
-  "year": 2008,
-  "runtime": "2h 6m",
-  "phase": "Phase One",
-  "synopsis": "After being captured while demonstrating his latest weapons, billionaire inventor Tony Stark builds a powerful suit of armor to escape and begins a journey that will redefine his purpose as Iron Man.",
-  "director": "Jon Favreau",
-  "genres": [
-    "Action",
-    "Adventure",
-    "Sci-Fi"
-  ],
-  "isWatched": false
-},
-{
-  "id": "iron-man-2",
-  "title": "Iron Man 2",
-  "poster": "ironman2",
-  "year": 2010,
-  "runtime": "2h 4m",
-  "phase": "Phase One",
-  "synopsis": "As Tony Stark faces mounting pressure from the government and powerful new enemies, he must confront the consequences of revealing his identity while searching for a way to secure the future of Iron Man.",
-  "director": "Jon Favreau",
-  "genres": [
-    "Action",
-    "Adventure",
-    "Sci-Fi"
-  ],
-  "isWatched": false
-},
-{
-  "id": "the-incredible-hulk",
-  "title": "The Incredible Hulk",
-  "poster": "hulk2008",
-  "year": 2008,
-  "runtime": "1h 52m",
-  "phase": "Phase One",
-  "synopsis": "While searching for a cure to the gamma radiation that transformed him into the Hulk, Bruce Banner must stay one step ahead of the military as a powerful new threat emerges.",
-  "director": "Louis Leterrier",
-  "genres": [
-    "Action",
-    "Adventure",
-    "Sci-Fi"
-  ],
-  "isWatched": false
-},
-{
-  "id": "a-funny-thing-happened-on-the-way-to-thors-hammer",
-  "title": "Marvel One-Shot: A Funny Thing Happened on the Way to Thor's Hammer",
-  "poster": "thorshammeroneshot",
-  "year": 2011,
-  "runtime": "3m",
-  "phase": "Phase One",
-  "synopsis": "On his way to New Mexico, S.H.I.E.L.D. agent Phil Coulson makes an unexpected stop at a remote gas station, where a routine errand quickly turns into a dangerous encounter.",
-  "director": "Leythum",
-  "genres": [
-    "Action",
-    "Adventure",
-    "Short"
-  ],
-  "isWatched": false
-},
-{
-  "id": "thor",
-  "title": "Thor",
-  "poster": "thor1",
-  "year": 2011,
-  "runtime": "1h 55m",
-  "phase": "Phase One",
-  "synopsis": "After his arrogance reignites an ancient conflict, the mighty Thor is stripped of his powers and exiled to Earth, where he must learn what it truly means to be worthy before a dangerous threat reaches both worlds.",
-  "director": "Kenneth Branagh",
-  "genres": [
-    "Action",
-    "Adventure",
-    "Fantasy"
-  ],
-  "isWatched": false
-},
-{
-  "id": "the-consultant",
-  "title": "Marvel One-Shot: The Consultant",
-  "poster": "theconsultant",
-  "year": 2011,
-  "runtime": "4m",
-  "phase": "Phase One",
-  "synopsis": "Agents Phil Coulson and Jasper Sitwell devise an unconventional plan to keep a dangerous individual away from the Avengers Initiative.",
-  "director": "Leythum",
-  "genres": [
-    "Action",
-    "Adventure",
-    "Short"
-  ],
-  "isWatched": false
-},
-{
-  "id": "the-avengers",
-  "title": "The Avengers",
-  "poster": "avengers1",
-  "year": 2012,
-  "runtime": "2h 23m",
-  "phase": "Phase One",
-  "synopsis": "When an unexpected threat puts Earth in jeopardy, Nick Fury assembles a remarkable team of heroes who must learn to work together to save the world.",
-  "director": "Joss Whedon",
-  "genres": [
-    "Action",
-    "Adventure",
-    "Sci-Fi"
-  ],
-  "isWatched": false
+    "id": "mcu",
+    "title": "Marvel",
+    "subtitle": "Cinematic Universe",
+    "fullTitle": "Marvel Cinematic Universe",
+    "description": "The complete Marvel Cinematic Universe in release order.",
+    "logo": "hulk2008",
+    "banner": "hulk2008",
+    "poster": "placeholder-poster",
+    "movies": [
+        {
+            "id": "eyes-of-wakanda",
+            "title": "Eyes of Wakanda",
+            "poster": "eyesofwakanda",
+            "year": 2025,
+            "runtime": "4 Episodes",
+            "phase": "Phase Six",
+            "synopsis": "Across centuries of hidden history, Wakandan warriors known as the Hatut Zeraze undertake dangerous missions around the world to recover stolen Vibranium artifacts and protect Wakanda's greatest secret.",
+            "director": "Todd Harris",
+            "genres": [
+                "Action",
+                "Adventure",
+                "Animation",
+                "Superhero"
+            ],
+            "isWatched": false
+        },
+        {
+            "id": "captain-america-the-first-avenger",
+            "title": "Captain America: The First Avenger",
+            "poster": "captainamerica1",
+            "year": 2011,
+            "runtime": "2h 4m",
+            "phase": "Phase One",
+            "synopsis": "During World War II, Steve Rogers transforms from a determined young soldier into Captain America, becoming the world's first Super Soldier as he battles the Red Skull and Hydra to stop a powerful new weapon.",
+            "director": "Joe Johnston",
+            "genres": [
+                "Action",
+                "Adventure",
+                "Sci-Fi"
+            ],
+            "isWatched": false
+        },
+        {
+            "id": "agent-carter-one-shot",
+            "title": "Marvel One-Shot: Agent Carter",
+            "poster": "agentcarteroneshot",
+            "year": 2013,
+            "runtime": "15m",
+            "phase": "Phase Two",
+            "synopsis": "One year after the end of World War II, Peggy Carter takes on a dangerous solo mission that could change the future of the Strategic Scientific Reserve.",
+            "director": "Louis D'Esposito",
+            "genres": [
+                "Action",
+                "Adventure",
+                "Short"
+            ],
+            "isWatched": false
+        },
+        {
+            "id": "captain-marvel",
+            "title": "Captain Marvel",
+            "poster": "captainmarvel",
+            "year": 2019,
+            "runtime": "2h 4m",
+            "phase": "Phase Three",
+            "synopsis": "After an elite Kree warrior crash-lands on Earth, Carol Danvers begins uncovering the truth about her past, leading her to embrace extraordinary powers that will shape the future of the galaxy.",
+            "director": "Anna Boden & Ryan Fleck",
+            "genres": [
+                "Action",
+                "Adventure",
+                "Sci-Fi"
+            ],
+            "isWatched": false
+        },
+        {
+            "id": "iron-man",
+            "title": "Iron Man",
+            "poster": "ironman",
+            "year": 2008,
+            "runtime": "2h 6m",
+            "phase": "Phase One",
+            "synopsis": "After being captured while demonstrating his latest weapons, billionaire inventor Tony Stark builds a powerful suit of armor to escape and begins a journey that will redefine his purpose as Iron Man.",
+            "director": "Jon Favreau",
+            "genres": [
+                "Action",
+                "Adventure",
+                "Sci-Fi"
+            ],
+            "isWatched": false
+        },
+        {
+            "id": "iron-man-2",
+            "title": "Iron Man 2",
+            "poster": "ironman2",
+            "year": 2010,
+            "runtime": "2h 4m",
+            "phase": "Phase One",
+            "synopsis": "As Tony Stark faces mounting pressure from the government and powerful new enemies, he must confront the consequences of revealing his identity while searching for a way to secure the future of Iron Man.",
+            "director": "Jon Favreau",
+            "genres": [
+                "Action",
+                "Adventure",
+                "Sci-Fi"
+            ],
+            "isWatched": false
+        },
+        {
+            "id": "the-incredible-hulk",
+            "title": "The Incredible Hulk",
+            "poster": "hulk2008",
+            "year": 2008,
+            "runtime": "1h 52m",
+            "phase": "Phase One",
+            "synopsis": "While searching for a cure to the gamma radiation that transformed him into the Hulk, Bruce Banner must stay one step ahead of the military as a powerful new threat emerges.",
+            "director": "Louis Leterrier",
+            "genres": [
+                "Action",
+                "Adventure",
+                "Sci-Fi"
+            ],
+            "isWatched": false
+        },
+        {
+            "id": "a-funny-thing-happened-on-the-way-to-thors-hammer",
+            "title": "Marvel One-Shot: A Funny Thing Happened on the Way to Thor's Hammer",
+            "poster": "thorshammeroneshot",
+            "year": 2011,
+            "runtime": "3m",
+            "phase": "Phase One",
+            "synopsis": "On his way to New Mexico, S.H.I.E.L.D. agent Phil Coulson makes an unexpected stop at a remote gas station, where a routine errand quickly turns into a dangerous encounter.",
+            "director": "Leythum",
+            "genres": [
+                "Action",
+                "Adventure",
+                "Short"
+            ],
+            "isWatched": false
+        },
+        {
+            "id": "thor",
+            "title": "Thor",
+            "poster": "thor1",
+            "year": 2011,
+            "runtime": "1h 55m",
+            "phase": "Phase One",
+            "synopsis": "After his arrogance reignites an ancient conflict, the mighty Thor is stripped of his powers and exiled to Earth, where he must learn what it truly means to be worthy before a dangerous threat reaches both worlds.",
+            "director": "Kenneth Branagh",
+            "genres": [
+                "Action",
+                "Adventure",
+                "Fantasy"
+            ],
+            "isWatched": false
+        },
+        {
+            "id": "the-consultant",
+            "title": "Marvel One-Shot: The Consultant",
+            "poster": "theconsultant",
+            "year": 2011,
+            "runtime": "4m",
+            "phase": "Phase One",
+            "synopsis": "Agents Phil Coulson and Jasper Sitwell devise an unconventional plan to keep a dangerous individual away from the Avengers Initiative.",
+            "director": "Leythum",
+            "genres": [
+                "Action",
+                "Adventure",
+                "Short"
+            ],
+            "isWatched": false
+        },
+        {
+            "id": "the-avengers",
+            "title": "The Avengers",
+            "poster": "avengers1",
+            "year": 2012,
+            "runtime": "2h 23m",
+            "phase": "Phase One",
+            "synopsis": "When an unexpected threat puts Earth in jeopardy, Nick Fury assembles a remarkable team of heroes who must learn to work together to save the world.",
+            "director": "Joss Whedon",
+            "genres": [
+                "Action",
+                "Adventure",
+                "Sci-Fi"
+            ],
+            "isWatched": false
+        }
+    ]
 }
- }   
