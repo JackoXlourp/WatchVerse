@@ -80,6 +80,21 @@ struct HomeView: View {
                     .padding()
                 }
             }
+            .toolbar {
+                
+                ToolbarItem(placement: .topBarLeading) {
+                    
+                    NavigationLink {
+                        
+                        SettingsView()
+                        
+                    } label: {
+                        
+                        Image(systemName: "gearshape")
+                            .foregroundStyle(.white)
+                    }
+                }
+            }
         }
     }
 }

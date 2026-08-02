@@ -25,6 +25,7 @@
 		5083E491301C0A75004A7AE7 /* UniverseCatalogItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E490301C0A75004A7AE7 /* UniverseCatalogItem.swift */; };
 		5083E493301C1D3C004A7AE7 /* lotr.json in Resources */ = {isa = PBXBuildFile; fileRef = 5083E492301C1D32004A7AE7 /* lotr.json */; };
 		5083E4A1301D550D004A7AE7 /* HeroUniverseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E4A0301D550D004A7AE7 /* HeroUniverseCard.swift */; };
+		50949DD2301F6FF9005213AC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50949DD1301F6FF9005213AC /* SettingsView.swift */; };
 		50B7A139301EBE2000D4A1BF /* CarouselLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B7A138301EBE1300D4A1BF /* CarouselLayout.swift */; };
 		50B7A13B301F605400D4A1BF /* splashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B7A13A301F605400D4A1BF /* splashScreenView.swift */; };
 		50B7A13D301F655200D4A1BF /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50B7A13C301F655200D4A1BF /* Launch Screen.storyboard */; };
@@ -69,6 +70,7 @@
 		5083E490301C0A75004A7AE7 /* UniverseCatalogItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniverseCatalogItem.swift; sourceTree = "<group>"; };
 		5083E492301C1D32004A7AE7 /* lotr.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lotr.json; sourceTree = "<group>"; };
 		5083E4A0301D550D004A7AE7 /* HeroUniverseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroUniverseCard.swift; sourceTree = "<group>"; };
+		50949DD1301F6FF9005213AC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		50B7A138301EBE1300D4A1BF /* CarouselLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselLayout.swift; sourceTree = "<group>"; };
 		50B7A13A301F605400D4A1BF /* splashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = splashScreenView.swift; sourceTree = "<group>"; };
 		50B7A13C301F655200D4A1BF /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				5083E482301BB9EB004A7AE7 /* HomeView.swift */,
 				5083E484301BDE7D004A7AE7 /* UniverseCard.swift */,
 				5083E4A0301D550D004A7AE7 /* HeroUniverseCard.swift */,
+				50949DD1301F6FF9005213AC /* SettingsView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				50B7A13B301F605400D4A1BF /* splashScreenView.swift in Sources */,
 				5083E45B30197563004A7AE7 /* MovieDetailView.swift in Sources */,
 				505094F73016C9D0004E8760 /* MainTabView.swift in Sources */,
+				50949DD2301F6FF9005213AC /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
