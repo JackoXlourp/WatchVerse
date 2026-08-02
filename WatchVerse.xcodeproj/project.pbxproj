@@ -26,6 +26,8 @@
 		5083E493301C1D3C004A7AE7 /* lotr.json in Resources */ = {isa = PBXBuildFile; fileRef = 5083E492301C1D32004A7AE7 /* lotr.json */; };
 		5083E4A1301D550D004A7AE7 /* HeroUniverseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E4A0301D550D004A7AE7 /* HeroUniverseCard.swift */; };
 		50B7A139301EBE2000D4A1BF /* CarouselLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B7A138301EBE1300D4A1BF /* CarouselLayout.swift */; };
+		50B7A13B301F605400D4A1BF /* splashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B7A13A301F605400D4A1BF /* splashScreenView.swift */; };
+		50B7A13D301F655200D4A1BF /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50B7A13C301F655200D4A1BF /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +70,8 @@
 		5083E492301C1D32004A7AE7 /* lotr.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lotr.json; sourceTree = "<group>"; };
 		5083E4A0301D550D004A7AE7 /* HeroUniverseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroUniverseCard.swift; sourceTree = "<group>"; };
 		50B7A138301EBE1300D4A1BF /* CarouselLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselLayout.swift; sourceTree = "<group>"; };
+		50B7A13A301F605400D4A1BF /* splashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = splashScreenView.swift; sourceTree = "<group>"; };
+		50B7A13C301F655200D4A1BF /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -119,6 +123,8 @@
 				505094E73016C0A8004E8760 /* WatchVerseApp.swift */,
 				505094F43016C879004E8760 /* RootView.swift */,
 				505094F63016C9D0004E8760 /* MainTabView.swift */,
+				50B7A13A301F605400D4A1BF /* splashScreenView.swift */,
+				50B7A13C301F655200D4A1BF /* Launch Screen.storyboard */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -330,6 +336,7 @@
 			files = (
 				5083E48D301BFC37004A7AE7 /* universes.json in Resources */,
 				5083E48C301BFC30004A7AE7 /* marvel.json in Resources */,
+				50B7A13D301F655200D4A1BF /* Launch Screen.storyboard in Resources */,
 				5083E493301C1D3C004A7AE7 /* lotr.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -369,6 +376,7 @@
 				5083E4A1301D550D004A7AE7 /* HeroUniverseCard.swift in Sources */,
 				505095053016CE1E004E8760 /* JourneyView.swift in Sources */,
 				5083E483301BB9EB004A7AE7 /* HomeView.swift in Sources */,
+				50B7A13B301F605400D4A1BF /* splashScreenView.swift in Sources */,
 				5083E45B30197563004A7AE7 /* MovieDetailView.swift in Sources */,
 				505094F73016C9D0004E8760 /* MainTabView.swift in Sources */,
 			);

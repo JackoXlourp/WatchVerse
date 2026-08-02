@@ -17,7 +17,7 @@ struct WatchVerseApp: App {
     
     var body: some Scene{
         WindowGroup {
-            RootView()
+            splashScreenView()
                 .environment(viewModel)
         }
     }
