@@ -11,44 +11,25 @@ struct SettingsView: View {
     
     @Environment(\.dismiss) private var dismiss
     
+    @Environment(JourneyViewModel.self)
+    private var viewModel
+    
+    @AppStorage("hieWatchedMovies")
+    private var hideWatchedMovies = false
+    
+    @AppStorage("showReleaseYears")
+    private var showReleaseYears = true
+    
+    @AppStorage("notifyNewUniverses")
+    private var notifyNewUniverses = false
+    
+    @State
+    private var showResetJourneyAlert = false
+    
+    private let appVersion =
+    Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Uknown"
+    
     var body: some View {
-        
-        @ViewBuilder
-        private func settingsSection(
-            title: String,
-            rows: [String]
-        ) -> some View {
-            
-            VStack(alignment: .leading, spacing: 12) {
-                
-                Text(title)
-                    .font(.headline)
-                    .foregroundStyle(.white)
-                
-                VStack(spacing: 0) {
-                    
-                    ForEach(rows, id: \.self) { row in
-                        
-                        HStack {
-                            
-                            Text(row)
-                                .foregroundStyle(.white)
-                            
-                            Spacer()
-                        }
-                        .padding()
-                        
-                        if row != rows.last {
-                            
-                            Divider()
-                                .overlay(.white.opacity(0.1))
-                        }
-                    }
-                }
-                .background(Color.white.opacity(0.05))
-                .clipShape(RoundedRectangle(cornerRadius: 18))
-            }
-        }
         
         NavigationStack {
             
@@ -65,54 +46,220 @@ struct SettingsView: View {
                             .font(.largeTitle.bold())
                             .foregroundStyle(.white)
                         
-                        settingsSection(
-                            title: "Watching",
-                            rows: [
-                                "Coming Soon"
-                            ]
-                        )
+                        //MARK: WATCHING
+                        settingsSection(title: "WATCHING") {
+                            
+                            Toggle(isOn: $hideWatchedMovies) {
+                                
+                                Label {
+                                    
+                                    Text("Hide Watched Movies")
+                                        .foregroundStyle(.white)
+                                } icon: {
+                                    
+                                    Image(systemName: "eye.slash")
+                                        .foregroundStyle(.white.opacity(0.85))
+                                        .frame(width: 24)
+                                }
+                            }
+                            .tint(.yellow)
+                            .padding()
+                            
+                            Divider()
+                                .overlay(.white.opacity(0.08))
+                            
+                            Toggle(isOn: $showReleaseYears) {
+                                
+                                Label {
+                                    
+                                    Text("Show Release Years")
+                                        .foregroundStyle(.white)
+                                } icon: {
+                                    
+                                    Image(systemName: "calendar")
+                                        .foregroundStyle(.white.opacity(0.85))
+                                        .frame(width: 24)
+                                }
+                            }
+                            .tint(.yellow)
+                            .padding()
+                            
+                            Divider()
+                                .overlay(.white.opacity(0.08))
+                            
+                            HStack {
+                                
+                                Label("Spoiler Protection",systemImage: "lock.fill")
+                                    .foregroundStyle(.white)
+                                
+                                Spacer()
+                                
+                                Text("Coming Soon")
+                                    .font(.caption)
+                                    .foregroundStyle(.gray)
+                            }
+                            .padding()
+                        }
                         
-                        settingsSection(
-                            title: "Notifications",
-                            rows: [
-                                "Coming Soon"
-                            ]
-                        )
+                        // MARK: NOTIFICATIONS
+                        settingsSection(title: "NOTIFICATIONS") {
+                            
+                            Toggle(isOn: $notifyNewUniverses) {
+                                
+                                Label {
+                                    
+                                    Text("Notify About New Universes")
+                                        .foregroundStyle(.white)
+                                } icon: {
+                                    
+                                    Image(systemName: "bell")
+                                        .foregroundStyle(.white.opacity(0.85))
+                                        .frame(width: 24)
+                                }
+                            }
+                            .tint(.yellow)
+                            .padding()
+                            
+                            Divider()
+                                .overlay(.white.opacity(0.08))
+                            
+                            HStack {
+                                
+                                Label {
+                                    
+                                    Text("New Episode Alerts")
+                                        .foregroundStyle(.white)
+                                } icon: {
+                                    
+                                    Image(systemName: "tv")
+                                        .foregroundStyle(.white.opacity(0.85))
+                                        .frame(width: 24)
+                                }
+                                
+                                Spacer()
+                                
+                                Text("Coming Soon")
+                                    .font(.caption)
+                                    .foregroundStyle(.gray)
+                            }
+                            .padding()
+                        }
                         
-                        settingsSection(
-                            title: "Data",
-                            rows: [
-                                "Reset Journey Progress"
-                            ]
-                        )
+                        //MARK: DATA
+                        settingsSection(title: "DATA") {
+                            
+                            Button {
+                                
+                                showResetJourneyAlert = true
+                                
+                            } label: {
+                                
+                                HStack {
+                                    
+                                    Label {
+                                        
+                                        Text("Reset Journey Progress")
+                                            .foregroundStyle(.white)
+                                        
+                                    } icon: {
+                                        
+                                        Image(systemName: "arrow.counterclockwise")
+                                            .foregroundStyle(.white.opacity(0.85))
+                                            .frame(width: 24)
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                }
+                                .padding()
+                            }
+                            
+                            Divider()
+                                .overlay(.white.opacity(0.08))
+                            
+                            HStack {
+                                
+                                Label {
+                                    
+                                    Text("Reset All Progress")
+                                        .foregroundStyle(.red)
+                                    
+                                } icon: {
+                                    
+                                    Image(systemName: "trash")
+                                        .foregroundStyle(.red)
+                                        .frame(width: 24)
+                                }
+                                
+                                Spacer()
+                                
+                            }
+                            .padding()
+                        }
                         
-                        settingsSection(
-                            title: "About",
-                            rows: [
-                                "Version 1.0"
-                            ]
-                        )
+                        //MARK: DATA
+                        settingsSection(title: "ABOUT") {
+                            
+                            HStack {
+                                
+                                Label {
+                                    
+                                    Text("Version")
+                                        .foregroundStyle(.white)
+                                    
+                                } icon: {
+                                    
+                                    Image(systemName: "info.circle")
+                                        .foregroundStyle(.white.opacity(0.85))
+                                        .frame(width: 24)
+                                }
+                                
+                                Spacer()
+                                
+                                Text(appVersion)
+                                    .foregroundStyle(.gray)
+                            }
+                            .padding()
+                        }
                     }
                     .padding()
                 }
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
+        }
+        .alert("Reset Current Journey Progress?", isPresented: $showResetJourneyAlert) {
+            
+            Button("Cancel", role: .cancel) {}
+            
+            Button("Reset", role: .destructive) {
                 
-                ToolbarItem(placement: .topBarLeading) {
-                    
-                    Button {
-                        
-                        dismiss()
-                        
-                    } label: {
-                        
-                        Image(systemName: "chevron.left")
-                    }
-                }
+                viewModel.resetJourney()
+                
             }
+        } message: {
+            
+            Text("This will mark every movie in your current journey as unwatched.")
         }
         
+    }
+}
+
+@ViewBuilder
+private func settingsSection<Content: View>(
+    title: String,
+    @ViewBuilder content: () -> Content
+) -> some View {
+    
+    VStack(alignment: .leading, spacing: 12) {
+        
+        Text(title)
+            .font(.headline)
+            .foregroundStyle(.white)
+        
+        VStack(spacing: 0) {
+            content()
+        }
+        .background(Color.white.opacity(0.05))
+        .clipShape(RoundedRectangle(cornerRadius: 18))
     }
 }
 

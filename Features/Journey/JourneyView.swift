@@ -13,6 +13,9 @@ struct JourneyView: View {
     @State private var selectedMovie: Movie?
     @Environment(JourneyViewModel.self) private var viewModel
     
+    @AppStorage("showReleaseYears")
+    private var showReleaseYears = true
+    
     private let posterSpacing: CGFloat = 190
     
     var body: some View {
@@ -174,9 +177,18 @@ struct JourneyView: View {
                                 .foregroundStyle(.white)
                                 .multilineTextAlignment(.center)
                             
-                            Text("\(String(viewModel.movies[currentIndex].year)) • \(viewModel.movies[currentIndex].runtime)")
-                                .font(.subheadline)
-                                .foregroundStyle(.gray)
+                            if showReleaseYears {
+                                
+                                Text("\(String(viewModel.movies[currentIndex].year)) • \(viewModel.movies[currentIndex].runtime)")
+                                    .font(.subheadline)
+                                    .foregroundStyle(.gray)
+                                
+                            } else {
+                                
+                                Text("\(viewModel.movies[currentIndex].runtime)")
+                                    .font(.subheadline)
+                                    .foregroundStyle(.gray)
+                            }
                             
                             Text(viewModel.movies[currentIndex].phase)
                                 .font(.caption.weight(.semibold))
