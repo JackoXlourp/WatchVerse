@@ -75,8 +75,8 @@ struct MoviePosterView: View {
             height: posterHeight
         )
         .frame(
-            width: 190,
-            height: 275
+            width: carouselCardWidth,
+            height: carouselCardHeight
         )
         .shadow(
             color: .black.opacity(0.45 * centerProgress),

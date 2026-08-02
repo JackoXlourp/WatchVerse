@@ -25,6 +25,7 @@
 		5083E491301C0A75004A7AE7 /* UniverseCatalogItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E490301C0A75004A7AE7 /* UniverseCatalogItem.swift */; };
 		5083E493301C1D3C004A7AE7 /* lotr.json in Resources */ = {isa = PBXBuildFile; fileRef = 5083E492301C1D32004A7AE7 /* lotr.json */; };
 		5083E4A1301D550D004A7AE7 /* HeroUniverseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E4A0301D550D004A7AE7 /* HeroUniverseCard.swift */; };
+		50B7A139301EBE2000D4A1BF /* CarouselLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B7A138301EBE1300D4A1BF /* CarouselLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		5083E490301C0A75004A7AE7 /* UniverseCatalogItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniverseCatalogItem.swift; sourceTree = "<group>"; };
 		5083E492301C1D32004A7AE7 /* lotr.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lotr.json; sourceTree = "<group>"; };
 		5083E4A0301D550D004A7AE7 /* HeroUniverseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroUniverseCard.swift; sourceTree = "<group>"; };
+		50B7A138301EBE1300D4A1BF /* CarouselLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -134,6 +136,7 @@
 		505094F33016C7DC004E8760 /* Journey */ = {
 			isa = PBXGroup;
 			children = (
+				50B7A138301EBE1300D4A1BF /* CarouselLayout.swift */,
 				505095043016CE1E004E8760 /* JourneyView.swift */,
 				5083E44830180B36004A7AE7 /* Movie.swift */,
 				5083E44E301826DD004A7AE7 /* MoviePosterView.swift */,
@@ -362,6 +365,7 @@
 				5083E48B301BF95E004A7AE7 /* JSONLoader.swift in Sources */,
 				5083E485301BDE7D004A7AE7 /* UniverseCard.swift in Sources */,
 				505094F53016C879004E8760 /* RootView.swift in Sources */,
+				50B7A139301EBE2000D4A1BF /* CarouselLayout.swift in Sources */,
 				5083E4A1301D550D004A7AE7 /* HeroUniverseCard.swift in Sources */,
 				505095053016CE1E004E8760 /* JourneyView.swift in Sources */,
 				5083E483301BB9EB004A7AE7 /* HomeView.swift in Sources */,

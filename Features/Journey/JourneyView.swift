@@ -71,21 +71,15 @@ struct JourneyView: View {
                         
                         if currentIndex == viewModel.movieCount {
                             
-                            Button {
-                                
-                                withAnimation(.spring(response: 0.4, dampingFraction: 0.55)) {
-                                    viewModel.resetJourney()
-                                    currentIndex = 0
-                                }
-                                
-                            } label: {
-                                
-                                ZStack {
+                           ZStack {
                                     
                                     Image(viewModel.journey.poster)
                                         .resizable()
                                         .scaledToFill()
-                                        .frame(width: 180, height: 280)
+                                        .frame(
+                                            width: carouselCardWidth,
+                                            height: carouselCardHeight
+                                        )
                                         .blur(radius: 5)
                                         .overlay(Color.black.opacity(0.18))
                                         .clipShape(RoundedRectangle(cornerRadius: 24))
@@ -122,8 +116,18 @@ struct JourneyView: View {
                                             .foregroundStyle(.white)
                                     }
                                 }
-                                .frame(width: 180, height: 280)
+                                .frame(
+                                    width: carouselCardWidth,
+                                    height: carouselCardHeight
+                                )
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                withAnimation(.spring(response: 0.4, dampingFraction: 0.55)) {
+                                    viewModel.resetJourney()
+                                    currentIndex = 0
+                                }
                             }
+                            .padding(.top, 60)
                             .offset(x: dragOffset.width)
                         }
                         
