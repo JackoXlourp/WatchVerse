@@ -13,6 +13,43 @@ struct SettingsView: View {
     
     var body: some View {
         
+        @ViewBuilder
+        private func settingsSection(
+            title: String,
+            rows: [String]
+        ) -> some View {
+            
+            VStack(alignment: .leading, spacing: 12) {
+                
+                Text(title)
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                
+                VStack(spacing: 0) {
+                    
+                    ForEach(rows, id: \.self) { row in
+                        
+                        HStack {
+                            
+                            Text(row)
+                                .foregroundStyle(.white)
+                            
+                            Spacer()
+                        }
+                        .padding()
+                        
+                        if row != rows.last {
+                            
+                            Divider()
+                                .overlay(.white.opacity(0.1))
+                        }
+                    }
+                }
+                .background(Color.white.opacity(0.05))
+                .clipShape(RoundedRectangle(cornerRadius: 18))
+            }
+        }
+        
         NavigationStack {
             
             ZStack {
@@ -20,9 +57,44 @@ struct SettingsView: View {
                 Color.black
                     .ignoresSafeArea()
                 
-                Text("Settings")
-                    .font(.largeTitle)
-                    .foregroundStyle(.white)
+                ScrollView(showsIndicators: false) {
+                    
+                    VStack(alignment: .leading, spacing: 32) {
+                        
+                        Text("Settings")
+                            .font(.largeTitle.bold())
+                            .foregroundStyle(.white)
+                        
+                        settingsSection(
+                            title: "Watching",
+                            rows: [
+                                "Coming Soon"
+                            ]
+                        )
+                        
+                        settingsSection(
+                            title: "Notifications",
+                            rows: [
+                                "Coming Soon"
+                            ]
+                        )
+                        
+                        settingsSection(
+                            title: "Data",
+                            rows: [
+                                "Reset Journey Progress"
+                            ]
+                        )
+                        
+                        settingsSection(
+                            title: "About",
+                            rows: [
+                                "Version 1.0"
+                            ]
+                        )
+                    }
+                    .padding()
+                }
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -35,7 +107,7 @@ struct SettingsView: View {
                         
                     } label: {
                         
-                        Image(systemName: "chevrin.left")
+                        Image(systemName: "chevron.left")
                     }
                 }
             }
