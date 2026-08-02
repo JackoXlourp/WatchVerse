@@ -14,9 +14,6 @@ struct SettingsView: View {
     @Environment(JourneyViewModel.self)
     private var viewModel
     
-    @AppStorage("hieWatchedMovies")
-    private var hideWatchedMovies = false
-    
     @AppStorage("showReleaseYears")
     private var showReleaseYears = true
     
@@ -48,25 +45,6 @@ struct SettingsView: View {
                         
                         //MARK: WATCHING
                         settingsSection(title: "WATCHING") {
-                            
-                            Toggle(isOn: $hideWatchedMovies) {
-                                
-                                Label {
-                                    
-                                    Text("Hide Watched Movies")
-                                        .foregroundStyle(.white)
-                                } icon: {
-                                    
-                                    Image(systemName: "eye.slash")
-                                        .foregroundStyle(.white.opacity(0.85))
-                                        .frame(width: 24)
-                                }
-                            }
-                            .tint(.yellow)
-                            .padding()
-                            
-                            Divider()
-                                .overlay(.white.opacity(0.08))
                             
                             Toggle(isOn: $showReleaseYears) {
                                 
