@@ -22,39 +22,8 @@
         "Adventure",
         "Sci-Fi"
       ],
-      "isWatched": false
-    },
-    {
-      "id": "iron-man-2",
-      "title": "Iron Man 2",
-      "poster": "ironman2",
-      "year": 2010,
-      "runtime": "2h 4m",
-      "phase": "Phase One",
-      "synopsis": "Coming Soon!",
-      "director": "Unknown",
-      "genres": [
-        "Action",
-        "Adventure",
-        "Sci-Fi"
-      ],
-      "isWatched": false
-    },
-    {
-      "id": "guardians-1",
-      "title": "Guardians of the Galaxy",
-      "poster": "guardians1",
-      "year": 2014,
-      "runtime": "2h 1m",
-      "phase": "Phase Two",
-      "synopsis": "Coming Soon!",
-      "director": "Unknown",
-      "genres": [
-        "Action",
-        "Adventure",
-        "Sci-Fi"
-      ],
-      "isWatched": false
+      "isWatched": false,
+      "isSkipped": false
     }
   ]
 }

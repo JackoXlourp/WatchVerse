@@ -31,14 +31,22 @@ struct MoviePosterView: View {
                     .scaleEffect(1.08)
             }
             
-            Image(movie.poster)
+            let posterName = UIImage(named: movie.poster) != nil
+                ? movie.poster
+                : "placeholder-movie"
+            
+            Image(posterName)
                 .resizable()
                 .scaledToFill()
                 .saturation(
-                    !movie.isWatched || centerProgress > 0.5 ? 1 : 0
+                    movie.isWatched && centerProgress <= 0.5 ? 0 : 1
                 )
                 .opacity(
-                    !movie.isWatched || centerProgress > 0.5 ? 1 :0.65
+                    movie.isWatched && centerProgress <= 0.5
+                        ? 0.65
+                        : movie.isSkipped && centerProgress <= 0.5
+                            ? 0.80
+                            : 1
                 )
                 .clipShape(
                     RoundedRectangle(
@@ -55,6 +63,24 @@ struct MoviePosterView: View {
                             .shadow(radius: centerProgress > 0.5 ? 8 : 0)
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                             .padding(8 + (4 * centerProgress))
+
+                    } else if movie.isSkipped {
+
+                        ZStack {
+                            Image(systemName: "forward.fill")
+                                .font(.system(size: 30))
+                                .foregroundStyle(.black)
+                                .offset(x: 1, y: 1)
+
+                            Image(systemName: "forward.fill")
+                                .font(.system(size: 30))
+                                .foregroundStyle(centerProgress > 0.5 ? .orange : .white)
+                        }
+                        .scaleEffect(0.8 + (0.2 * centerProgress))
+                        .opacity(centerProgress > 0.5 ? 1 : 0.6)
+                        .shadow(radius: centerProgress > 0.5 ? 8 : 0)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                        .padding(8 + (4 * centerProgress))
                     }
                 }
             
@@ -63,11 +89,16 @@ struct MoviePosterView: View {
             )
             .stroke(
                 movie.isWatched && centerProgress > 0.5
-                ? .green
-                : centerProgress > 0.5
-                    ? Color(red:0.86, green: 0.72, blue: 0.28)
-                    : Color.white.opacity(0.12),
-                lineWidth: movie.isWatched && centerProgress > 0.5 ? 3 : 2
+                    ? .green
+                    : movie.isSkipped && centerProgress > 0.5
+                        ? .orange
+                        : centerProgress > 0.5
+                            ? Color(red: 0.86, green: 0.72, blue: 0.28)
+                            : Color.white.opacity(0.12),
+                lineWidth:
+                    (movie.isWatched || movie.isSkipped) && centerProgress > 0.5
+                    ? 3
+                    : 2
             )
         }
         .frame(

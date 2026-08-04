@@ -53,7 +53,7 @@ struct MovieDetailView: View {
                     Spacer()
                 }
                 
-                // MARK: Movie Watched
+                // MARK: Movie Watched Button
                 Button {
                     
                     if currentMovie.isWatched {
@@ -78,6 +78,34 @@ struct MovieDetailView: View {
                         )
                         .foregroundStyle(.black)
                         .clipShape(RoundedRectangle(cornerRadius: 16))
+                }
+                
+                if !currentMovie.isWatched {
+
+                    Button {
+
+                        if currentMovie.isSkipped {
+                            viewModel.unskipMovie(id: movie.id)
+                        } else {
+                            viewModel.skipMovie(id: movie.id)
+                            onMovieWatched?()
+                        }
+
+                    } label: {
+                        Label(
+                            currentMovie.isSkipped ? "Unskip" : "Skip",
+                            systemImage: currentMovie.isSkipped
+                                ? "arrow.uturn.backward"
+                                : "forward.fill"
+                        )
+                        .font(.headline)
+                        .frame(width: 140)
+                        .padding()
+                        .background(Color.gray.opacity(0.25))
+                        .foregroundStyle(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                    }
+
                 }
                 
                 VStack(alignment: .leading, spacing: 12) {

@@ -22,5 +22,6 @@ struct Movie: Identifiable, Hashable, Codable {
     let genres: [String]
     
     var isWatched: Bool
+    var isSkipped: Bool
 }
 
