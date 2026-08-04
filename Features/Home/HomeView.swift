@@ -23,25 +23,7 @@ struct HomeView: View {
 
                     VStack(alignment: .leading, spacing: 32) {
                         
-                        HStack {
-                            
-                            Text("WatchVerse")
-                                .font(.largeTitle.bold())
-                                .foregroundStyle(.white)
-                            
-                            Spacer()
-                            
-                            NavigationLink {
-                                
-                                SettingsView()
-                                
-                            } label: {
-                                
-                                Image(systemName: "gearshape")
-                                    .font(.title2)
-                                    .foregroundStyle(.white)
-                            }
-                        }
+                        
 
                         // MARK: Continue Watching
 
@@ -94,6 +76,13 @@ struct HomeView: View {
                         
                     }
                     .padding()
+                }
+                .navigationTitle("WatchVerse")
+                .navigationBarTitleDisplayMode(.large)
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        SettingsButton()
+                    }
                 }
             }
         }

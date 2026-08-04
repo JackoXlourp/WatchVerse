@@ -29,6 +29,7 @@ struct HeroUniverseCard: View {
             .padding(12)
             .background(Color.white.opacity(0.05))
             .clipShape(RoundedRectangle(cornerRadius: 24))
+            .contentShape(RoundedRectangle(cornerRadius: 24))
         }
         .buttonStyle(.plain)
     }

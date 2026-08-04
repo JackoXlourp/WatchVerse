@@ -53,9 +53,16 @@ struct MovieDetailView: View {
                     Spacer()
                 }
                 
+                // MARK: Movie Watched
                 Button {
-                    viewModel.markMovieWatched(id: movie.id)
-                    onMovieWatched?()
+                    
+                    if currentMovie.isWatched {
+                        viewModel.markMovieUnwatched(id: movie.id)
+                    } else {
+                        viewModel.markMovieWatched(id: movie.id)
+                        onMovieWatched?()
+                    }
+                    
                 } label: {
                     Label(
                         currentMovie.isWatched ? "Watched" : "Mark as Watched",
@@ -72,7 +79,6 @@ struct MovieDetailView: View {
                         .foregroundStyle(.black)
                         .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
-                .disabled(currentMovie.isWatched)
                 
                 VStack(alignment: .leading, spacing: 12) {
                     

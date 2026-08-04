@@ -283,6 +283,11 @@ struct JourneyView: View {
                 )
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                SettingsButton()
+            }
+        }
     }
 }
     

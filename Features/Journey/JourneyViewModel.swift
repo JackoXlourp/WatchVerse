@@ -58,6 +58,13 @@ class JourneyViewModel {
         saveWatchedMovies()
     }
     
+    func markMovieUnwatched(id: String) {
+        guard let index = movies.firstIndex(where: { $0.id == id }) else { return }
+
+        movies[index].isWatched = false
+        saveWatchedMovies()
+    }
+    
     func nextCurrentMovieIndex() -> Int? {
         currentMovieIndex
     }
