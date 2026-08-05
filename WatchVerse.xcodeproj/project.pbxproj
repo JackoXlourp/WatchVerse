@@ -31,6 +31,7 @@
 		50B7A13D301F655200D4A1BF /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50B7A13C301F655200D4A1BF /* Launch Screen.storyboard */; };
 		9C9EB14D30220B0E00858C9E /* marvel.csv in Resources */ = {isa = PBXBuildFile; fileRef = 9C9EB14C30220B0D00858C9E /* marvel.csv */; };
 		9C9EB14F30220C3700858C9E /* CSVLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9EB14E30220C3700858C9E /* CSVLoader.swift */; };
+		9C9EB15330237AD000858C9E /* completionStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9EB15230237AD000858C9E /* completionStage.swift */; };
 		9CC798733021709E0011DC42 /* SettingsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC798723021709E0011DC42 /* SettingsButton.swift */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +81,7 @@
 		9C9EB14C30220B0D00858C9E /* marvel.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = marvel.csv; sourceTree = "<group>"; };
 		9C9EB14E30220C3700858C9E /* CSVLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVLoader.swift; sourceTree = "<group>"; };
 		9C9EB15130221DE900858C9E /* csv_to_json.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = csv_to_json.py; sourceTree = "<group>"; };
+		9C9EB15230237AD000858C9E /* completionStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = completionStage.swift; sourceTree = "<group>"; };
 		9CC798723021709E0011DC42 /* SettingsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -157,6 +159,7 @@
 				5083E44E301826DD004A7AE7 /* MoviePosterView.swift */,
 				5083E45A30197563004A7AE7 /* MovieDetailView.swift */,
 				5083E468301A4937004A7AE7 /* JourneyViewModel.swift */,
+				9C9EB15230237AD000858C9E /* completionStage.swift */,
 			);
 			path = Journey;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 				5083E44F301826DD004A7AE7 /* MoviePosterView.swift in Sources */,
 				5083E469301A4937004A7AE7 /* JourneyViewModel.swift in Sources */,
 				5083E481301BADE0004A7AE7 /* UniverseData.swift in Sources */,
+				9C9EB15330237AD000858C9E /* completionStage.swift in Sources */,
 				5083E47F301BAD2F004A7AE7 /* Universe.swift in Sources */,
 				5083E48B301BF95E004A7AE7 /* JSONLoader.swift in Sources */,
 				5083E485301BDE7D004A7AE7 /* UniverseCard.swift in Sources */,

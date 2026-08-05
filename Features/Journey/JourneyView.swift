@@ -11,6 +11,10 @@ struct JourneyView: View {
     @State private var currentIndex = 0
     @State private var dragOffset: CGSize = .zero
     @State private var selectedMovie: Movie?
+    @State private var advanceAfterDismiss = false
+    @State private var completionStage: CompletionStage = .idle
+    @State private var currentAnimationMovieID: String?
+    
     @Environment(JourneyViewModel.self) private var viewModel
     
     @AppStorage("showReleaseYears")
@@ -65,7 +69,10 @@ struct JourneyView: View {
                                             currentIndex = index
                                         }
                                     }
-                                }
+                                },
+                                completionStage: currentAnimationMovieID == movie.id
+                                    ? completionStage
+                                    : .idle
                             )
                             .padding(.top, 60)
                             .offset(x: offset)
@@ -270,22 +277,78 @@ struct JourneyView: View {
                 currentIndex = index
             }
         }
-        .sheet(item: $selectedMovie) { movie in
+        .sheet(
+            item: $selectedMovie,
+            onDismiss: {
+                if advanceAfterDismiss {
+                    advanceAfterDismiss = false
+
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        if let index = viewModel.nextCurrentMovieIndex() {
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                                currentIndex = index
+                            }
+                        }
+                    }
+                }
+            }
+        ) { movie in
             NavigationStack {
                 MovieDetailView(
                     movie: movie,
                     viewModel: viewModel,
-                    onMovieWatched: {
-                        if let index = viewModel.nextCurrentMovieIndex() {
-                            currentIndex = index
+                    onMovieWatched: { movieID in
+
+                        advanceAfterDismiss = true
+                        playCompletionAnimation(for: movieID)
+                    },
+                    onMovieSkipped: {
+                        advanceAfterDismiss = true
+
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            if let index = viewModel.nextCurrentMovieIndex() {
+                                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                                    currentIndex = index
+                                }
+                            }
                         }
                     }
-                )
-            }
+                )            }
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 SettingsButton()
+            }
+        }
+    }
+    private func playCompletionAnimation(for movieID: String) {
+
+        currentAnimationMovieID = movieID
+
+        completionStage = .growing
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+
+            viewModel.markMovieWatched(id: movieID)
+
+            completionStage = .completed
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+
+                completionStage = .shrinking
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+
+                    completionStage = .idle
+
+                    currentAnimationMovieID = nil
+
+                    if let index = viewModel.nextCurrentMovieIndex() {
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                            currentIndex = index
+                        }
+                    }
+                }
             }
         }
     }

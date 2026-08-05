@@ -11,6 +11,7 @@ struct MoviePosterView: View {
     let movie: Movie
     let centerProgress: CGFloat
     let onTap: () -> Void
+    let completionStage: CompletionStage
     
     private var posterWidth: CGFloat {
         140 + (80 * centerProgress)
@@ -23,13 +24,6 @@ struct MoviePosterView: View {
     var body: some View {
         
         ZStack {
-            
-            if movie.isWatched && centerProgress > 0.5 {
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(.green.opacity(0.35))
-                    .blur(radius: 24)
-                    .scaleEffect(1.08)
-            }
             
             let posterName = UIImage(named: movie.poster) != nil
                 ? movie.poster
@@ -88,7 +82,7 @@ struct MoviePosterView: View {
                 cornerRadius: 16 + (4 * centerProgress)
             )
             .stroke(
-                movie.isWatched && centerProgress > 0.5
+                (movie.isWatched || completionStage == .completed) && centerProgress > 0.5
                     ? .green
                     : movie.isSkipped && centerProgress > 0.5
                         ? .orange
@@ -101,6 +95,15 @@ struct MoviePosterView: View {
                     : 2
             )
         }
+        .scaleEffect(
+            completionStage == .growing || completionStage == .completed
+                ? 1.25
+                : 1.0
+        )
+        .animation(
+            .spring(response: 0.35, dampingFraction: 0.65),
+            value: completionStage
+        )
         .frame(
             width: posterWidth,
             height: posterHeight

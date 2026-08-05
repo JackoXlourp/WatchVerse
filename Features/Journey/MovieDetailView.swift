@@ -11,7 +11,10 @@ struct MovieDetailView: View {
     
     let movie: Movie
     let viewModel: JourneyViewModel
-    let onMovieWatched: (() -> Void)?
+    let onMovieWatched: ((String) -> Void)?
+    let onMovieSkipped: (() -> Void)?
+    
+    @Environment(\.dismiss) private var dismiss
     
     private var currentMovie: Movie {
         viewModel.movie(at: viewModel.movies.firstIndex(where: { $0.id == movie.id })!)
@@ -59,8 +62,8 @@ struct MovieDetailView: View {
                     if currentMovie.isWatched {
                         viewModel.markMovieUnwatched(id: movie.id)
                     } else {
-                        viewModel.markMovieWatched(id: movie.id)
-                        onMovieWatched?()
+                        onMovieWatched?(movie.id)
+                        dismiss()
                     }
                     
                 } label: {
@@ -82,13 +85,15 @@ struct MovieDetailView: View {
                 
                 if !currentMovie.isWatched {
 
+                    // MARK: SKIP BUTTON
                     Button {
 
                         if currentMovie.isSkipped {
                             viewModel.unskipMovie(id: movie.id)
                         } else {
                             viewModel.skipMovie(id: movie.id)
-                            onMovieWatched?()
+                            onMovieSkipped?()
+                            dismiss()
                         }
 
                     } label: {
@@ -108,6 +113,7 @@ struct MovieDetailView: View {
 
                 }
                 
+                //MARK: Synopsis....
                 VStack(alignment: .leading, spacing: 12) {
                     
                     Text("Synopsis")
