@@ -25,13 +25,22 @@ struct JourneyView: View {
     var body: some View {
         
         ZStack {
-            Color.black
-                .ignoresSafeArea()
+            
+            Image("AppBackground")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(
+                        width: UIScreen.main.bounds.width,
+                        height: UIScreen.main.bounds.height
+                    )
+                    .clipped()
+                    .ignoresSafeArea()
             
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing:0) {
+                    // Navigation spacing
                     Spacer()
-                        .frame(height: 20)
+                        .frame(height: 80)
                     
                     HStack {
                         Text(viewModel.journey.title)

@@ -32,12 +32,22 @@ struct SettingsView: View {
             
             ZStack {
                 
-                Color.black
+                Image("AppBackground")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(
+                        width: UIScreen.main.bounds.width,
+                        height: UIScreen.main.bounds.height
+                    )
+                    .clipped()
                     .ignoresSafeArea()
                 
                 ScrollView(showsIndicators: false) {
                     
                     VStack(alignment: .leading, spacing: 32) {
+                        
+                        Color.clear
+                            .frame(height: 70)
                         
                         Text("Settings")
                             .font(.largeTitle.bold())
@@ -59,7 +69,7 @@ struct SettingsView: View {
                                         .frame(width: 24)
                                 }
                             }
-                            .tint(.yellow)
+                            .tint(.watchVerseGold)
                             .padding()
                             
                             Divider()
@@ -95,7 +105,7 @@ struct SettingsView: View {
                                         .frame(width: 24)
                                 }
                             }
-                            .tint(.yellow)
+                            .tint(.watchVerseGold)
                             .padding()
                             
                             Divider()

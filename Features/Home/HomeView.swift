@@ -11,32 +11,6 @@ struct HomeView: View {
     
     @Environment(JourneyViewModel.self) private var viewModel
     
-    init() {
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithTransparentBackground()
-
-            appearance.largeTitleTextAttributes = [
-                .foregroundColor: UIColor(
-                    red: 0.85,
-                    green: 0.72,
-                    blue: 0.45,
-                    alpha: 1
-                )
-            ]
-
-            appearance.titleTextAttributes = [
-                .foregroundColor: UIColor(
-                    red: 0.85,
-                    green: 0.72,
-                    blue: 0.45,
-                    alpha: 1
-                )
-            ]
-
-            UINavigationBar.appearance().standardAppearance = appearance
-            UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        }
-    
     var body: some View {
         
         NavigationStack {
@@ -57,7 +31,7 @@ struct HomeView: View {
                     
                     VStack(alignment: .leading, spacing: 32) {
                         Color.clear
-                                .frame(height: 80)
+                            .frame(height: 80)
                         
                         // MARK: Continue Watching
                         
@@ -69,8 +43,8 @@ struct HomeView: View {
                         
                         HeroUniverseCard(universe: viewModel.journey)
                         
-/*                        // MARK: Your Universes
-                        
+                        // MARK: Your Universes
+/*
                         Text("Your Universes")
                             .font(.headline)
                             .foregroundStyle(
@@ -91,8 +65,8 @@ struct HomeView: View {
                                 )
                             }
                         }
-                        
-*/                        // MARK: Coming Soon!
+*/
+                        // MARK: Coming Soon!
                         
                         Text("Coming Soon")
                             .font(.headline)
