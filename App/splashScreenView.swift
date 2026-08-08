@@ -28,7 +28,7 @@ struct splashScreenView: View {
             }
         }
         .task {
-            try? await Task.sleep(for: .seconds(0.8))
+            try? await Task.sleep(for: .seconds(0.10))
             
             withAnimation(.easeInOut(duration: 0.4)) {
                 showHOme = true
