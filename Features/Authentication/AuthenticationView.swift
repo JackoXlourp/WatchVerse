@@ -53,8 +53,9 @@ struct AuthenticationView: View {
                     }
                 )
                 .signInWithAppleButtonStyle(.white)
-                .frame(height: 56)
-                .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .frame(maxWidth: 375)
+                    .frame(height: 56)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
 
                 Text("Your progress, collections and achievements will stay with you forever.")
                     .font(.footnote)

@@ -19,7 +19,7 @@ final class AuthenticationService {
     private var storedUserID = ""
 
     var userID: String?
-    var displayName: String?
+    var displayName = "Watcher"
 
     func configure(_ request: ASAuthorizationAppleIDRequest) {
 
@@ -43,12 +43,7 @@ final class AuthenticationService {
             storedUserID = credential.user
 
             if let givenName = credential.fullName?.givenName {
-
                 displayName = givenName
-
-            } else {
-
-                displayName = "Watcher"
             }
 
             isSignedIn = true

@@ -11,6 +11,9 @@ struct RootView: View {
 
     @Environment(AuthenticationService.self)
     private var authentication
+    
+    @Environment(CloudKitService.self)
+    private var cloudKit
 
     var body: some View {
 
@@ -28,6 +31,18 @@ struct RootView: View {
         }
         .task {
             authentication.restoreSession()
+        }
+        .onChange(of: authentication.isSignedIn) { _, signedIn in
+
+            guard signedIn,
+                  let userID = authentication.userID else {
+                return
+            }
+
+            cloudKit.createUser(
+                id: userID,
+                name: authentication.displayName
+            )
         }
     }
 }

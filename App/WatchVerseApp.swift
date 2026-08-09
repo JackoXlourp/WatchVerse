@@ -35,12 +35,15 @@ struct WatchVerseApp: App {
     
     @State private var authentication = AuthenticationService()
     
+    @State private var cloudKit = CloudKitService()
+    
     var body: some Scene{
         WindowGroup {
             splashScreenView()
                 .environment(viewModel)
                 .environment(navigation)
                 .environment(authentication)
+                .environment(cloudKit)
         }
     }
 }
