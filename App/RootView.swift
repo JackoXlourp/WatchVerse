@@ -39,10 +39,14 @@ struct RootView: View {
                 return
             }
 
-            cloudKit.createUser(
+            cloudKit.findOrCreateUser(
                 id: userID,
                 name: authentication.displayName
-            )
+            ) { user in
+
+                print("Loaded user: \(user.displayName)")
+
+            }
         }
     }
 }
