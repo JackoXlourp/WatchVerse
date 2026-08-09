@@ -10,10 +10,9 @@ import SwiftUI
 struct HomeView: View {
     
     @Environment(JourneyViewModel.self) private var viewModel
+    @Environment(AppNavigation.self) private var navigation
     
     var body: some View {
-        
-        NavigationStack {
             
             ZStack {
                 
@@ -37,19 +36,20 @@ struct HomeView: View {
                         
                         Text("Continue Watching")
                             .font(.headline)
-                            .foregroundStyle(
-                                Color(red: 0.85, green: 0.72, blue: 0.45)
-                            )
+                            .foregroundStyle(Color.watchVerseGold)
                         
-                        HeroUniverseCard(universe: viewModel.journey)
+                        HeroUniverseCard(
+                            universe: viewModel.journey,
+                            onTap: {
+                                navigation.selectedTab = .journey
+                            }
+                        )
                         
                         // MARK: Your Universes
 /*
                         Text("Your Universes")
                             .font(.headline)
-                            .foregroundStyle(
-                                Color(red: 0.85, green: 0.72, blue: 0.45)
-                            )
+                            .foregroundStyle(Color.watchVerseGold)
                         
                         
                         LazyVGrid(
@@ -70,9 +70,7 @@ struct HomeView: View {
                         
                         Text("Coming Soon")
                             .font(.headline)
-                            .foregroundStyle(
-                                Color(red: 0.85, green: 0.72, blue: 0.45)
-                            )
+                            .foregroundStyle(Color.watchVerseGold)
                         
                         LazyVGrid(
                             columns: [
@@ -101,7 +99,7 @@ struct HomeView: View {
                     SettingsButton()
                 }
             }
-        }
+        
     }
 }
 

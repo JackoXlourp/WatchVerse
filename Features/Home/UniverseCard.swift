@@ -46,9 +46,7 @@ struct UniverseCard: View {
                     
                     Text(universe.title)
                         .font(.headline)
-                        .foregroundStyle(
-                                Color(red: 0.85, green: 0.72, blue: 0.45)
-                            )
+                        .foregroundStyle(Color.watchVerseGold)
                         .lineLimit(2)
                         .frame(height: 44, alignment: .top)
                     

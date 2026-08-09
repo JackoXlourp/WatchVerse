@@ -1336,6 +1336,24 @@
       "isSkipped": false
     },
     {
+      "id": "the-punisher-one-last-kill",
+      "title": "The Punisher: One Last Kill",
+      "poster": "punisheronelastkill",
+      "year": 2026,
+      "runtime": "51m",
+      "phase": "Phase Six",
+      "synopsis": "As Frank Castle searches for meaning beyond revenge, he's unexpectedly pulled back into the fight.",
+      "director": "Reinaldo Marcus Green",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Thriller",
+        "Crime"
+      ],
+      "isWatched": false,
+      "isSkipped": false
+    },
+    {
       "id": "spider-man-brand-new-day",
       "title": "Spider-Man: Brand New Day",
       "poster": "spidermanbrandnewday",

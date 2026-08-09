@@ -15,21 +15,11 @@ struct WatchVerseApp: App {
         appearance.configureWithTransparentBackground()
 
         appearance.largeTitleTextAttributes = [
-            .foregroundColor: UIColor(
-                red: 0.85,
-                green: 0.72,
-                blue: 0.45,
-                alpha: 1
-            )
+            .foregroundColor: UIColor.watchVerseGold
         ]
 
         appearance.titleTextAttributes = [
-            .foregroundColor: UIColor(
-                red: 0.85,
-                green: 0.72,
-                blue: 0.45,
-                alpha: 1
-            )
+            .foregroundColor: UIColor.watchVerseGold
         ]
 
         UINavigationBar.appearance().standardAppearance = appearance
@@ -41,10 +31,13 @@ struct WatchVerseApp: App {
         universes: universes
     )
     
+    @State private var navigation = AppNavigation()
+    
     var body: some Scene{
         WindowGroup {
             splashScreenView()
                 .environment(viewModel)
+                .environment(navigation)
         }
     }
 }

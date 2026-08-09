@@ -15,6 +15,7 @@ struct JourneyView: View {
     @State private var completionStage: CompletionStage = .idle
     @State private var currentAnimationMovieID: String?
     
+    @Environment(\.dismiss) private var dismiss
     @Environment(JourneyViewModel.self) private var viewModel
     
     @AppStorage("showReleaseYears")
@@ -160,7 +161,7 @@ struct JourneyView: View {
                         
                             .onEnded { value in
                                 
-                                let movement = Int((-value.translation.width / posterSpacing).rounded())
+                                let movement = Int((-value.translation.width / 120).rounded())
                                 
                                 let newIndex = max(
                                     0,
@@ -278,9 +279,10 @@ struct JourneyView: View {
                     Spacer(minLength: 20)
                 }
             }
+            .padding(.vertical)
             
-            .padding()
         }
+        .navigationBarBackButtonHidden(true)
         .onAppear{
             if let index = viewModel.nextCurrentMovieIndex() {
                 currentIndex = index
@@ -307,13 +309,13 @@ struct JourneyView: View {
                     movie: movie,
                     viewModel: viewModel,
                     onMovieWatched: { movieID in
-
+                        
                         advanceAfterDismiss = true
                         playCompletionAnimation(for: movieID)
                     },
                     onMovieSkipped: {
                         advanceAfterDismiss = true
-
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                             if let index = viewModel.nextCurrentMovieIndex() {
                                 withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
@@ -322,7 +324,8 @@ struct JourneyView: View {
                             }
                         }
                     }
-                )            }
+                )
+            }
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {

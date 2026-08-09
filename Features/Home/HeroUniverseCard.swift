@@ -8,17 +8,16 @@
 import SwiftUI
 
 struct HeroUniverseCard: View {
-    
+
     let universe: Universe
+    let onTap: () -> Void
     
     var body: some View {
         
-        NavigationLink {
-            JourneyView()
-        } label: {
-            
+        Button(action: onTap) {
+
             VStack(alignment: .leading, spacing: 12) {
-                
+
                 Image(universe.banner)
                     .resizable()
                     .scaledToFill()
@@ -35,12 +34,3 @@ struct HeroUniverseCard: View {
     }
 }
 
-#Preview {
-    ZStack {
-        Color.black
-            .ignoresSafeArea()
-        
-        HeroUniverseCard(universe: universes[0])
-            .padding()
-    }
-}

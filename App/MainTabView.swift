@@ -8,16 +8,31 @@
 import SwiftUI
 
 struct MainTabView: View {
+
+    @Environment(AppNavigation.self) private var navigation
+
     var body: some View {
-        TabView {
-            HomeView()
-                .tabItem {
-                    Label("Journey", systemImage: "map.fill")
-                }
+
+        @Bindable var navigation = navigation
+
+        TabView(selection: $navigation.selectedTab) {
+
+            NavigationStack {
+                HomeView()
+            }
+            .tag(AppNavigation.Tab.home)
+            .tabItem {
+                Label("Home", systemImage: "house")
+            }
+
+            NavigationStack {
+                JourneyView()
+            }
+            .tag(AppNavigation.Tab.journey)
+            .tabItem {
+                Label("Journey", systemImage: "map.fill")
+            }
         }
     }
 }
 
-#Preview {
-    MainTabView()
-}
