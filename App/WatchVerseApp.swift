@@ -33,11 +33,14 @@ struct WatchVerseApp: App {
     
     @State private var navigation = AppNavigation()
     
+    @State private var authentication = AuthenticationService()
+    
     var body: some Scene{
         WindowGroup {
             splashScreenView()
                 .environment(viewModel)
                 .environment(navigation)
+                .environment(authentication)
         }
     }
 }

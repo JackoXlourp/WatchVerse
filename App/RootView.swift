@@ -8,11 +8,26 @@
 import SwiftUI
 
 struct RootView: View {
-    var body: some View {
-        MainTabView()
-    }
-}
 
-#Preview {
-    RootView()
+    @Environment(AuthenticationService.self)
+    private var authentication
+
+    var body: some View {
+
+        Group {
+
+            if authentication.isSignedIn {
+
+                MainTabView()
+
+            } else {
+
+                AuthenticationView()
+            }
+
+        }
+        .task {
+            authentication.restoreSession()
+        }
+    }
 }
