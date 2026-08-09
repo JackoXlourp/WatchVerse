@@ -21,7 +21,7 @@ struct HeroUniverseCard: View {
                 Image(universe.banner)
                     .resizable()
                     .scaledToFill()
-                    .frame(height: 170)
+                    .frame(maxWidth: .infinity, minHeight: 170, maxHeight: 170)
                     .clipped()
                     .clipShape(RoundedRectangle(cornerRadius: 16))
             }
