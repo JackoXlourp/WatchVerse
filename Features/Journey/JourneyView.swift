@@ -161,7 +161,12 @@ struct JourneyView: View {
                         
                             .onEnded { value in
                                 
-                                let movement = Int((-value.translation.width / 120).rounded())
+                                let predicted = value.predictedEndTranslation.width
+                                let actual = value.translation.width
+
+                                let finalTranslation = actual + (predicted - actual) * 0.75
+
+                                let movement = Int((-finalTranslation / 120).rounded())
                                 
                                 let newIndex = max(
                                     0,
