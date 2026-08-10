@@ -18,8 +18,8 @@ struct JourneyView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(JourneyViewModel.self) private var viewModel
     
-    @AppStorage("showReleaseYears")
-    private var showReleaseYears = true
+    @Environment(AuthenticationService.self)
+    private var authentication
     
     private let posterSpacing: CGFloat = 190
     
@@ -199,7 +199,7 @@ struct JourneyView: View {
                                 .foregroundStyle(.white)
                                 .multilineTextAlignment(.center)
                             
-                            if showReleaseYears {
+                            if authentication.currentUser?.settings.showReleaseYears ?? true {
                                 
                                 Text("\(String(viewModel.movies[currentIndex].year)) • \(viewModel.movies[currentIndex].runtime)")
                                     .font(.subheadline)

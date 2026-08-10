@@ -35,16 +35,16 @@ struct RootView: View {
         .onChange(of: authentication.isSignedIn) { _, signedIn in
 
             guard signedIn,
-                  let userID = authentication.userID else {
+                  let user = authentication.currentUser else {
                 return
             }
 
             cloudKit.findOrCreateUser(
-                id: userID,
-                name: authentication.displayName
+                id: user.userID,
+                name: user.displayName
             ) { user in
 
-                print("Loaded user: \(user.displayName)")
+                authentication.currentUser = user
 
             }
         }

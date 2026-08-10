@@ -13,6 +13,7 @@ final class CloudKitService {
 
     let database = CKContainer.default().privateCloudDatabase
 
+    //MARK: findOrCreateUser
     func findOrCreateUser(
         id: String,
         name: String,
@@ -23,57 +24,66 @@ final class CloudKitService {
 
         database.fetch(withRecordID: recordID) { record, error in
 
-            if record != nil {
+            if let record {
 
-                let user = User(
-                    userID: id,
-                    displayName: record?["displayName"] as? String ?? name,
-                    joinedDate: record?["joinedDate"] as? Date ?? Date(),
-                    isFounder: record?["isFounder"] as? Bool ?? false,
-                    watchedMovies: record?["watchedMovies"] as? [String] ?? [],
-                    settings: UserSettings(
-                        showReleaseYears: record?["showReleaseYears"] as? Bool ?? true
-                    )
-                )
-
-                completion(user)
+                completion(self.makeUser(from: record))
                 return
             }
 
-            let record = CKRecord(
-                recordType: "User",
-                recordID: recordID
+            let user = User(
+                userID: id,
+                displayName: name,
+                joinedDate: .now,
+                isFounder: true,
+                watchedMovies: [],
+                settings: UserSettings()
             )
 
-            record["userID"] = id
-            record["displayName"] = name
-            record["joinedDate"] = Date()
-            record["isFounder"] = true
-            record["watchedMovies"] = [] as [String]
-            record["showReleaseYears"] = true
+            let record = self.makeRecord(from: user)
 
             self.database.save(record) { _, error in
 
                 if let error {
                     print("❌ CloudKit save failed:", error.localizedDescription)
                 } else {
-                    let user = User(
-                        userID: id,
-                        displayName: name,
-                        joinedDate: record["joinedDate"] as! Date,
-                        isFounder: true,
-                        watchedMovies: [],
-                        settings: UserSettings(showReleaseYears: true)
-                    )
-
                     completion(user)
-
                     print("✅ New user created")
                 }
             }
         }
-
     }
+    // MARK: save
+    func save(user: User) {
+
+        let recordID = CKRecord.ID(recordName: user.userID)
+
+        database.fetch(withRecordID: recordID) { record, error in
+
+            guard let record else {
+                print("❌ User record not found.")
+                return
+            }
+
+            record["displayName"] = user.displayName
+            record["joinedDate"] = user.joinedDate
+            record["isFounder"] = user.isFounder
+            record["showReleaseYears"] = user.settings.showReleaseYears
+
+            if !user.watchedMovies.isEmpty {
+                record["watchedMovies"] = user.watchedMovies
+            }
+
+            self.database.save(record) { _, error in
+
+                if let error {
+                    print("❌ Failed to save user:", error.localizedDescription)
+                } else {
+                    print("✅ User updated")
+                }
+            }
+        }
+    }
+    //MARK: makeUser
     private func makeUser(from record: CKRecord) -> User {
 
         User(
@@ -88,6 +98,7 @@ final class CloudKitService {
         )
     }
 
+    //MARK: makeRecord
     private func makeRecord(from user: User) -> CKRecord {
 
         let record = CKRecord(

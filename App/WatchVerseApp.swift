@@ -44,6 +44,10 @@ struct WatchVerseApp: App {
                 .environment(navigation)
                 .environment(authentication)
                 .environment(cloudKit)
+                .onAppear {
+                    viewModel.authentication = authentication
+                    viewModel.cloudKit = cloudKit
+                }
         }
     }
 }

@@ -14,8 +14,11 @@ struct SettingsView: View {
     @Environment(JourneyViewModel.self)
     private var viewModel
     
-    @AppStorage("showReleaseYears")
-    private var showReleaseYears = true
+    @Environment(AuthenticationService.self)
+    private var authentication
+    
+    @Environment(CloudKitService.self)
+    private var cloudKit
     
     @AppStorage("notifyNewUniverses")
     private var notifyNewUniverses = false
@@ -56,9 +59,21 @@ struct SettingsView: View {
                         //MARK: WATCHING
                         settingsSection(title: "WATCHING") {
                             
-                            Toggle(isOn: $showReleaseYears) {
-                                
-                                Label {
+                            Toggle(
+                                isOn: Binding(
+                                    get: {
+                                        authentication.currentUser?.settings.showReleaseYears ?? true
+                                    },
+                                    set: { newValue in
+
+                                        authentication.currentUser?.settings.showReleaseYears = newValue
+
+                                        if let user = authentication.currentUser {
+                                            cloudKit.save(user: user)
+                                        }
+                                    }
+                                )
+                            ) { Label {
                                     
                                     Text("Show Release Years")
                                         .foregroundStyle(.white)

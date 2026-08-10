@@ -17,9 +17,8 @@ final class AuthenticationService {
     @ObservationIgnored
     @AppStorage("appleUserID")
     private var storedUserID = ""
-
-    var userID: String?
-    var displayName = "Watcher"
+    
+    var currentUser: User?
 
     func configure(_ request: ASAuthorizationAppleIDRequest) {
 
@@ -38,13 +37,17 @@ final class AuthenticationService {
             guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else {
                 return
             }
-
-            userID = credential.user
+            
             storedUserID = credential.user
-
-            if let givenName = credential.fullName?.givenName {
-                displayName = givenName
-            }
+            
+            currentUser = User(
+                userID: credential.user,
+                displayName: credential.fullName?.givenName ?? "Watcher",
+                joinedDate: .now,
+                isFounder: true,
+                watchedMovies: [],
+                settings: UserSettings()
+            )
 
             isSignedIn = true
 
@@ -69,7 +72,16 @@ final class AuthenticationService {
                 switch state {
 
                 case .authorized:
-                    self.userID = self.storedUserID
+
+                    self.currentUser = User(
+                        userID: self.storedUserID,
+                        displayName: "Watcher",
+                        joinedDate: .now,
+                        isFounder: true,
+                        watchedMovies: [],
+                        settings: UserSettings()
+                    )
+
                     self.isSignedIn = true
 
                 default:

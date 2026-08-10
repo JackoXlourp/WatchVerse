@@ -13,6 +13,12 @@ class JourneyViewModel {
     private let watchedMoviesKey = "watchedMovies"
     private let skippedMoviesKey = "skippedMovies"
     
+    @ObservationIgnored
+    var authentication: AuthenticationService?
+
+    @ObservationIgnored
+    var cloudKit: CloudKitService?
+    
     let journey: Universe
     let universes: [Universe]
     
@@ -53,11 +59,26 @@ class JourneyViewModel {
         movies.firstIndex(where: { !$0.isWatched && !$0.isSkipped })
     }
     
+    //MARK: func
     func markMovieWatched(id: String) {
-        guard let index = movies.firstIndex(where: { $0.id == id }) else {return}
-        
+
+        guard let index = movies.firstIndex(where: { $0.id == id }) else {
+            return
+        }
+
         movies[index].isWatched = true
         movies[index].isSkipped = false
+
+        if var user = authentication?.currentUser {
+
+            if !user.watchedMovies.contains(id) {
+                user.watchedMovies.append(id)
+            }
+
+            authentication?.currentUser = user
+            cloudKit?.save(user: user)
+        }
+
         saveWatchedMovies()
     }
     
