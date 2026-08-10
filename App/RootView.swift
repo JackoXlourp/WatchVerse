@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct RootView: View {
+    
+    @Environment(JourneyViewModel.self)
+    private var viewModel
 
     @Environment(AuthenticationService.self)
     private var authentication
@@ -45,7 +48,7 @@ struct RootView: View {
             ) { user in
 
                 authentication.currentUser = user
-
+                viewModel.loadWatchedMovies(from: user)
             }
         }
     }

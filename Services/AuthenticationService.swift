@@ -46,6 +46,7 @@ final class AuthenticationService {
                 joinedDate: .now,
                 isFounder: true,
                 watchedMovies: [],
+                skippedMovies: [],
                 settings: UserSettings()
             )
 
@@ -79,11 +80,12 @@ final class AuthenticationService {
                         joinedDate: .now,
                         isFounder: true,
                         watchedMovies: [],
+                        skippedMovies: [],
                         settings: UserSettings()
                     )
-
+                    
                     self.isSignedIn = true
-
+                    
                 default:
                     self.isSignedIn = false
                 }

@@ -19,6 +19,8 @@ struct User: Codable {
 
     var watchedMovies: [String]
 
+    var skippedMovies: [String]
+
     var settings: UserSettings
 
 }

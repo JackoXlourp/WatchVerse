@@ -36,6 +36,7 @@ final class CloudKitService {
                 joinedDate: .now,
                 isFounder: true,
                 watchedMovies: [],
+                skippedMovies: [],
                 settings: UserSettings()
             )
 
@@ -72,6 +73,10 @@ final class CloudKitService {
             if !user.watchedMovies.isEmpty {
                 record["watchedMovies"] = user.watchedMovies
             }
+            
+            if !user.skippedMovies.isEmpty {
+                record["skippedMovies"] = user.skippedMovies
+            }
 
             self.database.save(record) { _, error in
 
@@ -86,12 +91,13 @@ final class CloudKitService {
     //MARK: makeUser
     private func makeUser(from record: CKRecord) -> User {
 
-        User(
+        return User(
             userID: record["userID"] as? String ?? "",
             displayName: record["displayName"] as? String ?? "",
             joinedDate: record["joinedDate"] as? Date ?? .now,
             isFounder: record["isFounder"] as? Bool ?? false,
             watchedMovies: record["watchedMovies"] as? [String] ?? [],
+            skippedMovies: record["skippedMovies"] as? [String] ?? [],
             settings: UserSettings(
                 showReleaseYears: record["showReleaseYears"] as? Bool ?? true
             )
@@ -114,6 +120,10 @@ final class CloudKitService {
 
         if !user.watchedMovies.isEmpty {
             record["watchedMovies"] = user.watchedMovies
+        }
+        
+        if !user.skippedMovies.isEmpty {
+            record["skippedMovies"] = user.skippedMovies
         }
 
         return record

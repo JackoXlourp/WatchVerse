@@ -10,9 +10,6 @@ import SwiftUI
 @Observable
 class JourneyViewModel {
     
-    private let watchedMoviesKey = "watchedMovies"
-    private let skippedMoviesKey = "skippedMovies"
-    
     @ObservationIgnored
     var authentication: AuthenticationService?
 
@@ -28,7 +25,6 @@ class JourneyViewModel {
         self.journey = journey
         self.universes = universes
         self.movies = journey.movies
-        loadWatchedMovies()
     }
     
     var movieCount: Int {
@@ -75,32 +71,67 @@ class JourneyViewModel {
                 user.watchedMovies.append(id)
             }
 
+            user.skippedMovies.removeAll { $0 == id }
+
             authentication?.currentUser = user
             cloudKit?.save(user: user)
         }
-
-        saveWatchedMovies()
     }
     
     func markMovieUnwatched(id: String) {
-        guard let index = movies.firstIndex(where: { $0.id == id }) else { return }
+
+        guard let index = movies.firstIndex(where: { $0.id == id }) else {
+            return
+        }
 
         movies[index].isWatched = false
-        saveWatchedMovies()
+
+        if var user = authentication?.currentUser {
+
+            user.watchedMovies.removeAll { $0 == id }
+
+            authentication?.currentUser = user
+            cloudKit?.save(user: user)
+        }
     }
     
     func skipMovie(id: String) {
-        guard let index = movies.firstIndex(where: { $0.id == id }) else { return }
+
+        guard let index = movies.firstIndex(where: { $0.id == id }) else {
+            return
+        }
 
         movies[index].isSkipped = true
-        saveWatchedMovies()
+        movies[index].isWatched = false
+
+        if var user = authentication?.currentUser {
+
+            if !user.skippedMovies.contains(id) {
+                user.skippedMovies.append(id)
+            }
+
+            user.watchedMovies.removeAll { $0 == id }
+
+            authentication?.currentUser = user
+            cloudKit?.save(user: user)
+        }
     }
 
     func unskipMovie(id: String) {
-        guard let index = movies.firstIndex(where: { $0.id == id }) else { return }
+
+        guard let index = movies.firstIndex(where: { $0.id == id }) else {
+            return
+        }
 
         movies[index].isSkipped = false
-        saveWatchedMovies()
+
+        if var user = authentication?.currentUser {
+
+            user.skippedMovies.removeAll { $0 == id }
+
+            authentication?.currentUser = user
+            cloudKit?.save(user: user)
+        }
     }
     
     func nextCurrentMovieIndex() -> Int? {
@@ -108,33 +139,27 @@ class JourneyViewModel {
     }
     
     func resetJourney() {
+
         for index in movies.indices {
             movies[index].isWatched = false
             movies[index].isSkipped = false
         }
-        saveWatchedMovies()
+
+        if var user = authentication?.currentUser {
+
+            user.watchedMovies.removeAll()
+            user.skippedMovies.removeAll()
+
+            authentication?.currentUser = user
+            cloudKit?.save(user: user)
+        }
     }
     
-    private func saveWatchedMovies() {
-        let watchedIDs = movies
-            .filter(\.isWatched)
-            .map(\.id)
-
-        let skippedIDs = movies
-            .filter(\.isSkipped)
-            .map(\.id)
-
-        UserDefaults.standard.set(watchedIDs, forKey: watchedMoviesKey)
-        UserDefaults.standard.set(skippedIDs, forKey: skippedMoviesKey)
-    }
-    
-    private func loadWatchedMovies() {
-        let watchedIDs = UserDefaults.standard.stringArray(forKey: watchedMoviesKey) ?? []
-        let skippedIDs = UserDefaults.standard.stringArray(forKey: skippedMoviesKey) ?? []
+    func loadWatchedMovies(from user: User) {
 
         for index in movies.indices {
-            movies[index].isWatched = watchedIDs.contains(movies[index].id)
-            movies[index].isSkipped = skippedIDs.contains(movies[index].id)
+            movies[index].isWatched = user.watchedMovies.contains(movies[index].id)
+            movies[index].isSkipped = user.skippedMovies.contains(movies[index].id)
         }
     }
     
