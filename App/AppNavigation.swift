@@ -15,5 +15,6 @@ class AppNavigation {
     enum Tab: Hashable {
         case home
         case journey
+        case badges
     }
 }

@@ -36,11 +36,14 @@
 		9C3527353028FE2D00BF69FD /* CloudKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3527343028FE2B00BF69FD /* CloudKitService.swift */; };
 		9C352737302909B300BF69FD /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C352736302909B200BF69FD /* UserSettings.swift */; };
 		9C35273C302909F600BF69FD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C35273B302909F300BF69FD /* User.swift */; };
-		9C78857B302669A400C9F3CF /* NavigationBackgroundTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C78857A302669A400C9F3CF /* NavigationBackgroundTest.swift */; };
 		9C9EB14D30220B0E00858C9E /* marvel.csv in Resources */ = {isa = PBXBuildFile; fileRef = 9C9EB14C30220B0D00858C9E /* marvel.csv */; };
 		9C9EB14F30220C3700858C9E /* CSVLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9EB14E30220C3700858C9E /* CSVLoader.swift */; };
 		9C9EB15330237AD000858C9E /* completionStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9EB15230237AD000858C9E /* completionStage.swift */; };
 		9CC798733021709E0011DC42 /* SettingsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC798723021709E0011DC42 /* SettingsButton.swift */; };
+		9CF398F4302A97740093B14D /* BadgeGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF398F3302A97740093B14D /* BadgeGalleryView.swift */; };
+		9CF398F7302A98660093B14D /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF398F6302A98640093B14D /* Badge.swift */; };
+		9CF398F9302A98A00093B14D /* BadgeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF398F8302A989E0093B14D /* BadgeData.swift */; };
+		9CF398FD302BFA6C0093B14D /* BadgeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF398FC302BFA6B0093B14D /* BadgeDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,12 +96,15 @@
 		9C3527343028FE2B00BF69FD /* CloudKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitService.swift; sourceTree = "<group>"; };
 		9C352736302909B200BF69FD /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		9C35273B302909F300BF69FD /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		9C78857A302669A400C9F3CF /* NavigationBackgroundTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBackgroundTest.swift; sourceTree = "<group>"; };
 		9C9EB14C30220B0D00858C9E /* marvel.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = marvel.csv; sourceTree = "<group>"; };
 		9C9EB14E30220C3700858C9E /* CSVLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVLoader.swift; sourceTree = "<group>"; };
 		9C9EB15130221DE900858C9E /* csv_to_json.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = csv_to_json.py; sourceTree = "<group>"; };
 		9C9EB15230237AD000858C9E /* completionStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = completionStage.swift; sourceTree = "<group>"; };
 		9CC798723021709E0011DC42 /* SettingsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButton.swift; sourceTree = "<group>"; };
+		9CF398F3302A97740093B14D /* BadgeGalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeGalleryView.swift; sourceTree = "<group>"; };
+		9CF398F6302A98640093B14D /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
+		9CF398F8302A989E0093B14D /* BadgeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeData.swift; sourceTree = "<group>"; };
+		9CF398FC302BFA6B0093B14D /* BadgeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -151,6 +157,7 @@
 				505094F43016C879004E8760 /* RootView.swift */,
 				505094F63016C9D0004E8760 /* MainTabView.swift */,
 				50B7A13A301F605400D4A1BF /* splashScreenView.swift */,
+				9C35271C3027E66700BF69FD /* AppNavigation.swift */,
 				50B7A13C301F655200D4A1BF /* Launch Screen.storyboard */,
 			);
 			path = App;
@@ -162,7 +169,8 @@
 				9C35272D3028F00600BF69FD /* Authentication */,
 				5083E494301C26F8004A7AE7 /* Home */,
 				505094F33016C7DC004E8760 /* Journey */,
-				5083E495301C2711004A7AE7 /* Shared */,
+				9CF398F5302A98570093B14D /* Profile */,
+				9CF398FF302C1BB10093B14D /* Settings */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -170,13 +178,11 @@
 		505094F33016C7DC004E8760 /* Journey */ = {
 			isa = PBXGroup;
 			children = (
-				50B7A138301EBE1300D4A1BF /* CarouselLayout.swift */,
 				505095043016CE1E004E8760 /* JourneyView.swift */,
-				5083E44830180B36004A7AE7 /* Movie.swift */,
+				5083E468301A4937004A7AE7 /* JourneyViewModel.swift */,
 				5083E44E301826DD004A7AE7 /* MoviePosterView.swift */,
 				5083E45A30197563004A7AE7 /* MovieDetailView.swift */,
-				5083E468301A4937004A7AE7 /* JourneyViewModel.swift */,
-				9C9EB15230237AD000858C9E /* completionStage.swift */,
+				50B7A138301EBE1300D4A1BF /* CarouselLayout.swift */,
 			);
 			path = Journey;
 			sourceTree = "<group>";
@@ -184,14 +190,16 @@
 		507CAA7630163EAA00F8E384 = {
 			isa = PBXGroup;
 			children = (
-				9C9EB15030221DC800858C9E /* Tools */,
-				505094F23016C79C004E8760 /* Features */,
-				5083E486301BF1DD004A7AE7 /* Data */,
-				5083E489301BF93D004A7AE7 /* Services */,
 				505094F13016C603004E8760 /* App */,
+				505094F23016C79C004E8760 /* Features */,
+				5083E495301C2711004A7AE7 /* Shared */,
+				5083E489301BF93D004A7AE7 /* Services */,
+				9C9EB15030221DC800858C9E /* Tools */,
+				5083E486301BF1DD004A7AE7 /* Data */,
 				507CAA8130163EAA00F8E384 /* WatchVerse */,
 				507CAA9130163EAE00F8E384 /* WatchVerseTests */,
 				507CAA9B30163EAE00F8E384 /* WatchVerseUITests */,
+				9CF39902302C1F4D0093B14D /* other */,
 				507CAA8030163EAA00F8E384 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -221,7 +229,6 @@
 			isa = PBXGroup;
 			children = (
 				9C3527343028FE2B00BF69FD /* CloudKitService.swift */,
-				9C35272B3028EB1400BF69FD /* AuthenticationService.swift */,
 				5083E48A301BF95E004A7AE7 /* JSONLoader.swift */,
 				9C9EB14E30220C3700858C9E /* CSVLoader.swift */,
 			);
@@ -234,10 +241,6 @@
 				5083E482301BB9EB004A7AE7 /* HomeView.swift */,
 				5083E484301BDE7D004A7AE7 /* UniverseCard.swift */,
 				5083E4A0301D550D004A7AE7 /* HeroUniverseCard.swift */,
-				50949DD1301F6FF9005213AC /* SettingsView.swift */,
-				9CC798723021709E0011DC42 /* SettingsButton.swift */,
-				9C78857A302669A400C9F3CF /* NavigationBackgroundTest.swift */,
-				9C35271C3027E66700BF69FD /* AppNavigation.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -245,10 +248,10 @@
 		5083E495301C2711004A7AE7 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				5083E47E301BAD2F004A7AE7 /* Universe.swift */,
-				5083E490301C0A75004A7AE7 /* UniverseCatalogItem.swift */,
-				5083E480301BADE0004A7AE7 /* UniverseData.swift */,
-				9C3527063026C10400BF69FD /* WatchVerseColors.swift */,
+				9CF39906302C202D0093B14D /* Components */,
+				9CF39905302C20040093B14D /* Data */,
+				9CF39900302C1C9B0093B14D /* Models */,
+				9CF39901302C1CCE0093B14D /* Themes */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -256,9 +259,10 @@
 		9C35272D3028F00600BF69FD /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				9C3527303028F01D00BF69FD /* AuthenticationView.swift */,
+				9C35272B3028EB1400BF69FD /* AuthenticationService.swift */,
 				9C35273B302909F300BF69FD /* User.swift */,
 				9C352736302909B200BF69FD /* UserSettings.swift */,
-				9C3527303028F01D00BF69FD /* AuthenticationView.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -269,6 +273,75 @@
 				9C9EB15130221DE900858C9E /* csv_to_json.py */,
 			);
 			path = Tools;
+			sourceTree = "<group>";
+		};
+		9CF398F5302A98570093B14D /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				9CF398FE302C1B1D0093B14D /* Badge */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		9CF398FE302C1B1D0093B14D /* Badge */ = {
+			isa = PBXGroup;
+			children = (
+				9CF398F6302A98640093B14D /* Badge.swift */,
+				9CF398F8302A989E0093B14D /* BadgeData.swift */,
+				9CF398F3302A97740093B14D /* BadgeGalleryView.swift */,
+				9CF398FC302BFA6B0093B14D /* BadgeDetailView.swift */,
+			);
+			path = Badge;
+			sourceTree = "<group>";
+		};
+		9CF398FF302C1BB10093B14D /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				50949DD1301F6FF9005213AC /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		9CF39900302C1C9B0093B14D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5083E44830180B36004A7AE7 /* Movie.swift */,
+				5083E47E301BAD2F004A7AE7 /* Universe.swift */,
+				5083E490301C0A75004A7AE7 /* UniverseCatalogItem.swift */,
+				9C9EB15230237AD000858C9E /* completionStage.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9CF39901302C1CCE0093B14D /* Themes */ = {
+			isa = PBXGroup;
+			children = (
+				9C3527063026C10400BF69FD /* WatchVerseColors.swift */,
+			);
+			path = Themes;
+			sourceTree = "<group>";
+		};
+		9CF39902302C1F4D0093B14D /* other */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = other;
+			sourceTree = "<group>";
+		};
+		9CF39905302C20040093B14D /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				5083E480301BADE0004A7AE7 /* UniverseData.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		9CF39906302C202D0093B14D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				9CC798723021709E0011DC42 /* SettingsButton.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -422,7 +495,6 @@
 			files = (
 				9C9EB14F30220C3700858C9E /* CSVLoader.swift in Sources */,
 				5083E44A30180B36004A7AE7 /* Movie.swift in Sources */,
-				9C78857B302669A400C9F3CF /* NavigationBackgroundTest.swift in Sources */,
 				5083E491301C0A75004A7AE7 /* UniverseCatalogItem.swift in Sources */,
 				505094EA3016C0A8004E8760 /* WatchVerseApp.swift in Sources */,
 				9C35273C302909F600BF69FD /* User.swift in Sources */,
@@ -439,11 +511,15 @@
 				505094F53016C879004E8760 /* RootView.swift in Sources */,
 				50B7A139301EBE2000D4A1BF /* CarouselLayout.swift in Sources */,
 				9CC798733021709E0011DC42 /* SettingsButton.swift in Sources */,
+				9CF398F9302A98A00093B14D /* BadgeData.swift in Sources */,
 				9C3527073026C10400BF69FD /* WatchVerseColors.swift in Sources */,
 				9C35271D3027E66700BF69FD /* AppNavigation.swift in Sources */,
 				9C3527353028FE2D00BF69FD /* CloudKitService.swift in Sources */,
+				9CF398F4302A97740093B14D /* BadgeGalleryView.swift in Sources */,
 				5083E4A1301D550D004A7AE7 /* HeroUniverseCard.swift in Sources */,
 				505095053016CE1E004E8760 /* JourneyView.swift in Sources */,
+				9CF398F7302A98660093B14D /* Badge.swift in Sources */,
+				9CF398FD302BFA6C0093B14D /* BadgeDetailView.swift in Sources */,
 				5083E483301BB9EB004A7AE7 /* HomeView.swift in Sources */,
 				50B7A13B301F605400D4A1BF /* splashScreenView.swift in Sources */,
 				5083E45B30197563004A7AE7 /* MovieDetailView.swift in Sources */,
@@ -627,7 +703,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.22.3;
+				MARKETING_VERSION = 0.24.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.maximeproulx.WatchVerse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -662,7 +738,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.22.3;
+				MARKETING_VERSION = 0.24.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.maximeproulx.WatchVerse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;

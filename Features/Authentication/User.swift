@@ -20,6 +20,8 @@ struct User: Codable {
     var watchedMovies: [String]
 
     var skippedMovies: [String]
+    
+    var unlockedBadges: [String]
 
     var settings: UserSettings
 

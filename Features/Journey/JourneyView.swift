@@ -38,6 +38,7 @@ struct JourneyView: View {
                     .ignoresSafeArea()
             
             ScrollView(.vertical, showsIndicators: false) {
+                
                 VStack(spacing:0) {
                     // Navigation spacing
                     Spacer()

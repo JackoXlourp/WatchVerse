@@ -75,6 +75,44 @@ class JourneyViewModel {
 
             authentication?.currentUser = user
             cloudKit?.save(user: user)
+
+            checkForBadgeUnlocks()
+        }
+    }
+    
+    private func checkForBadgeUnlocks() {
+
+        guard var user = authentication?.currentUser else {
+            return
+        }
+
+        var didUnlockBadge = false
+
+        for badge in BadgeData.all {
+
+            guard !badge.requiredMovieIDs.isEmpty else {
+                continue
+            }
+
+            guard !user.unlockedBadges.contains(badge.id) else {
+                continue
+            }
+
+            let hasCompletedRequirements = badge.requiredMovieIDs.allSatisfy {
+                user.watchedMovies.contains($0)
+            }
+
+            if hasCompletedRequirements {
+                user.unlockedBadges.append(badge.id)
+                didUnlockBadge = true
+
+                print("🏆 Badge unlocked:", badge.title)
+            }
+        }
+
+        if didUnlockBadge {
+            authentication?.currentUser = user
+            cloudKit?.save(user: user)
         }
     }
     
@@ -164,4 +202,3 @@ class JourneyViewModel {
     }
     
 }
-

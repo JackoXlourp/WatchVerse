@@ -29,7 +29,7 @@ struct AuthenticationView: View {
                 Image("WatchVerseLogo")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 120)
+                    .frame(width: 190)
 
                 Text("Welcome to WatchVerse")
                     .font(.largeTitle.bold())
@@ -41,8 +41,6 @@ struct AuthenticationView: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
 
-                Spacer()
-
                 SignInWithAppleButton(
                     .continue,
                     onRequest: { request in
@@ -53,17 +51,19 @@ struct AuthenticationView: View {
                     }
                 )
                 .signInWithAppleButtonStyle(.white)
-                    .frame(maxWidth: 375)
-                    .frame(height: 56)
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                .frame(maxWidth: 375)
+                .frame(height: 56)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+
+                Spacer()
 
                 Text("Your progress, collections and achievements will stay with you forever.")
                     .font(.footnote)
                     .foregroundStyle(.gray)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
-
             }
+            .offset(y: -40)
             .padding()
         }
     }

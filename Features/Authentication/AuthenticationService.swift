@@ -47,6 +47,7 @@ final class AuthenticationService {
                 isFounder: true,
                 watchedMovies: [],
                 skippedMovies: [],
+                unlockedBadges: [],
                 settings: UserSettings()
             )
 
@@ -81,6 +82,7 @@ final class AuthenticationService {
                         isFounder: true,
                         watchedMovies: [],
                         skippedMovies: [],
+                        unlockedBadges: [],
                         settings: UserSettings()
                     )
                     

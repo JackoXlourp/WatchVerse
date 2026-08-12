@@ -37,8 +37,8 @@ final class CloudKitService {
                 isFounder: true,
                 watchedMovies: [],
                 skippedMovies: [],
-                settings: UserSettings()
-            )
+                unlockedBadges: [],
+                settings: UserSettings()            )
 
             let record = self.makeRecord(from: user)
 
@@ -70,13 +70,9 @@ final class CloudKitService {
             record["isFounder"] = user.isFounder
             record["showReleaseYears"] = user.settings.showReleaseYears
 
-            if !user.watchedMovies.isEmpty {
-                record["watchedMovies"] = user.watchedMovies
-            }
-            
-            if !user.skippedMovies.isEmpty {
-                record["skippedMovies"] = user.skippedMovies
-            }
+            record["watchedMovies"] = user.watchedMovies
+            record["skippedMovies"] = user.skippedMovies
+            record["unlockedBadges"] = user.unlockedBadges
 
             self.database.save(record) { _, error in
 
@@ -98,6 +94,7 @@ final class CloudKitService {
             isFounder: record["isFounder"] as? Bool ?? false,
             watchedMovies: record["watchedMovies"] as? [String] ?? [],
             skippedMovies: record["skippedMovies"] as? [String] ?? [],
+            unlockedBadges: record["unlockedBadges"] as? [String] ?? [],
             settings: UserSettings(
                 showReleaseYears: record["showReleaseYears"] as? Bool ?? true
             )
@@ -118,13 +115,9 @@ final class CloudKitService {
         record["isFounder"] = user.isFounder
         record["showReleaseYears"] = user.settings.showReleaseYears
 
-        if !user.watchedMovies.isEmpty {
-            record["watchedMovies"] = user.watchedMovies
-        }
-        
-        if !user.skippedMovies.isEmpty {
-            record["skippedMovies"] = user.skippedMovies
-        }
+        record["watchedMovies"] = user.watchedMovies
+        record["skippedMovies"] = user.skippedMovies
+        record["unlockedBadges"] = user.unlockedBadges
 
         return record
     }

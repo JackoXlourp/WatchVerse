@@ -44,6 +44,7 @@ struct WatchVerseApp: App {
                 .environment(navigation)
                 .environment(authentication)
                 .environment(cloudKit)
+                .preferredColorScheme(.dark)
                 .onAppear {
                     viewModel.authentication = authentication
                     viewModel.cloudKit = cloudKit

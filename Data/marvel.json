@@ -894,6 +894,25 @@
       "isSkipped": false
     },
     {
+      "id": "spider-man-no-way-home",
+      "title": "Spider-Man: No Way Home",
+      "poster": "spider_man_no_way_home",
+      "year": 2021,
+      "runtime": "148 min",
+      "phase": "Phase Four",
+      "saga": "Multiverse Saga",
+      "type": "movie",
+      "synopsis": "Peter Parker's life and reputation are turned upside down when his identity as Spider-Man is revealed to the world. Seeking help from Doctor Strange, Peter accidentally opens the door to the multiverse, bringing unexpected visitors and forcing him to confront what it truly means to be a hero.",
+      "director": "Jon Watts",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Science Fiction"
+      ],
+      "isWatched": false,
+      "isSkipped": false
+    },
+    {
       "id": "doctor-strange-in-the-multiverse-of-madness",
       "title": "Doctor Strange in the Multiverse of Madness",
       "poster": "doctorstrange2",
