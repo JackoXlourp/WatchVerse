@@ -89,7 +89,7 @@ struct HomeView: View {
                         
                     }
                     .padding()
-                    .padding(.bottom, 80)
+                    .padding(.bottom, 120)
                 }
             }
             .navigationTitle("WatchVerse")

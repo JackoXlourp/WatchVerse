@@ -29,7 +29,7 @@ final class CloudKitService {
                 completion(self.makeUser(from: record))
                 return
             }
-
+            
             let user = User(
                 userID: id,
                 displayName: name,
@@ -38,14 +38,16 @@ final class CloudKitService {
                 watchedMovies: [],
                 skippedMovies: [],
                 unlockedBadges: [],
-                settings: UserSettings()            )
+                settings: UserSettings(),
+                shownBadgePopups: []
+            )
 
             let record = self.makeRecord(from: user)
 
             self.database.save(record) { _, error in
 
                 if let error {
-                    print("❌ CloudKit save failed:", error.localizedDescription)
+                    
                 } else {
                     completion(user)
                     print("✅ New user created")
@@ -60,8 +62,13 @@ final class CloudKitService {
 
         database.fetch(withRecordID: recordID) { record, error in
 
+            if let error {
+                
+                return
+            }
+
             guard let record else {
-                print("❌ User record not found.")
+                
                 return
             }
 
@@ -73,17 +80,17 @@ final class CloudKitService {
             record["watchedMovies"] = user.watchedMovies
             record["skippedMovies"] = user.skippedMovies
             record["unlockedBadges"] = user.unlockedBadges
+            record["shownBadgePopups"] = user.shownBadgePopups
 
             self.database.save(record) { _, error in
 
                 if let error {
-                    print("❌ Failed to save user:", error.localizedDescription)
-                } else {
-                    print("✅ User updated")
+                    print("CloudKit save failed:", error.localizedDescription)
                 }
             }
         }
     }
+    
     //MARK: makeUser
     private func makeUser(from record: CKRecord) -> User {
 
@@ -97,7 +104,8 @@ final class CloudKitService {
             unlockedBadges: record["unlockedBadges"] as? [String] ?? [],
             settings: UserSettings(
                 showReleaseYears: record["showReleaseYears"] as? Bool ?? true
-            )
+            ),
+            shownBadgePopups: record["shownBadgePopups"] as? [String] ?? [],
         )
     }
 
@@ -118,6 +126,7 @@ final class CloudKitService {
         record["watchedMovies"] = user.watchedMovies
         record["skippedMovies"] = user.skippedMovies
         record["unlockedBadges"] = user.unlockedBadges
+        record["shownBadgePopups"] = user.shownBadgePopups
 
         return record
     }

@@ -165,7 +165,9 @@ struct JourneyView: View {
                                 let predicted = value.predictedEndTranslation.width
                                 let actual = value.translation.width
 
-                                let finalTranslation = actual + (predicted - actual) * 0.75
+                                let velocityBoost = (predicted - actual) * 0.25
+
+                                let finalTranslation = actual + velocityBoost
 
                                 let movement = Int((-finalTranslation / 120).rounded())
                                 
@@ -213,13 +215,34 @@ struct JourneyView: View {
                                     .foregroundStyle(.gray)
                             }
                             
-                            Text(viewModel.movies[currentIndex].phase)
-                                .font(.caption.weight(.semibold))
-                                .foregroundStyle(.white)
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 6)
-                                .background(Color.white.opacity(0.15))
-                                .clipShape(Capsule())
+                            let badges = BadgeData.badgesContaining(
+                                movieID: viewModel.movies[currentIndex].id
+                            )
+
+                            if !badges.isEmpty {
+
+                                HStack(spacing: 8) {
+
+                                    ForEach(badges) { badge in
+
+                                        HStack(spacing: 6) {
+
+                                            Image(badge.imageName)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 20, height: 20)
+
+                                            Text(badge.title)
+                                                .font(.caption.weight(.semibold))
+                                                .foregroundStyle(.white)
+                                        }
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 5)
+                                        .background(Color.white.opacity(0.15))
+                                        .clipShape(Capsule())
+                                    }
+                                }
+                            }
                         }
                         .padding(.top, 40)
                         .id(currentIndex)
@@ -229,7 +252,7 @@ struct JourneyView: View {
                     
                     Divider()
                         .padding(.vertical, 20)
-                        .padding(.top, 35)
+                        .padding(.top, 15)
                     
                     if viewModel.isJourneyComplete {
                         VStack(spacing: 6) {
@@ -282,7 +305,7 @@ struct JourneyView: View {
                         .padding(.top, 32)
                     }
                     
-                    Spacer(minLength: 20)
+                    Spacer(minLength: 200)
                 }
             }
             .padding(.vertical)
@@ -290,6 +313,7 @@ struct JourneyView: View {
         }
         .navigationBarBackButtonHidden(true)
         .onAppear{
+            
             if let index = viewModel.nextCurrentMovieIndex() {
                 currentIndex = index
             }

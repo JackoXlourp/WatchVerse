@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Badge: Identifiable {
+struct Badge: Identifiable, Equatable {
     let id: String
     let title: String
     let universe: String

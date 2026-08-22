@@ -8,5 +8,45 @@
         "id": "lotr",
         "file": "lotr",
         "state": "comingSoon"
+    },
+    {
+      "id": "star-wars",
+      "file": "starWars",
+      "state": "comingSoon"
+    },
+    {
+      "id": "wizarding-world",
+      "file": "wizardingWorld",
+      "state": "comingSoon"
+    },
+    {
+      "id": "dceu",
+      "file": "dceu",
+      "state": "comingSoon"
+    },
+    {
+      "id": "monsterverse",
+      "file": "monsterVerse",
+      "state": "comingSoon"
+    },
+    {
+      "id": "jurassic",
+      "file": "jurassic",
+      "state": "comingSoon"
+    },
+    {
+      "id": "planet-of-the-apes",
+      "file": "planetOfTheApes",
+      "state": "comingSoon"
+    },
+    {
+      "id": "matrix",
+      "file": "matrix",
+      "state": "comingSoon"
+    },
+    {
+      "id": "fast-furious",
+      "file": "fastFurious",
+      "state": "comingSoon"
     }
 ]

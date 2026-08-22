@@ -24,6 +24,8 @@ struct User: Codable {
     var unlockedBadges: [String]
 
     var settings: UserSettings
+    
+    var shownBadgePopups: [String]
 
 }
 

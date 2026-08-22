@@ -15,6 +15,8 @@ struct BadgeDetailView: View {
     @Environment(AuthenticationService.self)
     private var authentication
     
+    @Environment(\.dismiss) private var dismiss
+    
     private var completedMovies: Int {
 
         movies.filter {
@@ -42,9 +44,11 @@ struct BadgeDetailView: View {
                 Text(badge.title)
                     .font(.title.bold())
                 
-                Text("\(completedMovies) / \(movies.count) completed")
-                    .font(.headline)
-                    .foregroundStyle(.secondary)
+                if !movies.isEmpty {
+                    Text("\(completedMovies) / \(movies.count) completed")
+                        .font(.headline)
+                        .foregroundStyle(.secondary)
+                }
                 
                 if isCompleted {
                     Label("Completed", systemImage: "checkmark.seal.fill")
@@ -56,28 +60,31 @@ struct BadgeDetailView: View {
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
 
-                List {
+                if !movies.isEmpty {
 
-                    Section("Movies") {
+                    List {
 
-                        ForEach(movies) { movie in
+                        Section("Movies") {
 
-                            HStack {
+                            ForEach(movies) { movie in
 
-                                Text(movie.title)
+                                HStack {
 
-                                Spacer()
+                                    Text(movie.title)
 
-                                Image(systemName:
-                                    authentication.currentUser?.watchedMovies.contains(movie.id) == true
-                                    ? "checkmark.square.fill"
-                                    : "square"
-                                )
-                                .foregroundStyle(
-                                    authentication.currentUser?.watchedMovies.contains(movie.id) == true
-                                    ? Color.watchVerseGold
-                                    : .secondary
-                                )
+                                    Spacer()
+
+                                    Image(systemName:
+                                        authentication.currentUser?.watchedMovies.contains(movie.id) == true
+                                        ? "checkmark.square.fill"
+                                        : "square"
+                                    )
+                                    .foregroundStyle(
+                                        authentication.currentUser?.watchedMovies.contains(movie.id) == true
+                                        ? Color.watchVerseGold
+                                        : .secondary
+                                    )
+                                }
                             }
                         }
                     }
@@ -88,6 +95,15 @@ struct BadgeDetailView: View {
             .padding()
             .navigationTitle("Badge")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
+            }
         }
     }
 }

@@ -64,16 +64,36 @@ struct MovieDetailView: View {
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
                             
-                            Text(currentMovie.phase)
-                                .font(.caption)
-                                .fontWeight(.semibold)
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 6)
-                                .background(Color.white.opacity(0.15))
-                                .clipShape(Capsule())
+                            let badges = BadgeData.badgesContaining(movieID: currentMovie.id)
+                            
+                            if !badges.isEmpty {
+                                
+                                VStack(alignment: .leading, spacing: 8) {
+                                    
+                                    ForEach(badges) { badge in
+                                        
+                                        HStack(spacing: 6) {
+                                            
+                                            Image(badge.imageName)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 24, height: 24)
+                                            
+                                            Text(badge.title)
+                                                .font(.caption)
+                                                .fontWeight(.semibold)
+                                        }
+                                        .padding(.horizontal, 12)
+                                        .padding(.vertical, 6)
+                                        .background(Color.white.opacity(0.15))
+                                        .clipShape(Capsule())
+                                    }
+                                }
+                            }
+                            
+                            Spacer()
                         }
-                        
-                        Spacer()
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     
                     // MARK: Movie Watched Button
@@ -178,10 +198,20 @@ struct MovieDetailView: View {
                     }
                 }
                 .padding()
+                .padding(.bottom, 80)
             }
-            .navigationTitle(currentMovie.title)
+            .navigationTitle(movie.title)
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
+            }
         }
     }
 }
-
+    

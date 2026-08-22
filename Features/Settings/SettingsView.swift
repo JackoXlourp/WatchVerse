@@ -26,6 +26,9 @@ struct SettingsView: View {
     @State
     private var showResetJourneyAlert = false
     
+    @State
+    private var showCloudKitResetAlert = false
+    
     private let appVersion =
     Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Uknown"
     
@@ -198,6 +201,28 @@ struct SettingsView: View {
                                 
                             }
                             .padding()
+                            
+                            Divider()
+                                .overlay(.white.opacity(0.08))
+
+                            Button {
+                                showCloudKitResetAlert = true
+                            } label: {
+                                HStack {
+                                    
+                                    Label {
+                                        Text("Erase CloudKit Data")
+                                            .foregroundStyle(.red)
+                                    } icon: {
+                                        Image(systemName: "icloud.slash")
+                                            .foregroundStyle(.red)
+                                            .frame(width: 24)
+                                    }
+                                    
+                                    Spacer()
+                                }
+                                .padding()
+                            }
                         }
                         
                         //MARK: DATA
@@ -226,6 +251,7 @@ struct SettingsView: View {
                         }
                     }
                     .padding()
+                    .padding(.bottom, 140)
                 }
             }
         }

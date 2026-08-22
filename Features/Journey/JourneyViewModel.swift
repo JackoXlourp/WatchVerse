@@ -55,6 +55,8 @@ class JourneyViewModel {
         movies.firstIndex(where: { !$0.isWatched && !$0.isSkipped })
     }
     
+    var pendingBadgePopup: Badge?
+    
     //MARK: func
     func markMovieWatched(id: String) {
 
@@ -104,9 +106,8 @@ class JourneyViewModel {
 
             if hasCompletedRequirements {
                 user.unlockedBadges.append(badge.id)
+                pendingBadgePopup = badge
                 didUnlockBadge = true
-
-                print("🏆 Badge unlocked:", badge.title)
             }
         }
 
@@ -198,6 +199,7 @@ class JourneyViewModel {
         for index in movies.indices {
             movies[index].isWatched = user.watchedMovies.contains(movies[index].id)
             movies[index].isSkipped = user.skippedMovies.contains(movies[index].id)
+            
         }
     }
     

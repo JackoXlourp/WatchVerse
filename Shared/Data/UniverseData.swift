@@ -20,3 +20,5 @@ let universes = availableUniverses.map {
 let comingSoon = comingSoonUniverses.map {
     JSONLoader.load($0.file, as: Universe.self)
 }
+
+let allUniverses = universes + comingSoon

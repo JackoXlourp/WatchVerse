@@ -48,7 +48,8 @@ final class AuthenticationService {
                 watchedMovies: [],
                 skippedMovies: [],
                 unlockedBadges: [],
-                settings: UserSettings()
+                settings: UserSettings(),
+                shownBadgePopups: []
             )
 
             isSignedIn = true
@@ -83,7 +84,8 @@ final class AuthenticationService {
                         watchedMovies: [],
                         skippedMovies: [],
                         unlockedBadges: [],
-                        settings: UserSettings()
+                        settings: UserSettings(),
+                        shownBadgePopups: []
                     )
                     
                     self.isSignedIn = true

@@ -36,7 +36,6 @@ struct WatchVerseTests {
                     poster: "",
                     year: 2000,
                     runtime: "",
-                    phase: "",
                     synopsis: "",
                     director: "",
                     genres: [],

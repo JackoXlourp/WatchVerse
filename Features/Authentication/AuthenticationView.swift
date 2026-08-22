@@ -32,7 +32,9 @@ struct AuthenticationView: View {
                     .frame(width: 190)
 
                 Text("Welcome to WatchVerse")
-                    .font(.largeTitle.bold())
+                    .font(.title.bold())
+                    .minimumScaleFactor(0.8)
+                    .lineLimit(1)
                     .foregroundStyle(.white)
 
                 Text("Your cinematic journey deserves to be remembered.")

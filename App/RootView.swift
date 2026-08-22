@@ -17,6 +17,12 @@ struct RootView: View {
     
     @Environment(CloudKitService.self)
     private var cloudKit
+    
+    @Environment(AppNavigation.self)
+    private var navigation
+
+    @State private var showingBadgeOverlay = false
+    @State private var popupBadge: Badge?
 
     var body: some View {
 
@@ -49,7 +55,55 @@ struct RootView: View {
 
                 authentication.currentUser = user
                 viewModel.loadWatchedMovies(from: user)
+
+                if user.isFounder,
+                   !user.shownBadgePopups.contains("founder"),
+                   let badge = BadgeData.all.first(where: { $0.id == "founder" }) {
+
+                    viewModel.pendingBadgePopup = badge
+                }
+            }
+        }
+        .onChange(of: viewModel.pendingBadgePopup) { _, badge in
+
+            guard let badge else {
+                return
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+
+                popupBadge = badge
+                showingBadgeOverlay = true
+
+                if var user = authentication.currentUser {
+
+                    if !user.shownBadgePopups.contains(badge.id) {
+                        user.shownBadgePopups.append(badge.id)
+
+                        authentication.currentUser = user
+                        cloudKit.save(user: user)
+                    }
+                }
+
+                viewModel.pendingBadgePopup = nil
+            }
+        }
+        .overlay {
+            if showingBadgeOverlay,
+               let badge = popupBadge {
+
+                BadgeUnlockOverlay(
+                    badge: badge,
+                    onClose: {
+                        showingBadgeOverlay = false
+                    },
+                    onSeeBadge: {
+                        showingBadgeOverlay = false
+                        navigation.selectedTab = .badges
+                    }
+                )
             }
         }
     }
 }
+

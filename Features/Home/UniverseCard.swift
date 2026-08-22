@@ -5,11 +5,20 @@
 //  Created by Maxime Proulx on 2026-07-30.
 //
 import SwiftUI
+import UIKit
 
 struct UniverseCard: View {
 
     let universe: Universe
     var isLocked = false
+
+    private var posterImage: Image {
+        guard let image = UIImage(named: universe.poster) else {
+            return Image("placeholder-poster")
+        }
+
+        return Image(uiImage: image)
+    }
 
     var body: some View {
         
@@ -19,7 +28,7 @@ struct UniverseCard: View {
             
             VStack(alignment: .leading, spacing: 16) {
                 
-                Image(universe.poster)
+                posterImage
                     .resizable()
                     .scaledToFill()
                     .frame(height: 230)

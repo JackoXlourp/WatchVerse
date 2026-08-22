@@ -36,7 +36,6 @@
 		9C3527353028FE2D00BF69FD /* CloudKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3527343028FE2B00BF69FD /* CloudKitService.swift */; };
 		9C352737302909B300BF69FD /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C352736302909B200BF69FD /* UserSettings.swift */; };
 		9C35273C302909F600BF69FD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C35273B302909F300BF69FD /* User.swift */; };
-		9C9EB14D30220B0E00858C9E /* marvel.csv in Resources */ = {isa = PBXBuildFile; fileRef = 9C9EB14C30220B0D00858C9E /* marvel.csv */; };
 		9C9EB14F30220C3700858C9E /* CSVLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9EB14E30220C3700858C9E /* CSVLoader.swift */; };
 		9C9EB15330237AD000858C9E /* completionStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9EB15230237AD000858C9E /* completionStage.swift */; };
 		9CC798733021709E0011DC42 /* SettingsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC798723021709E0011DC42 /* SettingsButton.swift */; };
@@ -44,6 +43,16 @@
 		9CF398F7302A98660093B14D /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF398F6302A98640093B14D /* Badge.swift */; };
 		9CF398F9302A98A00093B14D /* BadgeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF398F8302A989E0093B14D /* BadgeData.swift */; };
 		9CF398FD302BFA6C0093B14D /* BadgeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF398FC302BFA6B0093B14D /* BadgeDetailView.swift */; };
+		9CF39913302C89970093B14D /* BadgeUnlockOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF39912302C89960093B14D /* BadgeUnlockOverlay.swift */; };
+		9CF39917302CC1CC0093B14D /* marvel.csv in Resources */ = {isa = PBXBuildFile; fileRef = 9CF39916302CC1CC0093B14D /* marvel.csv */; };
+		C0D3A001302CC1CC0093B14D /* starWars.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D3A002302CC1CC0093B14D /* starWars.json */; };
+		C0D3A003302CC1CC0093B14D /* wizardingWorld.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D3A004302CC1CC0093B14D /* wizardingWorld.json */; };
+		C0D3A005302CC1CC0093B14D /* dceu.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D3A006302CC1CC0093B14D /* dceu.json */; };
+		C0D3A007302CC1CC0093B14D /* monsterVerse.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D3A008302CC1CC0093B14D /* monsterVerse.json */; };
+		C0D3A009302CC1CC0093B14D /* jurassic.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D3A010302CC1CC0093B14D /* jurassic.json */; };
+		C0D3A011302CC1CC0093B14D /* planetOfTheApes.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D3A012302CC1CC0093B14D /* planetOfTheApes.json */; };
+		C0D3A013302CC1CC0093B14D /* matrix.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D3A014302CC1CC0093B14D /* matrix.json */; };
+		C0D3A015302CC1CC0093B14D /* fastFurious.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D3A016302CC1CC0093B14D /* fastFurious.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,7 +105,6 @@
 		9C3527343028FE2B00BF69FD /* CloudKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitService.swift; sourceTree = "<group>"; };
 		9C352736302909B200BF69FD /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		9C35273B302909F300BF69FD /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		9C9EB14C30220B0D00858C9E /* marvel.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = marvel.csv; sourceTree = "<group>"; };
 		9C9EB14E30220C3700858C9E /* CSVLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVLoader.swift; sourceTree = "<group>"; };
 		9C9EB15130221DE900858C9E /* csv_to_json.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = csv_to_json.py; sourceTree = "<group>"; };
 		9C9EB15230237AD000858C9E /* completionStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = completionStage.swift; sourceTree = "<group>"; };
@@ -105,6 +113,16 @@
 		9CF398F6302A98640093B14D /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		9CF398F8302A989E0093B14D /* BadgeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeData.swift; sourceTree = "<group>"; };
 		9CF398FC302BFA6B0093B14D /* BadgeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeDetailView.swift; sourceTree = "<group>"; };
+		9CF39912302C89960093B14D /* BadgeUnlockOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeUnlockOverlay.swift; sourceTree = "<group>"; };
+		9CF39916302CC1CC0093B14D /* marvel.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = marvel.csv; sourceTree = "<group>"; };
+		C0D3A002302CC1CC0093B14D /* starWars.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = starWars.json; sourceTree = "<group>"; };
+		C0D3A004302CC1CC0093B14D /* wizardingWorld.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = wizardingWorld.json; sourceTree = "<group>"; };
+		C0D3A006302CC1CC0093B14D /* dceu.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = dceu.json; sourceTree = "<group>"; };
+		C0D3A008302CC1CC0093B14D /* monsterVerse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = monsterVerse.json; sourceTree = "<group>"; };
+		C0D3A010302CC1CC0093B14D /* jurassic.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = jurassic.json; sourceTree = "<group>"; };
+		C0D3A012302CC1CC0093B14D /* planetOfTheApes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = planetOfTheApes.json; sourceTree = "<group>"; };
+		C0D3A014302CC1CC0093B14D /* matrix.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = matrix.json; sourceTree = "<group>"; };
+		C0D3A016302CC1CC0093B14D /* fastFurious.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = fastFurious.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -217,10 +235,18 @@
 		5083E486301BF1DD004A7AE7 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				9CF39916302CC1CC0093B14D /* marvel.csv */,
 				5083E488301BF5EF004A7AE7 /* universes.json */,
 				5083E492301C1D32004A7AE7 /* lotr.json */,
+				C0D3A002302CC1CC0093B14D /* starWars.json */,
+				C0D3A004302CC1CC0093B14D /* wizardingWorld.json */,
+				C0D3A006302CC1CC0093B14D /* dceu.json */,
+				C0D3A008302CC1CC0093B14D /* monsterVerse.json */,
+				C0D3A010302CC1CC0093B14D /* jurassic.json */,
+				C0D3A012302CC1CC0093B14D /* planetOfTheApes.json */,
+				C0D3A014302CC1CC0093B14D /* matrix.json */,
+				C0D3A016302CC1CC0093B14D /* fastFurious.json */,
 				5083E487301BF21F004A7AE7 /* marvel.json */,
-				9C9EB14C30220B0D00858C9E /* marvel.csv */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -339,6 +365,7 @@
 		9CF39906302C202D0093B14D /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				9CF39912302C89960093B14D /* BadgeUnlockOverlay.swift */,
 				9CC798723021709E0011DC42 /* SettingsButton.swift */,
 			);
 			path = Components;
@@ -464,11 +491,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CF39917302CC1CC0093B14D /* marvel.csv in Resources */,
 				5083E48D301BFC37004A7AE7 /* universes.json in Resources */,
 				5083E48C301BFC30004A7AE7 /* marvel.json in Resources */,
 				50B7A13D301F655200D4A1BF /* Launch Screen.storyboard in Resources */,
 				5083E493301C1D3C004A7AE7 /* lotr.json in Resources */,
-				9C9EB14D30220B0E00858C9E /* marvel.csv in Resources */,
+				C0D3A001302CC1CC0093B14D /* starWars.json in Resources */,
+				C0D3A003302CC1CC0093B14D /* wizardingWorld.json in Resources */,
+				C0D3A005302CC1CC0093B14D /* dceu.json in Resources */,
+				C0D3A007302CC1CC0093B14D /* monsterVerse.json in Resources */,
+				C0D3A009302CC1CC0093B14D /* jurassic.json in Resources */,
+				C0D3A011302CC1CC0093B14D /* planetOfTheApes.json in Resources */,
+				C0D3A013302CC1CC0093B14D /* matrix.json in Resources */,
+				C0D3A015302CC1CC0093B14D /* fastFurious.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,6 +555,7 @@
 				505095053016CE1E004E8760 /* JourneyView.swift in Sources */,
 				9CF398F7302A98660093B14D /* Badge.swift in Sources */,
 				9CF398FD302BFA6C0093B14D /* BadgeDetailView.swift in Sources */,
+				9CF39913302C89970093B14D /* BadgeUnlockOverlay.swift in Sources */,
 				5083E483301BB9EB004A7AE7 /* HomeView.swift in Sources */,
 				50B7A13B301F605400D4A1BF /* splashScreenView.swift in Sources */,
 				5083E45B30197563004A7AE7 /* MovieDetailView.swift in Sources */,
@@ -703,7 +739,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.24.0;
+				MARKETING_VERSION = 0.24.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.maximeproulx.WatchVerse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -738,7 +774,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.24.0;
+				MARKETING_VERSION = 0.24.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.maximeproulx.WatchVerse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;

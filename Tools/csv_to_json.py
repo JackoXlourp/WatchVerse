@@ -8,7 +8,7 @@ UNIVERSE = {
     "fullTitle": "Marvel Cinematic Universe",
     "description": "The complete Marvel Cinematic Universe in release order.",
     "logo": "hulk2008",
-    "banner": "hulk2008",
+    "banner": "mcu-banner",
     "poster": "placeholder-poster"
 }
 
@@ -27,7 +27,6 @@ for movie in movies:
         "poster": movie["Poster"],
         "year": int(movie["Year"]),
         "runtime": movie["Runtime"],
-        "phase": movie["Phase"],
         "synopsis": movie["Synopsis"],
         "director": movie["Director"],
         "genres": [genre.strip() for genre in movie["Genres"].split(",")],

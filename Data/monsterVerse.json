@@ -1,0 +1,17 @@
+{
+  "id": "monsterverse",
+  "title": "MonsterVerse",
+  "subtitle": "Titans Will Rise",
+  "fullTitle": "Legendary's MonsterVerse",
+  "description": "The complete MonsterVerse screen saga in chronological order.",
+  "logo": "monsterverse-logo", "banner": "monsterverse-banner", "poster": "monsterverse-poster",
+  "movies": [
+    {"id":"kong-skull-island","title":"Kong: Skull Island","poster":"kong-skull-island","year":2017,"runtime":"1h 58m","synopsis":"A Monarch expedition encounters the mighty Kong on a mysterious island in 1973.","director":"Jordan Vogt-Roberts","genres":["Action","Adventure","Sci-Fi"],"isWatched":false,"isSkipped":false},
+    {"id":"skull-island","title":"Skull Island","poster":"skull-island","year":2023,"runtime":"8 Episodes","synopsis":"Shipwrecked explorers fight to survive the monsters of Skull Island decades after Monarch first encountered Kong.","director":"Brian Duffield","genres":["Action","Adventure","Animation","Sci-Fi"],"isWatched":false,"isSkipped":false},
+    {"id":"godzilla-2014","title":"Godzilla","poster":"godzilla-2014","year":2014,"runtime":"2h 3m","synopsis":"Ancient monsters awaken as humanity witnesses Godzilla's return.","director":"Gareth Edwards","genres":["Action","Adventure","Sci-Fi"],"isWatched":false,"isSkipped":false},
+    {"id":"monarch-legacy-of-monsters","title":"Monarch: Legacy of Monsters","poster":"monarch-legacy-of-monsters","year":2023,"runtime":"10 Episodes","synopsis":"Two siblings uncover their family's connection to Monarch in a story spanning the organization's early days and the aftermath of Godzilla's return.","director":"Chris Black & Matt Fraction","genres":["Action","Adventure","Drama","Sci-Fi"],"isWatched":false,"isSkipped":false},
+    {"id":"godzilla-king-of-the-monsters","title":"Godzilla: King of the Monsters","poster":"godzilla-king-of-the-monsters","year":2019,"runtime":"2h 12m","synopsis":"Godzilla battles King Ghidorah and other ancient Titans for control of the planet.","director":"Michael Dougherty","genres":["Action","Adventure","Sci-Fi"],"isWatched":false,"isSkipped":false},
+    {"id":"godzilla-vs-kong","title":"Godzilla vs. Kong","poster":"godzilla-vs-kong","year":2021,"runtime":"1h 53m","synopsis":"Godzilla and Kong collide as Monarch's search for the Hollow Earth exposes a human conspiracy.","director":"Adam Wingard","genres":["Action","Adventure","Sci-Fi"],"isWatched":false,"isSkipped":false},
+    {"id":"godzilla-x-kong-the-new-empire","title":"Godzilla x Kong: The New Empire","poster":"godzilla-x-kong-the-new-empire","year":2024,"runtime":"1h 55m","synopsis":"Godzilla and Kong unite against an ancient threat hidden deep within the Hollow Earth.","director":"Adam Wingard","genres":["Action","Adventure","Sci-Fi"],"isWatched":false,"isSkipped":false}
+  ]
+}

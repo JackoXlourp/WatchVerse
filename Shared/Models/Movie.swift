@@ -15,7 +15,6 @@ struct Movie: Identifiable, Hashable, Codable {
     
     let year: Int
     let runtime: String
-    let phase: String
     
     let synopsis: String
     let director: String

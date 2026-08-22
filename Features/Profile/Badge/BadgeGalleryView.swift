@@ -72,75 +72,41 @@ struct BadgeGalleryView: View {
                     Spacer()
                         .frame(height: 50)
                     
-                    let watchVerseBadges = badges.filter {
-                        $0.universe == "WATCHVERSE"
+                    let groupedBadges = Dictionary(grouping: badges) { badge in
+                        badge.universe
                     }
-                    
-                    let marvelBadges = badges.filter {
-                        $0.universe == "MARVEL"
-                    }
-                    
-                    let lotrBadges = badges.filter {
-                        $0.universe == "LORD OF THE RINGS"
-                    }
-                    //MARK: WATCHVERSE
-                    if !watchVerseBadges.isEmpty {
-                        
-                        badgeSection(title: "WATCHVERSE") {
-                            
-                            LazyVGrid(columns: columns, spacing: 28) {
-                                
-                                ForEach(watchVerseBadges) { badge in
-                                    
-                                    BadgeCardView(
-                                        title: badge.title,
-                                        imageName: badge.imageName,
-                                        isUnlocked: badge.isUnlocked
-                                    )
-                                    .onTapGesture {
-                                        selectedBadge = badge
-                                    }
-                                }
+
+                    ForEach(
+                        groupedBadges.keys.sorted {
+                            if $0 == "WATCHVERSE" {
+                                return true
                             }
-                        }
-                    }
-                    //MARK: MARVEL
-                    if !marvelBadges.isEmpty {
-                        
-                        badgeSection(title: "MARVEL") {
                             
-                            LazyVGrid(columns: columns, spacing: 28) {
-                                
-                                ForEach(marvelBadges) { badge in
-                                    
-                                    BadgeCardView(
-                                        title: badge.title,
-                                        imageName: badge.imageName,
-                                        isUnlocked: badge.isUnlocked
-                                    )
-                                    .onTapGesture {
-                                        selectedBadge = badge
-                                    }
-                                }
+                            if $1 == "WATCHVERSE" {
+                                return false
                             }
-                        }
-                    }
-                    //MARK: LOTR
-                    if !lotrBadges.isEmpty {
-                        
-                        badgeSection(title: "LORD OF THE RINGS") {
                             
-                            LazyVGrid(columns: columns, spacing: 28) {
+                            return $0 < $1
+                        },
+                        id: \.self
+                    ) { universe in
+                        
+                        if let universeBadges = groupedBadges[universe] {
+                            
+                            badgeSection(title: universe) {
                                 
-                                ForEach(lotrBadges) { badge in
+                                LazyVGrid(columns: columns, spacing: 28) {
                                     
-                                    BadgeCardView(
-                                        title: badge.title,
-                                        imageName: badge.imageName,
-                                        isUnlocked: badge.isUnlocked
-                                    )
-                                    .onTapGesture {
-                                        selectedBadge = badge
+                                    ForEach(universeBadges) { badge in
+                                        
+                                        BadgeCardView(
+                                            title: badge.title,
+                                            imageName: badge.imageName,
+                                            isUnlocked: badge.isUnlocked
+                                        )
+                                        .onTapGesture {
+                                            selectedBadge = badge
+                                        }
                                     }
                                 }
                             }
@@ -148,6 +114,7 @@ struct BadgeGalleryView: View {
                     }
                 }
                 .padding()
+                .padding(.bottom, 150)
             }
             .navigationTitle("Badges")
             .navigationBarTitleDisplayMode(.inline)
@@ -183,7 +150,7 @@ struct BadgeGalleryView: View {
     
     private func moviesForBadge(_ badge: Badge) -> [Movie] {
 
-        let allMovies = universes.flatMap { $0.movies }
+        let allMovies = allUniverses.flatMap { $0.movies }
 
         return allMovies
             .filter { movie in
