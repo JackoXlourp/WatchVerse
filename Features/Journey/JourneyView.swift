@@ -144,7 +144,7 @@ struct JourneyView: View {
                             .contentShape(Rectangle())
                             .onTapGesture {
                                 withAnimation(.spring(response: 0.4, dampingFraction: 0.55)) {
-                                    viewModel.resetJourney()
+                                    viewModel.resetCurrentUniverseProgress()
                                     currentIndex = 0
                                 }
                             }

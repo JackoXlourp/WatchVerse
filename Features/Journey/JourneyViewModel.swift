@@ -177,7 +177,26 @@ class JourneyViewModel {
         currentMovieIndex
     }
     
-    func resetJourney() {
+    func resetCurrentUniverseProgress() {
+
+        let universeMovieIDs = Set(journey.movies.map { $0.id })
+
+        for index in movies.indices {
+            movies[index].isWatched = false
+            movies[index].isSkipped = false
+        }
+
+        if var user = authentication?.currentUser {
+
+            user.watchedMovies.removeAll { universeMovieIDs.contains($0) }
+            user.skippedMovies.removeAll { universeMovieIDs.contains($0) }
+
+            authentication?.currentUser = user
+            cloudKit?.save(user: user)
+        }
+    }
+    
+    func resetAllUniverseProgress() {
 
         for index in movies.indices {
             movies[index].isWatched = false

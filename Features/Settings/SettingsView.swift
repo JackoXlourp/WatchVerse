@@ -23,17 +23,14 @@ struct SettingsView: View {
     @AppStorage("notifyNewUniverses")
     private var notifyNewUniverses = false
     
-    @State
-    private var showResetJourneyAlert = false
+    @State private var showResetJourneyAlert = false
+    @State private var showResetAllProgressAlert = false
     
-    @State
-    private var showLogoutAlert = false
+    @State private var showLogoutAlert = false
     
-    @State
-    private var showDeleteAccountAlert = false
+    @State private var showDeleteAccountAlert = false
     
-    @State
-    private var showCloudKitResetAlert = false
+    @State private var showCloudKitResetAlert = false
     
     private let appVersion =
     Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Uknown"
@@ -156,40 +153,97 @@ struct SettingsView: View {
                             }
                             .padding()
                         }
-                        
+                        //MARK: DATA
+                        settingsSection(title: "DATA") {
+                            
+                            Button {
+                                
+                                showResetJourneyAlert = true
+                                
+                            } label: {
+                                
+                                HStack {
+                                    
+                                    Label {
+                                        
+                                        Text("Reset \(viewModel.journey.title) Progress")
+                                            .foregroundStyle(.white)
+                                        
+                                    } icon: {
+                                        
+                                        Image(systemName: "arrow.counterclockwise")
+                                            .foregroundStyle(.white.opacity(0.85))
+                                            .frame(width: 24)
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                }
+                                .padding()
+                            }
+                            
+                            Divider()
+                                .overlay(.white.opacity(0.08))
+                            
+                            Button {
+                                
+                                showResetAllProgressAlert = true
+                                
+                            } label: {
+                                
+                                HStack {
+                                    
+                                    Label {
+                                        
+                                        Text("Reset All Universe Progress")
+                                            .foregroundStyle(.red)
+                                        
+                                    } icon: {
+                                        
+                                        Image(systemName: "trash")
+                                            .foregroundStyle(.red)
+                                            .frame(width: 24)
+                                        
+                                    }
+                                    
+                                    Spacer()
+                                }
+                                .padding()
+                            }
+                        }
                         //MARK: ACCOUNT
                         settingsSection(title: "ACCOUNT") {
                             
                             HStack {
-
+                                
                                 Image(systemName: "person.circle.fill")
                                     .font(.title2)
                                     .frame(width: 24)
-
+                                
                                 VStack(alignment: .leading, spacing: 4) {
                                     
                                     Text(authentication.currentUser?.displayName ?? "")
                                         .font(.headline)
-
+                                    
                                     if let user = authentication.currentUser {
-
+                                        
                                         if user.isFounder {
-
+                                            
                                             Text("WatchVerse Founder | \(user.joinedDate.formatted(.dateTime.month(.wide).year()))")
                                                 .font(.caption)
                                                 .foregroundStyle(.secondary)
-
+                                            
                                         } else {
-
+                                            
                                             Text("Joined \(user.joinedDate.formatted(.dateTime.month(.wide).year()))")
                                                 .font(.caption)
                                                 .foregroundStyle(.secondary)
-
+                                            
                                         }
                                     }
-
+                                    
                                 }
-
+                                
                                 Spacer()
                             }
                             .padding()
@@ -225,168 +279,127 @@ struct SettingsView: View {
                             
                             Divider()
                                 .overlay(.white.opacity(0.08))
-
+                            
                             Button {
-
+                                
                                 showDeleteAccountAlert = true
-
+                                
                             } label: {
-
+                                
                                 HStack {
-
+                                    
                                     Label {
-
+                                        
                                         Text("Delete Account")
                                             .foregroundStyle(.red)
-
+                                        
                                     } icon: {
-
+                                        
                                         Image(systemName: "person.crop.circle.badge.xmark")
                                             .foregroundStyle(.red)
                                             .frame(width: 24)
-
+                                        
                                     }
-
+                                    
                                     Spacer()
                                 }
                                 .padding()
                             }
                         }
-                        
-                        //MARK: DATA
-                        settingsSection(title: "DATA") {
-                            
-                            Button {
-                                
-                                showResetJourneyAlert = true
-                                
-                            } label: {
-                                
-                                HStack {
-                                    
-                                    Label {
-                                        
-                                        Text("Reset Journey Progress")
-                                            .foregroundStyle(.white)
-                                        
-                                    } icon: {
-                                        
-                                        Image(systemName: "arrow.counterclockwise")
-                                            .foregroundStyle(.white.opacity(0.85))
-                                            .frame(width: 24)
-                                    }
-                                    
-                                    Spacer()
-                                    
-                                }
-                                .padding()
-                            }
-                            
-                            Divider()
-                                .overlay(.white.opacity(0.08))
+                        //MARK: ABOUT
+                        settingsSection(title: "ABOUT") {
                             
                             HStack {
                                 
                                 Label {
                                     
-                                    Text("Reset All Progress")
-                                        .foregroundStyle(.red)
+                                    Text("Version")
+                                        .foregroundStyle(.white)
                                     
                                 } icon: {
                                     
-                                    Image(systemName: "trash")
-                                        .foregroundStyle(.red)
+                                    Image(systemName: "info.circle")
+                                        .foregroundStyle(.white.opacity(0.85))
                                         .frame(width: 24)
                                 }
                                 
                                 Spacer()
                                 
+                                Text(appVersion)
+                                    .foregroundStyle(.gray)
                             }
                             .padding()
                         }
-                            
-                           
-                            
-                            //MARK: ABOUT
-                            settingsSection(title: "ABOUT") {
-                                
-                                HStack {
-                                    
-                                    Label {
-                                        
-                                        Text("Version")
-                                            .foregroundStyle(.white)
-                                        
-                                    } icon: {
-                                        
-                                        Image(systemName: "info.circle")
-                                            .foregroundStyle(.white.opacity(0.85))
-                                            .frame(width: 24)
-                                    }
-                                    
-                                    Spacer()
-                                    
-                                    Text(appVersion)
-                                        .foregroundStyle(.gray)
-                                }
-                                .padding()
-                            }
-                        }
-                        .padding()
-                        .padding(.bottom, 140)
                     }
+                    .padding()
+                    .padding(.bottom, 140)
                 }
             }
-            .alert("Reset Current Journey Progress?", isPresented: $showResetJourneyAlert) {
+        } //MARK: ALERT
+        .alert("Reset \(viewModel.journey.title) Progress?", isPresented: $showResetJourneyAlert) {
+            
+            Button("Cancel", role: .cancel) {}
+            
+            Button("Reset", role: .destructive) {
                 
-                Button("Cancel", role: .cancel) {}
+                viewModel.resetCurrentUniverseProgress()
                 
-                Button("Reset", role: .destructive) {
-                    
-                    viewModel.resetJourney()
-                    
-                }
-            } message: {
+            }
+        } message: {
+            
+            Text("This will mark every movie in \(viewModel.journey.title) as unwatched.")
+        }
+        .alert("Reset All Universe Progress?", isPresented: $showResetAllProgressAlert) {
+            
+            Button("Cancel", role: .cancel) {}
+            
+            Button("Reset", role: .destructive) {
                 
-                Text("This will mark every movie in your current journey as unwatched.")
+                viewModel.resetAllUniverseProgress()
+                
             }
             
-            .alert("Log Out?", isPresented: $showLogoutAlert) {
-                
-                Button("Cancel", role: .cancel) {
-                    
-                }
-                
-                Button("Log Out", role: .destructive) {
-                    authentication.logout()
-                }
-                
-            } message: {
-                
-                Text("You will need to sign in again to access your WatchVerse account.")
-                
-            }
-        
-            .alert("Delete Account?", isPresented: $showDeleteAccountAlert) {
-
-                Button("Cancel", role: .cancel) {
-                    
-                }
-
-                Button("Delete", role: .destructive) {
-
-                    authentication.deleteAccount(cloudKit: cloudKit)
-
-                }
-
-            } message: {
-
-                Text("This will permanently delete your WatchVerse account, progress, badges, and settings.")
-
-            }
+        } message: {
+            
+            Text("This will mark every movie in every universe as unwatched.")
             
         }
+        .alert("Log Out?", isPresented: $showLogoutAlert) {
+            
+            Button("Cancel", role: .cancel) {
+                
+            }
+            
+            Button("Log Out", role: .destructive) {
+                authentication.logout()
+            }
+            
+        } message: {
+            
+            Text("You will need to sign in again to access your WatchVerse account.")
+            
+        }
+        
+        .alert("Delete Account?", isPresented: $showDeleteAccountAlert) {
+            
+            Button("Cancel", role: .cancel) {
+                
+            }
+            
+            Button("Delete", role: .destructive) {
+                
+                authentication.deleteAccount(cloudKit: cloudKit)
+                
+            }
+            
+        } message: {
+            
+            Text("This will permanently delete your WatchVerse account, progress, badges, and settings.")
+            
+        }
+        
     }
+}
     
     @ViewBuilder
     private func settingsSection<Content: View>(
