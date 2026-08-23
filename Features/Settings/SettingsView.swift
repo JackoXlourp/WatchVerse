@@ -27,6 +27,12 @@ struct SettingsView: View {
     private var showResetJourneyAlert = false
     
     @State
+    private var showLogoutAlert = false
+    
+    @State
+    private var showDeleteAccountAlert = false
+    
+    @State
     private var showCloudKitResetAlert = false
     
     private let appVersion =
@@ -68,24 +74,24 @@ struct SettingsView: View {
                                         authentication.currentUser?.settings.showReleaseYears ?? true
                                     },
                                     set: { newValue in
-
+                                        
                                         authentication.currentUser?.settings.showReleaseYears = newValue
-
+                                        
                                         if let user = authentication.currentUser {
                                             cloudKit.save(user: user)
                                         }
                                     }
                                 )
                             ) { Label {
-                                    
-                                    Text("Show Release Years")
-                                        .foregroundStyle(.white)
-                                } icon: {
-                                    
-                                    Image(systemName: "calendar")
-                                        .foregroundStyle(.white.opacity(0.85))
-                                        .frame(width: 24)
-                                }
+                                
+                                Text("Show Release Years")
+                                    .foregroundStyle(.white)
+                            } icon: {
+                                
+                                Image(systemName: "calendar")
+                                    .foregroundStyle(.white.opacity(0.85))
+                                    .frame(width: 24)
+                            }
                             }
                             .tint(.watchVerseGold)
                             .padding()
@@ -151,6 +157,102 @@ struct SettingsView: View {
                             .padding()
                         }
                         
+                        //MARK: ACCOUNT
+                        settingsSection(title: "ACCOUNT") {
+                            
+                            HStack {
+
+                                Image(systemName: "person.circle.fill")
+                                    .font(.title2)
+                                    .frame(width: 24)
+
+                                VStack(alignment: .leading, spacing: 4) {
+                                    
+                                    Text(authentication.currentUser?.displayName ?? "")
+                                        .font(.headline)
+
+                                    if let user = authentication.currentUser {
+
+                                        if user.isFounder {
+
+                                            Text("WatchVerse Founder | \(user.joinedDate.formatted(.dateTime.month(.wide).year()))")
+                                                .font(.caption)
+                                                .foregroundStyle(.secondary)
+
+                                        } else {
+
+                                            Text("Joined \(user.joinedDate.formatted(.dateTime.month(.wide).year()))")
+                                                .font(.caption)
+                                                .foregroundStyle(.secondary)
+
+                                        }
+                                    }
+
+                                }
+
+                                Spacer()
+                            }
+                            .padding()
+                            
+                            Divider()
+                                .overlay(.white.opacity(0.08))
+                            
+                            
+                            Button {
+                                
+                                showLogoutAlert = true
+                                
+                            } label: {
+                                
+                                HStack {
+                                    
+                                    Label {
+                                        
+                                        Text("Log Out")
+                                            .foregroundStyle(.red)
+                                        
+                                    } icon: {
+                                        
+                                        Image(systemName: "rectangle.portrait.and.arrow.right")
+                                            .foregroundStyle(.red)
+                                            .frame(width: 24)
+                                    }
+                                    
+                                    Spacer()
+                                }
+                                .padding()
+                            }
+                            
+                            Divider()
+                                .overlay(.white.opacity(0.08))
+
+                            Button {
+
+                                showDeleteAccountAlert = true
+
+                            } label: {
+
+                                HStack {
+
+                                    Label {
+
+                                        Text("Delete Account")
+                                            .foregroundStyle(.red)
+
+                                    } icon: {
+
+                                        Image(systemName: "person.crop.circle.badge.xmark")
+                                            .foregroundStyle(.red)
+                                            .frame(width: 24)
+
+                                    }
+
+                                    Spacer()
+                                }
+                                .padding()
+                            }
+                        }
+                        
                         //MARK: DATA
                         settingsSection(title: "DATA") {
                             
@@ -201,96 +303,111 @@ struct SettingsView: View {
                                 
                             }
                             .padding()
+                        }
                             
-                            Divider()
-                                .overlay(.white.opacity(0.08))
-
-                            Button {
-                                showCloudKitResetAlert = true
-                            } label: {
+                           
+                            
+                            //MARK: ABOUT
+                            settingsSection(title: "ABOUT") {
+                                
                                 HStack {
                                     
                                     Label {
-                                        Text("Erase CloudKit Data")
-                                            .foregroundStyle(.red)
+                                        
+                                        Text("Version")
+                                            .foregroundStyle(.white)
+                                        
                                     } icon: {
-                                        Image(systemName: "icloud.slash")
-                                            .foregroundStyle(.red)
+                                        
+                                        Image(systemName: "info.circle")
+                                            .foregroundStyle(.white.opacity(0.85))
                                             .frame(width: 24)
                                     }
                                     
                                     Spacer()
+                                    
+                                    Text(appVersion)
+                                        .foregroundStyle(.gray)
                                 }
                                 .padding()
                             }
                         }
-                        
-                        //MARK: DATA
-                        settingsSection(title: "ABOUT") {
-                            
-                            HStack {
-                                
-                                Label {
-                                    
-                                    Text("Version")
-                                        .foregroundStyle(.white)
-                                    
-                                } icon: {
-                                    
-                                    Image(systemName: "info.circle")
-                                        .foregroundStyle(.white.opacity(0.85))
-                                        .frame(width: 24)
-                                }
-                                
-                                Spacer()
-                                
-                                Text(appVersion)
-                                    .foregroundStyle(.gray)
-                            }
-                            .padding()
-                        }
+                        .padding()
+                        .padding(.bottom, 140)
                     }
-                    .padding()
-                    .padding(.bottom, 140)
                 }
             }
-        }
-        .alert("Reset Current Journey Progress?", isPresented: $showResetJourneyAlert) {
-            
-            Button("Cancel", role: .cancel) {}
-            
-            Button("Reset", role: .destructive) {
+            .alert("Reset Current Journey Progress?", isPresented: $showResetJourneyAlert) {
                 
-                viewModel.resetJourney()
+                Button("Cancel", role: .cancel) {}
+                
+                Button("Reset", role: .destructive) {
+                    
+                    viewModel.resetJourney()
+                    
+                }
+            } message: {
+                
+                Text("This will mark every movie in your current journey as unwatched.")
+            }
+            
+            .alert("Log Out?", isPresented: $showLogoutAlert) {
+                
+                Button("Cancel", role: .cancel) {
+                    
+                }
+                
+                Button("Log Out", role: .destructive) {
+                    authentication.logout()
+                }
+                
+            } message: {
+                
+                Text("You will need to sign in again to access your WatchVerse account.")
                 
             }
-        } message: {
-            
-            Text("This will mark every movie in your current journey as unwatched.")
-        }
         
-    }
-}
+            .alert("Delete Account?", isPresented: $showDeleteAccountAlert) {
 
-@ViewBuilder
-private func settingsSection<Content: View>(
-    title: String,
-    @ViewBuilder content: () -> Content
-) -> some View {
-    
-    VStack(alignment: .leading, spacing: 12) {
-        
-        Text(title)
-            .font(.headline)
-            .foregroundStyle(.white)
-        
-        VStack(spacing: 0) {
-            content()
+                Button("Cancel", role: .cancel) {
+                    
+                }
+
+                Button("Delete", role: .destructive) {
+
+                    authentication.deleteAccount(cloudKit: cloudKit)
+
+                }
+
+            } message: {
+
+                Text("This will permanently delete your WatchVerse account, progress, badges, and settings.")
+
+            }
+            
         }
-        .background(Color.white.opacity(0.05))
-        .clipShape(RoundedRectangle(cornerRadius: 18))
     }
-}
+    
+    @ViewBuilder
+    private func settingsSection<Content: View>(
+        title: String,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        
+        VStack(alignment: .leading, spacing: 12) {
+            
+            Text(title)
+                .font(.headline)
+                .foregroundStyle(.white)
+            
+            VStack(spacing: 0) {
+                content()
+            }
+            .background(Color.white.opacity(0.05))
+            .clipShape(RoundedRectangle(cornerRadius: 18))
+        }
+    }
+
 
 #Preview {
     SettingsView()

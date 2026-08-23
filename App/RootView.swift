@@ -28,13 +28,22 @@ struct RootView: View {
 
         Group {
 
-            if authentication.isSignedIn {
+            if authentication.isLoading {
+
+                splashScreenView()
+
+            } else if authentication.needsName {
+                
+                NameSetupView()
+
+            } else if authentication.isSignedIn {
 
                 MainTabView()
 
             } else {
 
                 AuthenticationView()
+
             }
 
         }
@@ -51,17 +60,32 @@ struct RootView: View {
             cloudKit.findOrCreateUser(
                 id: user.userID,
                 name: user.displayName
-            ) { user in
-
+            ) { user, isNewUser in
                 authentication.currentUser = user
+                authentication.needsName = isNewUser
                 viewModel.loadWatchedMovies(from: user)
 
-                if user.isFounder,
+                if !authentication.needsName,
+                   user.isFounder,
                    !user.shownBadgePopups.contains("founder"),
                    let badge = BadgeData.all.first(where: { $0.id == "founder" }) {
 
                     viewModel.pendingBadgePopup = badge
                 }
+            }
+        }
+        .onChange(of: authentication.needsName) { _, needsName in
+            
+            guard !needsName,
+                  let user = authentication.currentUser else {
+                return
+            }
+            
+            if user.isFounder,
+               !user.shownBadgePopups.contains("founder"),
+               let badge = BadgeData.all.first(where: { $0.id == "founder" }) {
+                
+                viewModel.pendingBadgePopup = badge
             }
         }
         .onChange(of: viewModel.pendingBadgePopup) { _, badge in

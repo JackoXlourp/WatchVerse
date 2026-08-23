@@ -19,6 +19,8 @@ final class AuthenticationService {
     private var storedUserID = ""
     
     var currentUser: User?
+    var isLoading = true
+    var needsName = false
 
     func configure(_ request: ASAuthorizationAppleIDRequest) {
 
@@ -42,7 +44,7 @@ final class AuthenticationService {
             
             currentUser = User(
                 userID: credential.user,
-                displayName: credential.fullName?.givenName ?? "Watcher",
+                displayName: credential.fullName?.givenName ?? "",
                 joinedDate: .now,
                 isFounder: true,
                 watchedMovies: [],
@@ -51,8 +53,11 @@ final class AuthenticationService {
                 settings: UserSettings(),
                 shownBadgePopups: []
             )
+            
+            needsName = false
 
             isSignedIn = true
+            
 
         case .failure(let error):
 
@@ -61,8 +66,11 @@ final class AuthenticationService {
     }
     
     func restoreSession() {
+        
+        isLoading = true
 
         guard !storedUserID.isEmpty else {
+            isLoading = false
             return
         }
 
@@ -75,25 +83,47 @@ final class AuthenticationService {
                 switch state {
 
                 case .authorized:
-
-                    self.currentUser = User(
-                        userID: self.storedUserID,
-                        displayName: "Watcher",
-                        joinedDate: .now,
-                        isFounder: true,
-                        watchedMovies: [],
-                        skippedMovies: [],
-                        unlockedBadges: [],
-                        settings: UserSettings(),
-                        shownBadgePopups: []
-                    )
                     
-                    self.isSignedIn = true
+                    self.needsName = false
+
+                    CloudKitService().findOrCreateUser(
+                        id: self.storedUserID,
+                        name: self.currentUser?.displayName ?? ""
+                    ) { user, isNewUser in
+                        self.currentUser = user
+                        self.needsName = isNewUser
+                        self.isSignedIn = true
+                    }
+                    self.isLoading = false
                     
                 default:
                     self.isSignedIn = false
+                    self.isLoading = false
                 }
             }
+        }
+    }
+    func logout() {
+
+        storedUserID = ""
+        currentUser = nil
+        isSignedIn = false
+        needsName = false
+
+    }
+    func deleteAccount(cloudKit: CloudKitService) {
+
+        guard let userID = currentUser?.userID else {
+            return
+        }
+
+        cloudKit.deleteUser(id: userID) {
+
+            self.storedUserID = ""
+            self.currentUser = nil
+            self.isSignedIn = false
+            self.needsName = false
+
         }
     }
 }

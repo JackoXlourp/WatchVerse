@@ -17,7 +17,7 @@ final class CloudKitService {
     func findOrCreateUser(
         id: String,
         name: String,
-        completion: @escaping (User) -> Void
+        completion: @escaping (User, Bool) -> Void
     ) {
 
         let recordID = CKRecord.ID(recordName: id)
@@ -25,11 +25,20 @@ final class CloudKitService {
         database.fetch(withRecordID: recordID) { record, error in
 
             if let record {
-
-                completion(self.makeUser(from: record))
+                let user = self.makeUser(from: record)
+                completion(user, false)
                 return
             }
-            
+
+            if let error = error as? CKError {
+
+                if error.code != .unknownItem {
+
+                    print("❌ CloudKit fetch failed:", error.localizedDescription)
+                    return
+                }
+            }
+
             let user = User(
                 userID: id,
                 displayName: name,
@@ -47,11 +56,12 @@ final class CloudKitService {
             self.database.save(record) { _, error in
 
                 if let error {
-                    
-                } else {
-                    completion(user)
-                    print("✅ New user created")
+                    print("❌ Failed to create user:", error.localizedDescription)
+                    return
                 }
+
+                completion(user, true)
+                print("✅ New user created")
             }
         }
     }
@@ -63,12 +73,12 @@ final class CloudKitService {
         database.fetch(withRecordID: recordID) { record, error in
 
             if let error {
-                
+                print("❌ CloudKit save failed:", error.localizedDescription)
                 return
             }
 
             guard let record else {
-                
+                print("❌ CloudKit save failed: User record not found")
                 return
             }
 
@@ -85,7 +95,8 @@ final class CloudKitService {
             self.database.save(record) { _, error in
 
                 if let error {
-                    print("CloudKit save failed:", error.localizedDescription)
+                    print("❌ CloudKit save failed:", error.localizedDescription)
+                    return
                 }
             }
         }
@@ -95,7 +106,7 @@ final class CloudKitService {
     private func makeUser(from record: CKRecord) -> User {
 
         return User(
-            userID: record["userID"] as? String ?? "",
+            userID: record.recordID.recordName,
             displayName: record["displayName"] as? String ?? "",
             joinedDate: record["joinedDate"] as? Date ?? .now,
             isFounder: record["isFounder"] as? Bool ?? false,
@@ -129,5 +140,26 @@ final class CloudKitService {
         record["shownBadgePopups"] = user.shownBadgePopups
 
         return record
+    }
+    
+    // MARK: Delete User
+
+    func deleteUser(id: String, completion: @escaping () -> Void) {
+
+        let recordID = CKRecord.ID(recordName: id)
+
+        database.delete(withRecordID: recordID) { _, error in
+
+            if let error {
+                print("❌ CloudKit delete failed:", error.localizedDescription)
+                return
+            }
+
+            print("🗑️ CloudKit user deleted:", id)
+
+            DispatchQueue.main.async {
+                completion()
+            }
+        }
     }
 }
