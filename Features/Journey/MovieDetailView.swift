@@ -122,6 +122,7 @@ struct MovieDetailView: View {
                         .foregroundStyle(.black)
                         .clipShape(RoundedRectangle(cornerRadius: 16))
                     }
+                    .buttonStyle(.plain)
                     
                     if !currentMovie.isWatched {
                         
@@ -150,6 +151,7 @@ struct MovieDetailView: View {
                             .foregroundStyle(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                         }
+                        .buttonStyle(.plain)
                         
                     }
                     

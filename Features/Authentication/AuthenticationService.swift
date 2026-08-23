@@ -93,8 +93,9 @@ final class AuthenticationService {
                         self.currentUser = user
                         self.needsName = isNewUser
                         self.isSignedIn = true
+                        self.isLoading = false
                     }
-                    self.isLoading = false
+                    
                     
                 default:
                     self.isSignedIn = false

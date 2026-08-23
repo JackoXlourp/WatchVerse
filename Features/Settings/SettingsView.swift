@@ -181,6 +181,7 @@ struct SettingsView: View {
                                 }
                                 .padding()
                             }
+                            .buttonStyle(.plain)
                             
                             Divider()
                                 .overlay(.white.opacity(0.08))
@@ -210,6 +211,7 @@ struct SettingsView: View {
                                 }
                                 .padding()
                             }
+                            .buttonStyle(.plain)
                         }
                         //MARK: ACCOUNT
                         settingsSection(title: "ACCOUNT") {
@@ -276,6 +278,7 @@ struct SettingsView: View {
                                 }
                                 .padding()
                             }
+                            .buttonStyle(.plain)
                             
                             Divider()
                                 .overlay(.white.opacity(0.08))
@@ -305,6 +308,7 @@ struct SettingsView: View {
                                 }
                                 .padding()
                             }
+                            .buttonStyle(.plain)
                         }
                         //MARK: ABOUT
                         settingsSection(title: "ABOUT") {

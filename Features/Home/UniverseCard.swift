@@ -31,7 +31,7 @@ struct UniverseCard: View {
                 posterImage
                     .resizable()
                     .scaledToFill()
-                    .frame(height: 230)
+                    .aspectRatio(0.68, contentMode: .fit)
                     .frame(maxWidth: .infinity)
                     .saturation(isLocked ? 0 : 1)
                     .clipped()
