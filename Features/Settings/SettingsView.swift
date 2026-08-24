@@ -56,7 +56,7 @@ struct SettingsView: View {
                     VStack(alignment: .leading, spacing: 32) {
                         
                         Color.clear
-                            .frame(height: 70)
+                            .frame(height: 10)
                         
                         Text("Settings")
                             .font(.largeTitle.bold())
@@ -339,7 +339,18 @@ struct SettingsView: View {
                     .padding(.bottom, 140)
                 }
             }
-        } //MARK: ALERT
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
+            }
+            .toolbarBackground(.hidden, for: .navigationBar)
+        }
+        //MARK: ALERT
         .alert("Reset \(viewModel.journey.title) Progress?", isPresented: $showResetJourneyAlert) {
             
             Button("Cancel", role: .cancel) {}

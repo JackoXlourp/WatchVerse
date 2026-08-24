@@ -116,7 +116,6 @@ struct BadgeGalleryView: View {
                 .padding()
                 .padding(.bottom, 150)
             }
-            .navigationTitle("Badges")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {

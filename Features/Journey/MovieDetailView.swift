@@ -59,8 +59,10 @@ struct MovieDetailView: View {
                         VStack(alignment: .leading, spacing: 12) {
                             
                             Text(currentMovie.title)
-                                .font(.title)
-                                .fontWeight(.bold)
+                                .font(.title.bold())
+                                .lineLimit(3)
+                                .minimumScaleFactor(0.6)
+                                .multilineTextAlignment(.leading)
                             
                             Text(String(currentMovie.year) + "•" + movie.runtime)
                                 .font(.subheadline)
@@ -209,7 +211,6 @@ struct MovieDetailView: View {
                 .padding()
                 .padding(.bottom, 80)
             }
-            .navigationTitle(movie.title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {

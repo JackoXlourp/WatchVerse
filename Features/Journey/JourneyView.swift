@@ -365,8 +365,7 @@ struct JourneyView: View {
                     advanceAfterDismiss = false
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        if let currentMovieID = viewModel.currentMovieID,
-                           let index = filteredMovies.firstIndex(where: { $0.id == currentMovieID }) {
+                        if let index = nextFilteredMovieIndex() {
                             withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
                                 currentIndex = index
                             }
@@ -388,8 +387,7 @@ struct JourneyView: View {
                         advanceAfterDismiss = true
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            if let currentMovieID = viewModel.currentMovieID,
-                               let index = filteredMovies.firstIndex(where: { $0.id == currentMovieID }) {
+                            if let index = nextFilteredMovieIndex() {
                                 withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
                                     currentIndex = index
                                 }
@@ -457,6 +455,12 @@ struct JourneyView: View {
             currentIndex = 0
         }
     }
+    private func nextFilteredMovieIndex() -> Int? {
+
+        filteredMovies.firstIndex {
+            !$0.isWatched && !$0.isSkipped
+        }
+    }
     
     private func playCompletionAnimation(for movieID: String) {
 
@@ -480,8 +484,7 @@ struct JourneyView: View {
 
                     currentAnimationMovieID = nil
 
-                    if let currentMovieID = viewModel.currentMovieID,
-                       let index = filteredMovies.firstIndex(where: { $0.id == currentMovieID }) {
+                    if let index = nextFilteredMovieIndex() {
                         withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
                             currentIndex = index
                         }

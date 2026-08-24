@@ -93,7 +93,6 @@ struct BadgeDetailView: View {
                 Spacer()
             }
             .padding()
-            .navigationTitle("Badge")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
