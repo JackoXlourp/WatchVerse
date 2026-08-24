@@ -16,6 +16,8 @@ struct MovieDetailView: View {
     
     @Environment(\.dismiss) private var dismiss
     
+    @State private var selectedBadge: Badge?
+    
     private var currentMovie: Movie {
         viewModel.movie(at: viewModel.movies.firstIndex(where: { $0.id == movie.id })!)
     }
@@ -72,21 +74,26 @@ struct MovieDetailView: View {
                                     
                                     ForEach(badges) { badge in
                                         
-                                        HStack(spacing: 6) {
-                                            
-                                            Image(badge.imageName)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 24, height: 24)
-                                            
-                                            Text(badge.title)
-                                                .font(.caption)
-                                                .fontWeight(.semibold)
+                                        Button {
+                                            selectedBadge = badge
+                                        } label: {
+                                            HStack(spacing: 6) {
+                                                
+                                                Image(badge.imageName)
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: 20, height: 20)
+                                                
+                                                Text(badge.title)
+                                                    .font(.caption.weight(.semibold))
+                                                    .foregroundStyle(.white)
+                                            }
+                                            .padding(.horizontal, 10)
+                                            .padding(.vertical, 5)
+                                            .background(Color.white.opacity(0.15))
+                                            .clipShape(Capsule())
                                         }
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 6)
-                                        .background(Color.white.opacity(0.15))
-                                        .clipShape(Capsule())
+                                        .buttonStyle(.plain)
                                     }
                                 }
                             }
@@ -212,6 +219,14 @@ struct MovieDetailView: View {
                         Image(systemName: "xmark")
                     }
                 }
+            }
+            .sheet(item: $selectedBadge) { badge in
+                BadgeDetailView(
+                    badge: badge,
+                    movies: viewModel.movies.filter {
+                        badge.requiredMovieIDs.contains($0.id)
+                    }
+                )
             }
         }
     }

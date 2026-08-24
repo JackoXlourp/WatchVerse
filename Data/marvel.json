@@ -1003,6 +1003,25 @@
       ]
     },
     {
+      "id": "spider-man-no-way-home",
+      "title": "Spider-Man: No Way Home",
+      "poster": "spidermannowayhome",
+      "year": 2021,
+      "runtime": "2h 28m",
+      "synopsis": "Peter Parker's life is turned upside down when a spell meant to restore his secret identity tears open the Multiverse, bringing dangerous villains from other worlds.",
+      "director": "Jon Watts",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
       "id": "doctor-strange-in-the-multiverse-of-madness",
       "title": "Doctor Strange in the Multiverse of Madness",
       "poster": "doctorstrange2",
@@ -1459,6 +1478,25 @@
       ]
     },
     {
+      "id": "wonder-man",
+      "title": "Wonder Man",
+      "poster": "wonderman",
+      "year": 2026,
+      "runtime": "8 Episodes",
+      "synopsis": "Struggling actor Simon Williams unexpectedly finds himself thrust into a world where fame and superpowers collide.",
+      "director": "Destin Daniel Cretton",
+      "genres": [
+        "Action",
+        "Comedy",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
       "id": "daredevil-born-again-season-2",
       "title": "Daredevil: Born Again Season 2",
       "poster": "daredevilbornagain2",
@@ -1478,22 +1516,22 @@
       ]
     },
     {
-      "id": "wonder-man",
-      "title": "Wonder Man",
-      "poster": "wonderman",
+      "id": "the-punisher-one-last-kill",
+      "title": "The Punisher: One Last Kill",
+      "poster": "thepunisheronelastkill",
       "year": 2026,
-      "runtime": "8 Episodes",
-      "synopsis": "Struggling actor Simon Williams unexpectedly finds himself thrust into a world where fame and superpowers collide.",
-      "director": "Destin Daniel Cretton",
+      "runtime": "TBD",
+      "synopsis": "Frank Castle returns for one final mission, confronting the violence and enemies that have defined his life as The Punisher.",
+      "director": "TBD",
       "genres": [
         "Action",
-        "Comedy",
-        "Drama"
+        "Crime",
+        "Thriller"
       ],
       "isWatched": false,
       "isSkipped": false,
       "tags": [
-        "multiverse_saga"
+        "others"
       ]
     },
     {

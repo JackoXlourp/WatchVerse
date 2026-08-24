@@ -16,6 +16,8 @@ struct JourneyView: View {
     @State private var currentAnimationMovieID: String?
     @State private var showFilterMenu = false
     
+    @State private var selectedBadge: Badge?
+    
     @Environment(JourneyViewModel.self) private var viewModel
     
     @Environment(AuthenticationService.self)
@@ -253,21 +255,26 @@ struct JourneyView: View {
 
                                     ForEach(badges) { badge in
 
-                                        HStack(spacing: 6) {
+                                        Button {
+                                            selectedBadge = badge
+                                        } label: {
+                                            HStack(spacing: 6) {
 
-                                            Image(badge.imageName)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 20, height: 20)
+                                                Image(badge.imageName)
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: 20, height: 20)
 
-                                            Text(badge.title)
-                                                .font(.caption.weight(.semibold))
-                                                .foregroundStyle(.white)
+                                                Text(badge.title)
+                                                    .font(.caption.weight(.semibold))
+                                                    .foregroundStyle(.white)
+                                            }
+                                            .padding(.horizontal, 10)
+                                            .padding(.vertical, 5)
+                                            .background(Color.white.opacity(0.15))
+                                            .clipShape(Capsule())
                                         }
-                                        .padding(.horizontal, 10)
-                                        .padding(.vertical, 5)
-                                        .background(Color.white.opacity(0.15))
-                                        .clipShape(Capsule())
+                                        .buttonStyle(.plain)
                                     }
                                 }
                             }
@@ -391,6 +398,14 @@ struct JourneyView: View {
                     }
                 )
             }
+        }
+        .sheet(item: $selectedBadge) { badge in
+            BadgeDetailView(
+                badge: badge,
+                movies: viewModel.movies.filter {
+                    badge.requiredMovieIDs.contains($0.id)
+                }
+            )
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
