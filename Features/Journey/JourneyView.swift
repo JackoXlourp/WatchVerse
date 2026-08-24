@@ -14,15 +14,42 @@ struct JourneyView: View {
     @State private var advanceAfterDismiss = false
     @State private var completionStage: CompletionStage = .idle
     @State private var currentAnimationMovieID: String?
+    @State private var showFilterMenu = false
     
-    @Environment(\.dismiss) private var dismiss
     @Environment(JourneyViewModel.self) private var viewModel
     
     @Environment(AuthenticationService.self)
     private var authentication
     
-    private let posterSpacing: CGFloat = 190
+    @Environment(CloudKitService.self)
+    private var cloudKit
     
+    private let posterSpacing: CGFloat = 190
+
+    var filteredMovies: [Movie] {
+        guard let filters = viewModel.journey.filters,
+              !filters.isEmpty else {
+            return viewModel.movies
+        }
+
+        let selected = authentication.currentUser?
+            .settings
+            .selectedUniverseFilters[viewModel.journey.id] ?? []
+
+        if selected.isEmpty {
+            return viewModel.movies
+        }
+
+        return viewModel.movies.filter { movie in
+            movie.tags.contains { selected.contains($0) }
+        }
+    }
+    
+    var progressPercentage: Int {
+        guard viewModel.movieCount > 0 else { return 0 }
+        return Int((Double(viewModel.watchedCount) / Double(viewModel.movieCount)) * 100)
+    }
+
     var body: some View {
         
         ZStack {
@@ -39,12 +66,13 @@ struct JourneyView: View {
             
             ScrollView(.vertical, showsIndicators: false) {
                 
-                VStack(spacing:0) {
+                VStack(spacing: 0) {
                     // Navigation spacing
                     Spacer()
                         .frame(height: 80)
                     
                     HStack {
+                        
                         Text(viewModel.journey.title)
                             .font(.system(size: 40, weight: .bold))
                             .fontWeight(.bold)
@@ -60,7 +88,7 @@ struct JourneyView: View {
                     }
                     
                     ZStack {
-                        ForEach(Array(viewModel.movies.enumerated()), id: \.element.id) { index, movie in
+                        ForEach(Array(filteredMovies.enumerated()), id: \.element.id) { index, movie in
                             
                             let offset = CGFloat(index - currentIndex) * posterSpacing + dragOffset.width
                             
@@ -90,7 +118,7 @@ struct JourneyView: View {
                             .zIndex(Double(centerProgress))
                         }
                         
-                        if currentIndex == viewModel.movieCount {
+                        if currentIndex == filteredMovies.count {
                             
                            ZStack {
                                     
@@ -175,7 +203,7 @@ struct JourneyView: View {
                                     0,
                                     min(
                                         currentIndex + movement,
-                                        viewModel.movieCount
+                                        filteredMovies.count
                                     )
                                 )
                                 
@@ -186,7 +214,7 @@ struct JourneyView: View {
                             }
                     )
                     
-                    if !viewModel.isJourneyComplete && currentIndex < viewModel.movieCount {
+                    if !viewModel.isJourneyComplete && currentIndex < filteredMovies.count {
                         VStack(spacing: 8) {
                             
                             Text("Current Movie")
@@ -197,26 +225,26 @@ struct JourneyView: View {
                             
                             
                             
-                            Text(viewModel.movie(at: currentIndex).title)
+                            Text(filteredMovies[currentIndex].title)
                                 .font(.title2.weight(.bold))
                                 .foregroundStyle(.white)
                                 .multilineTextAlignment(.center)
                             
                             if authentication.currentUser?.settings.showReleaseYears ?? true {
                                 
-                                Text("\(String(viewModel.movies[currentIndex].year)) • \(viewModel.movies[currentIndex].runtime)")
+                                Text("\(String(filteredMovies[currentIndex].year)) • \(filteredMovies[currentIndex].runtime)")
                                     .font(.subheadline)
                                     .foregroundStyle(.gray)
                                 
                             } else {
                                 
-                                Text("\(viewModel.movies[currentIndex].runtime)")
+                                Text("\(filteredMovies[currentIndex].runtime)")
                                     .font(.subheadline)
                                     .foregroundStyle(.gray)
                             }
                             
                             let badges = BadgeData.badgesContaining(
-                                movieID: viewModel.movies[currentIndex].id
+                                movieID: filteredMovies[currentIndex].id
                             )
 
                             if !badges.isEmpty {
@@ -281,7 +309,7 @@ struct JourneyView: View {
                                 .font(.headline)
                                 .foregroundStyle(.white)
                             
-                            Text("\(Int((Double(viewModel.watchedCount) / Double(viewModel.movieCount)) * 100)) % Complete")
+                            Text("\(progressPercentage) % Complete")
                                 .font(.subheadline)
                                 .foregroundStyle(.gray)
                         }
@@ -290,7 +318,7 @@ struct JourneyView: View {
                     if viewModel.isJourneyComplete {
                         VStack(spacing: 12) {
                             Image(systemName: "checkmark.seal.fill")
-                                .font(.system(size:44))
+                                .font(.system(size: 44))
                                 .foregroundStyle(.green)
                             
                             Text("Congratulations!")
@@ -312,11 +340,16 @@ struct JourneyView: View {
             
         }
         .navigationBarBackButtonHidden(true)
-        .onAppear{
-            
-            if let index = viewModel.nextCurrentMovieIndex() {
-                currentIndex = index
+        .onChange(of: filteredMovies.count) {
+            if currentIndex >= filteredMovies.count {
+                currentIndex = 0
             }
+        }
+        .onChange(of: authentication.currentUser?.settings.selectedUniverseFilters) {
+            updateCurrentIndexToNextMovie()
+        }
+        .onAppear {
+            updateCurrentIndexToNextMovie()
         }
         .sheet(
             item: $selectedMovie,
@@ -325,7 +358,8 @@ struct JourneyView: View {
                     advanceAfterDismiss = false
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        if let index = viewModel.nextCurrentMovieIndex() {
+                        if let currentMovieID = viewModel.currentMovieID,
+                           let index = filteredMovies.firstIndex(where: { $0.id == currentMovieID }) {
                             withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
                                 currentIndex = index
                             }
@@ -347,7 +381,8 @@ struct JourneyView: View {
                         advanceAfterDismiss = true
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            if let index = viewModel.nextCurrentMovieIndex() {
+                            if let currentMovieID = viewModel.currentMovieID,
+                               let index = filteredMovies.firstIndex(where: { $0.id == currentMovieID }) {
                                 withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
                                     currentIndex = index
                                 }
@@ -358,11 +393,56 @@ struct JourneyView: View {
             }
         }
         .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                if let filters = viewModel.journey.filters, !filters.isEmpty {
+                    Button {
+                        showFilterMenu.toggle()
+                    } label: {
+                        Image(systemName: "line.3.horizontal.decrease.circle")
+                            .font(.title2)
+                            .foregroundStyle(.white)
+                    }
+                    .popover(isPresented: $showFilterMenu) {
+                        FilterDropdownView(
+                            filters: filters,
+                            selectedFilters: Set(
+                                authentication.currentUser?
+                                    .settings
+                                    .selectedUniverseFilters[viewModel.journey.id]
+                                ?? []
+                            ),
+                            onApply: { selected in
+                                if var user = authentication.currentUser {
+                                    user.settings.selectedUniverseFilters[viewModel.journey.id] = selected
+
+                                    authentication.currentUser = user
+                                    cloudKit.save(user: user)
+                                }
+
+                                showFilterMenu = false
+                            }
+                        )
+                        .presentationCompactAdaptation(.popover)
+                    }
+                }
+            }
+
             ToolbarItem(placement: .topBarTrailing) {
                 SettingsButton()
             }
         }
     }
+    
+    private func updateCurrentIndexToNextMovie() {
+        if let index = filteredMovies.firstIndex(where: { !$0.isWatched && !$0.isSkipped }) {
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                currentIndex = index
+            }
+        } else {
+            currentIndex = 0
+        }
+    }
+    
     private func playCompletionAnimation(for movieID: String) {
 
         currentAnimationMovieID = movieID
@@ -385,7 +465,8 @@ struct JourneyView: View {
 
                     currentAnimationMovieID = nil
 
-                    if let index = viewModel.nextCurrentMovieIndex() {
+                    if let currentMovieID = viewModel.currentMovieID,
+                       let index = filteredMovies.firstIndex(where: { $0.id == currentMovieID }) {
                         withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
                             currentIndex = index
                         }

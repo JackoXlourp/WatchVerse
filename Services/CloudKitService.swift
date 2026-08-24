@@ -86,6 +86,9 @@ final class CloudKitService {
             record["joinedDate"] = user.joinedDate
             record["isFounder"] = user.isFounder
             record["showReleaseYears"] = user.settings.showReleaseYears
+            if let data = try? JSONEncoder().encode(user.settings.selectedUniverseFilters) {
+                record["selectedUniverseFilters"] = data
+            }
 
             record["watchedMovies"] = user.watchedMovies
             record["skippedMovies"] = user.skippedMovies
@@ -98,6 +101,7 @@ final class CloudKitService {
                     print("❌ CloudKit save failed:", error.localizedDescription)
                     return
                 }
+                print("✅ CloudKit save success")
             }
         }
     }
@@ -114,8 +118,15 @@ final class CloudKitService {
             skippedMovies: record["skippedMovies"] as? [String] ?? [],
             unlockedBadges: record["unlockedBadges"] as? [String] ?? [],
             settings: UserSettings(
-                showReleaseYears: record["showReleaseYears"] as? Bool ?? true
-            ),
+                showReleaseYears: record["showReleaseYears"] as? Bool ?? true,
+                selectedUniverseFilters: {
+                    guard let data = record["selectedUniverseFilters"] as? Data,
+                          let filters = try? JSONDecoder().decode([String: Set<String>].self, from: data)
+                    else {
+                        return [:]
+                    }
+                    return filters
+                }()            ),
             shownBadgePopups: record["shownBadgePopups"] as? [String] ?? [],
         )
     }
@@ -133,6 +144,9 @@ final class CloudKitService {
         record["joinedDate"] = user.joinedDate
         record["isFounder"] = user.isFounder
         record["showReleaseYears"] = user.settings.showReleaseYears
+        if let data = try? JSONEncoder().encode(user.settings.selectedUniverseFilters) {
+            record["selectedUniverseFilters"] = data
+        }
 
         record["watchedMovies"] = user.watchedMovies
         record["skippedMovies"] = user.skippedMovies

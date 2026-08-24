@@ -1,5 +1,5 @@
 //
-//  AuthenticationServicev.swift
+//  AuthenticationService.swift
 //  WatchVerse
 //
 //  Created by Maxime on 2026-08-09.

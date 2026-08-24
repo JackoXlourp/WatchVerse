@@ -47,12 +47,8 @@ class JourneyViewModel {
         watchedCount == movieCount
     }
     
-    var currentMovie: Movie? {
-        movies.first(where: { !$0.isWatched })
-    }
-    
-    var currentMovieIndex: Int? {
-        movies.firstIndex(where: { !$0.isWatched && !$0.isSkipped })
+    var currentMovieID: String? {
+        movies.first(where: { !$0.isWatched && !$0.isSkipped })?.id
     }
     
     var pendingBadgePopup: Badge?
@@ -172,11 +168,7 @@ class JourneyViewModel {
             cloudKit?.save(user: user)
         }
     }
-    
-    func nextCurrentMovieIndex() -> Int? {
-        currentMovieIndex
-    }
-    
+
     func resetCurrentUniverseProgress() {
 
         let universeMovieIDs = Set(journey.movies.map { $0.id })

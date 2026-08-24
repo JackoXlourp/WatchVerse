@@ -1,5 +1,5 @@
 //
-//  Journey.swift
+//  Universe.swift
 //  WatchVerse
 //
 //  Created by Maxime Proulx on 2026-07-30.
@@ -19,6 +19,8 @@ struct Universe: Identifiable, Codable {
     let logo: String
     let banner: String
     let poster: String
+    
+    let filters: [String]?
     
     let movies: [Movie]
 }

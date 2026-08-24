@@ -8,7 +8,6 @@
 import Foundation
 
 struct UserSettings: Codable {
-
     var showReleaseYears = true
-
+    var selectedUniverseFilters: [String: Set<String>] = [:]
 }

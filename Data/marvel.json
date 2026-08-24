@@ -1,12 +1,17 @@
 {
   "id": "mcu",
-  "title": "Marvel",
+  "title": "MARVEL",
   "subtitle": "Cinematic Universe",
   "fullTitle": "Marvel Cinematic Universe",
   "description": "The complete Marvel Cinematic Universe in release order.",
-  "logo": "hulk2008",
+  "logo": "mcu-logo",
   "banner": "mcu-banner",
   "poster": "placeholder-poster",
+  "filters": [
+    "infinity_saga",
+    "multiverse_saga",
+    "others"
+  ],
   "movies": [
     {
       "id": "eyes-of-wakanda",
@@ -21,6 +26,9 @@
         "Adventure",
         "Animation",
         "Superhero"
+      ],
+      "tags": [
+        "others"
       ],
       "isWatched": false,
       "isSkipped": false
@@ -39,7 +47,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "agent-carter-one-shot",
@@ -55,7 +66,10 @@
         "Short"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "captain-marvel",
@@ -71,7 +85,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "iron-man",
@@ -87,7 +104,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "iron-man-2",
@@ -103,7 +123,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "the-incredible-hulk",
@@ -119,7 +142,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "a-funny-thing-happened-on-the-way-to-thors-hammer",
@@ -135,7 +161,10 @@
         "Short"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "thor",
@@ -151,7 +180,10 @@
         "Fantasy"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "the-consultant",
@@ -167,7 +199,10 @@
         "Short"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "the-avengers",
@@ -183,7 +218,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "item-47",
@@ -199,7 +237,10 @@
         "Short"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "thor-the-dark-world",
@@ -215,7 +256,10 @@
         "Fantasy"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "iron-man-3",
@@ -231,7 +275,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "all-hail-the-king",
@@ -247,7 +294,10 @@
         "Short"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "captain-america-the-winter-soldier",
@@ -263,7 +313,10 @@
         "Thriller"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "guardians-of-the-galaxy",
@@ -279,7 +332,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "guardians-of-the-galaxy-vol-2",
@@ -295,7 +351,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "i-am-groot-season-1",
@@ -311,7 +370,10 @@
         "Family"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "i-am-groot-season-2",
@@ -327,7 +389,10 @@
         "Family"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "daredevil-season-1",
@@ -343,7 +408,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "jessica-jones-season-1",
@@ -359,7 +427,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "avengers-age-of-ultron",
@@ -375,7 +446,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "ant-man",
@@ -391,7 +465,10 @@
         "Comedy"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "daredevil-season-2",
@@ -407,7 +484,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "luke-cage-season-1",
@@ -423,7 +503,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "iron-fist-season-1",
@@ -439,7 +522,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "the-defenders",
@@ -455,7 +541,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "captain-america-civil-war",
@@ -471,7 +560,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "black-widow",
@@ -487,7 +579,10 @@
         "Spy"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "black-panther",
@@ -503,7 +598,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "spider-man-homecoming",
@@ -519,7 +617,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "the-punisher-season-1",
@@ -535,7 +636,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "doctor-strange",
@@ -551,7 +655,10 @@
         "Fantasy"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "jessica-jones-season-2",
@@ -567,7 +674,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "luke-cage-season-2",
@@ -583,7 +693,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "iron-fist-season-2",
@@ -599,7 +712,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "daredevil-season-3",
@@ -615,7 +731,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "thor-ragnarok",
@@ -631,7 +750,10 @@
         "Comedy"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "the-punisher-season-2",
@@ -647,7 +769,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "jessica-jones-season-3",
@@ -663,7 +788,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "ant-man-and-the-wasp",
@@ -679,7 +807,10 @@
         "Comedy"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "avengers-infinity-war",
@@ -695,7 +826,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "avengers-endgame",
@@ -711,7 +845,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
     },
     {
       "id": "loki-season-1",
@@ -727,7 +864,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "what-if-season-1",
@@ -743,7 +883,10 @@
         "Adventure"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "marvel-zombies",
@@ -759,7 +902,10 @@
         "Horror"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "wandavision",
@@ -775,7 +921,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "shang-chi-and-the-legend-of-the-ten-rings",
@@ -791,7 +940,10 @@
         "Fantasy"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "the-falcon-and-the-winter-soldier",
@@ -807,7 +959,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "spider-man-far-from-home",
@@ -823,7 +978,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "eternals",
@@ -832,14 +990,17 @@
       "year": 2021,
       "runtime": "2h 37m",
       "synopsis": "Immortal heroes who have secretly protected Earth for thousands of years reunite when an ancient threat emerges once again.",
-      "director": "Chlo\u00e9 Zhao",
+      "director": "Chloé Zhao",
       "genres": [
         "Action",
         "Adventure",
         "Fantasy"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "doctor-strange-in-the-multiverse-of-madness",
@@ -855,7 +1016,10 @@
         "Fantasy"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "hawkeye",
@@ -871,7 +1035,10 @@
         "Crime"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "moon-knight",
@@ -887,7 +1054,10 @@
         "Fantasy"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "black-panther-wakanda-forever",
@@ -903,7 +1073,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "echo",
@@ -919,7 +1092,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "she-hulk-attorney-at-law",
@@ -935,7 +1111,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "ms-marvel",
@@ -951,7 +1130,10 @@
         "Comedy"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "thor-love-and-thunder",
@@ -967,7 +1149,10 @@
         "Comedy"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "ironheart",
@@ -983,7 +1168,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "werewolf-by-night",
@@ -999,7 +1187,10 @@
         "Horror"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "the-guardians-of-the-galaxy-holiday-special",
@@ -1015,7 +1206,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "ant-man-and-the-wasp-quantumania",
@@ -1031,7 +1225,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "guardians-of-the-galaxy-vol-3",
@@ -1047,7 +1244,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "secret-invasion",
@@ -1063,7 +1263,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "the-marvels",
@@ -1079,7 +1282,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "loki-season-2",
@@ -1095,7 +1301,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "what-if-season-2",
@@ -1111,7 +1320,10 @@
         "Adventure"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "deadpool-and-wolverine",
@@ -1127,7 +1339,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "agatha-all-along",
@@ -1143,7 +1358,10 @@
         "Mystery"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "what-if-season-3",
@@ -1159,7 +1377,10 @@
         "Adventure"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
     },
     {
       "id": "daredevil-born-again-season-1",
@@ -1175,7 +1396,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "captain-america-brave-new-world",
@@ -1191,7 +1415,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "thunderbolts",
@@ -1207,7 +1434,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "the-fantastic-four-first-steps",
@@ -1223,7 +1453,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "daredevil-born-again-season-2",
@@ -1239,7 +1472,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "wonder-man",
@@ -1255,7 +1491,10 @@
         "Drama"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "spider-man-brand-new-day",
@@ -1271,7 +1510,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     },
     {
       "id": "avengers-doomsday",
@@ -1287,7 +1529,10 @@
         "Sci-Fi"
       ],
       "isWatched": false,
-      "isSkipped": false
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
     }
   ]
 }
