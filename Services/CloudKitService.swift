@@ -43,7 +43,7 @@ final class CloudKitService {
                 userID: id,
                 displayName: name,
                 joinedDate: .now,
-                isFounder: true,
+                isFounder: false,
                 watchedMovies: [],
                 skippedMovies: [],
                 unlockedBadges: [],

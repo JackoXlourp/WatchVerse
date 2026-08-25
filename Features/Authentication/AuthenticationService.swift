@@ -46,7 +46,7 @@ final class AuthenticationService {
                 userID: credential.user,
                 displayName: credential.fullName?.givenName ?? "",
                 joinedDate: .now,
-                isFounder: true,
+                isFounder: false,
                 watchedMovies: [],
                 skippedMovies: [],
                 unlockedBadges: [],
