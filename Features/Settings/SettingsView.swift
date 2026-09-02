@@ -333,6 +333,30 @@ struct SettingsView: View {
                                     .foregroundStyle(.gray)
                             }
                             .padding()
+                            
+                            Divider()
+                                .overlay(.white.opacity(0.08))
+                            
+                            VStack(alignment: .leading, spacing: 8) {
+                                
+                                Text("Legal Disclaimer")
+                                    .font(.subheadline.bold())
+                                    .foregroundStyle(.white)
+                                
+                                Text(
+                                    """
+                                    WatchVerse is an independent app and is not affiliated with or endorsed by any rights holder.
+
+                                    This product uses the TMDB API but is not endorsed or certified by TMDB.
+
+                                    All third-party trademarks, titles, logos, characters, artwork, and related intellectual property belong to their respective owners.
+                                    """
+                                )
+                                .font(.caption)
+                                .foregroundStyle(.gray)
+                                .fixedSize(horizontal: false, vertical: true)
+                            }
+                            .padding()
                         }
                     }
                     .padding()
