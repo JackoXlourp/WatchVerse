@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.maximeproulx.watchverse.ui.theme.WatchVerseTheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,29 +21,78 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             WatchVerseTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+
+                var signedIn by androidx.compose.runtime.remember {
+                    androidx.compose.runtime.mutableStateOf(
+                        AuthenticationService.isSignedIn()
+                    )
+                }
+
+                if (signedIn) {
+
+                    var currentUser by androidx.compose.runtime.remember {
+                        androidx.compose.runtime.mutableStateOf<WatchVerseUser?>(null)
+                    }
+
+                    var userLoaded by androidx.compose.runtime.remember {
+                        androidx.compose.runtime.mutableStateOf(false)
+                    }
+
+                    androidx.compose.runtime.LaunchedEffect(Unit) {
+                        AuthenticationService.loadCurrentUser { user ->
+                            currentUser = user
+                            userLoaded = true
+                        }
+                    }
+
+                    if (userLoaded) {
+
+                        if (currentUser?.displayName.isNullOrBlank()) {
+
+                            NameSetupScreen(
+                                onContinue = { name ->
+                                    AuthenticationService.updateDisplayName(name) { success ->
+                                        if (success) {
+                                            currentUser = currentUser?.copy(
+                                                displayName = name
+                                            )
+                                        }
+                                    }
+                                }
+                            )
+
+                        } else {
+
+                            MainTabScreen(
+                                onSignedOut = {
+                                    signedIn = false
+                                }
+                            )
+                        }
+                    }
+                } else {
+                    AuthenticationScreen(
+                        onAppleSignInClick = {
+                            AuthenticationService.signInWithApple(
+                                activity = this@MainActivity
+                            ) { success ->
+                                if (success) {
+                                    signedIn = true
+                                }
+                            }
+                        },
+                        onGoogleSignInClick = {
+                            AuthenticationService.signInWithGoogle(
+                                activity = this@MainActivity
+                            ) { success ->
+                                if (success) {
+                                    signedIn = true
+                                }
+                            }
+                        }
                     )
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    WatchVerseTheme {
-        Greeting("Android")
     }
 }

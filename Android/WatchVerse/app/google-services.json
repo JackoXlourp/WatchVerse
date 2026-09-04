@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "358620856635",
+    "project_id": "watchverse-2e24f",
+    "storage_bucket": "watchverse-2e24f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:358620856635:android:36ae825e089c871b4cf71e",
+        "android_client_info": {
+          "package_name": "com.maximeproulx.watchverse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "358620856635-g64jc4olr1k79eb2dqnpfuenoftu4vb6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maximeproulx.watchverse",
+            "certificate_hash": "086287300359b802545616ecaca77999d7149c0d"
+          }
+        },
+        {
+          "client_id": "358620856635-19f7sevu4fq1el3gilcgab1eqee717bb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe-v6J3kQtlVosdZG5DCTE28rAGD5OGLE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "358620856635-19f7sevu4fq1el3gilcgab1eqee717bb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

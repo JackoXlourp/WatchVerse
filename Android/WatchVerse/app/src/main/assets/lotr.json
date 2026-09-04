@@ -1,0 +1,108 @@
+{
+  "id": "lotr",
+  "title": "The Lord of the Rings",
+  "subtitle": "The Journey Through Middle-earth",
+  "fullTitle": "Middle-earth",
+  "description": "The complete released Middle-earth screen saga in chronological order.",
+  "logo": "lotr-logo",
+  "banner": "lotr-banner",
+  "poster": "lotr-poster",
+  "movies": [
+    {
+      "id": "the-rings-of-power",
+      "title": "The Lord of the Rings: The Rings of Power",
+      "poster": "the-rings-of-power",
+      "year": 2022,
+      "runtime": "16 Episodes",
+      "synopsis": "In Middle-earth's Second Age, unlikely heroes confront a returning darkness and the forging of the Rings of Power.",
+      "director": "J. D. Payne & Patrick McKay",
+      "genres": ["Adventure", "Drama", "Fantasy"],
+      "isWatched": false,
+      "isSkipped": false
+    },
+    {
+      "id": "an-unexpected-journey",
+      "title": "The Hobbit: An Unexpected Journey",
+      "poster": "an-unexpected-journey",
+      "year": 2012,
+      "runtime": "2h 49m",
+      "synopsis": "Bilbo Baggins joins Gandalf and thirteen dwarves on a quest to reclaim the Lonely Mountain from Smaug.",
+      "director": "Peter Jackson",
+      "genres": ["Adventure", "Fantasy"],
+      "isWatched": false,
+      "isSkipped": false
+    },
+    {
+      "id": "the-desolation-of-smaug",
+      "title": "The Hobbit: The Desolation of Smaug",
+      "poster": "the-desolation-of-smaug",
+      "year": 2013,
+      "runtime": "2h 41m",
+      "synopsis": "Bilbo and the company continue toward Erebor, where they must face the dragon Smaug.",
+      "director": "Peter Jackson",
+      "genres": ["Adventure", "Fantasy"],
+      "isWatched": false,
+      "isSkipped": false
+    },
+    {
+      "id": "the-battle-of-the-five-armies",
+      "title": "The Hobbit: The Battle of the Five Armies",
+      "poster": "the-battle-of-the-five-armies",
+      "year": 2014,
+      "runtime": "2h 24m",
+      "synopsis": "The forces of Middle-earth converge outside Erebor as Bilbo and his companions face the consequences of their quest.",
+      "director": "Peter Jackson",
+      "genres": ["Adventure", "Fantasy"],
+      "isWatched": false,
+      "isSkipped": false
+    },
+    {
+      "id": "the-war-of-the-rohirrim",
+      "title": "The Lord of the Rings: The War of the Rohirrim",
+      "poster": "the-war-of-the-rohirrim",
+      "year": 2024,
+      "runtime": "2h 14m",
+      "synopsis": "Helm Hammerhand, king of Rohan, leads his people through a desperate war that will give Helm's Deep its name.",
+      "director": "Kenji Kamiyama",
+      "genres": ["Action", "Adventure", "Animation", "Fantasy"],
+      "isWatched": false,
+      "isSkipped": false
+    },
+    {
+      "id": "the-fellowship-of-the-ring",
+      "title": "The Lord of the Rings: The Fellowship of the Ring",
+      "poster": "the-fellowship-of-the-ring",
+      "year": 2001,
+      "runtime": "2h 58m",
+      "synopsis": "Frodo Baggins sets out with the Fellowship to destroy the One Ring before Sauron can reclaim it.",
+      "director": "Peter Jackson",
+      "genres": ["Adventure", "Fantasy"],
+      "isWatched": false,
+      "isSkipped": false
+    },
+    {
+      "id": "the-two-towers",
+      "title": "The Lord of the Rings: The Two Towers",
+      "poster": "the-two-towers",
+      "year": 2002,
+      "runtime": "2h 59m",
+      "synopsis": "The Fellowship is divided as the war for Middle-earth intensifies and the forces of Isengard close in on Rohan.",
+      "director": "Peter Jackson",
+      "genres": ["Adventure", "Fantasy"],
+      "isWatched": false,
+      "isSkipped": false
+    },
+    {
+      "id": "the-return-of-the-king",
+      "title": "The Lord of the Rings: The Return of the King",
+      "poster": "the-return-of-the-king",
+      "year": 2003,
+      "runtime": "3h 21m",
+      "synopsis": "As armies gather for a final battle, Frodo and Sam make their last journey toward Mount Doom.",
+      "director": "Peter Jackson",
+      "genres": ["Adventure", "Fantasy"],
+      "isWatched": false,
+      "isSkipped": false
+    }
+  ]
+}

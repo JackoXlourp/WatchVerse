@@ -1,0 +1,10 @@
+{
+  "id": "matrix", "title": "The Matrix", "subtitle": "Free Your Mind", "fullTitle": "The Matrix", "description": "The complete released Matrix screen saga in chronological order.", "logo": "matrix-logo", "banner": "matrix-banner", "poster": "matrix-poster",
+  "movies": [
+    {"id":"the-matrix","title":"The Matrix","poster":"the-matrix","year":1999,"runtime":"2h 16m","synopsis":"A hacker discovers that his reality is a simulated prison controlled by machines.","director":"The Wachowskis","genres":["Action","Sci-Fi"],"isWatched":false,"isSkipped":false},
+    {"id":"the-animatrix","title":"The Animatrix","poster":"the-animatrix","year":2003,"runtime":"1h 42m","synopsis":"Nine animated stories explore the history and hidden corners of the Matrix universe.","director":"Various","genres":["Action","Animation","Sci-Fi"],"isWatched":false,"isSkipped":false},
+    {"id":"the-matrix-reloaded","title":"The Matrix Reloaded","poster":"the-matrix-reloaded","year":2003,"runtime":"2h 18m","synopsis":"Neo searches for the Keymaker as the machine war and the secrets of the Matrix escalate.","director":"The Wachowskis","genres":["Action","Sci-Fi"],"isWatched":false,"isSkipped":false},
+    {"id":"the-matrix-revolutions","title":"The Matrix Revolutions","poster":"the-matrix-revolutions","year":2003,"runtime":"2h 9m","synopsis":"Neo fights to end the war between humans and machines as Zion faces annihilation.","director":"The Wachowskis","genres":["Action","Sci-Fi"],"isWatched":false,"isSkipped":false},
+    {"id":"the-matrix-resurrections","title":"The Matrix Resurrections","poster":"the-matrix-resurrections","year":2021,"runtime":"2h 27m","synopsis":"Neo is drawn back into a reimagined Matrix and must once again choose how far to follow the truth.","director":"Lana Wachowski","genres":["Action","Sci-Fi"],"isWatched":false,"isSkipped":false}
+  ]
+}

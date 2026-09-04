@@ -1,0 +1,1576 @@
+{
+  "id": "mcu",
+  "title": "MARVEL",
+  "subtitle": "Cinematic Universe",
+  "fullTitle": "Marvel Cinematic Universe",
+  "description": "The complete Marvel Cinematic Universe in release order.",
+  "logo": "mcu-logo",
+  "banner": "mcu-banner",
+  "poster": "placeholder-poster",
+  "filters": [
+    "infinity_saga",
+    "multiverse_saga",
+    "others"
+  ],
+  "movies": [
+    {
+      "id": "eyes-of-wakanda",
+      "title": "Eyes of Wakanda",
+      "poster": "eyesofwakanda",
+      "year": 2025,
+      "runtime": "4 Episodes",
+      "synopsis": "Across centuries of hidden history, Wakandan warriors known as the Hatut Zeraze undertake dangerous missions around the world to recover stolen Vibranium artifacts and protect Wakanda's greatest secret.",
+      "director": "Todd Harris",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Animation",
+        "Superhero"
+      ],
+      "tags": [
+        "others"
+      ],
+      "isWatched": false,
+      "isSkipped": false
+    },
+    {
+      "id": "captain-america-the-first-avenger",
+      "title": "Captain America: The First Avenger",
+      "poster": "captainamerica1",
+      "year": 2011,
+      "runtime": "2h 4m",
+      "synopsis": "During World War II, Steve Rogers transforms from a determined young soldier into Captain America, becoming the world's first Super Soldier as he battles the Red Skull and Hydra to stop a powerful new weapon.",
+      "director": "Joe Johnston",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "agent-carter-one-shot",
+      "title": "Marvel One-Shot: Agent Carter",
+      "poster": "agentcarteroneshot",
+      "year": 2013,
+      "runtime": "15m",
+      "synopsis": "One year after the end of World War II, Peggy Carter takes on a dangerous solo mission that could change the future of the Strategic Scientific Reserve.",
+      "director": "Louis D'Esposito",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Short"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "captain-marvel",
+      "title": "Captain Marvel",
+      "poster": "captainmarvel",
+      "year": 2019,
+      "runtime": "2h 4m",
+      "synopsis": "After an elite Kree warrior crash-lands on Earth, Carol Danvers begins uncovering the truth about her past, leading her to embrace extraordinary powers that will shape the future of the galaxy.",
+      "director": "Anna Boden & Ryan Fleck",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "iron-man",
+      "title": "Iron Man",
+      "poster": "ironman",
+      "year": 2008,
+      "runtime": "2h 6m",
+      "synopsis": "After being captured while demonstrating his latest weapons, billionaire inventor Tony Stark builds a powerful suit of armor to escape and begins a journey that will redefine his purpose as Iron Man.",
+      "director": "Jon Favreau",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "iron-man-2",
+      "title": "Iron Man 2",
+      "poster": "ironman2",
+      "year": 2010,
+      "runtime": "2h 4m",
+      "synopsis": "As Tony Stark faces mounting pressure from the government and powerful new enemies, he must confront the consequences of revealing his identity while searching for a way to secure the future of Iron Man.",
+      "director": "Jon Favreau",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "the-incredible-hulk",
+      "title": "The Incredible Hulk",
+      "poster": "hulk2008",
+      "year": 2008,
+      "runtime": "1h 52m",
+      "synopsis": "While searching for a cure to the gamma radiation that transformed him into the Hulk, Bruce Banner must stay one step ahead of the military as a powerful new threat emerges.",
+      "director": "Louis Leterrier",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "a-funny-thing-happened-on-the-way-to-thors-hammer",
+      "title": "Marvel One-Shot: A Funny Thing Happened on the Way to Thor's Hammer",
+      "poster": "thorshammeroneshot",
+      "year": 2011,
+      "runtime": "3m",
+      "synopsis": "On his way to New Mexico, S.H.I.E.L.D. agent Phil Coulson makes an unexpected stop at a remote gas station, where a routine errand quickly turns into a dangerous encounter.",
+      "director": "Leythum",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Short"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "thor",
+      "title": "Thor",
+      "poster": "thor1",
+      "year": 2011,
+      "runtime": "1h 55m",
+      "synopsis": "After his arrogance reignites an ancient conflict, the mighty Thor is stripped of his powers and exiled to Earth, where he must learn what it truly means to be worthy before a dangerous threat reaches both worlds.",
+      "director": "Kenneth Branagh",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Fantasy"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "the-consultant",
+      "title": "Marvel One-Shot: The Consultant",
+      "poster": "theconsultant",
+      "year": 2011,
+      "runtime": "4m",
+      "synopsis": "Agents Phil Coulson and Jasper Sitwell devise an unconventional plan to keep a dangerous individual away from the Avengers Initiative.",
+      "director": "Leythum",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Short"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "the-avengers",
+      "title": "The Avengers",
+      "poster": "avengers1",
+      "year": 2012,
+      "runtime": "2h 23m",
+      "synopsis": "When an unexpected threat puts Earth in jeopardy, Nick Fury assembles a remarkable team of heroes who must learn to work together to save the world.",
+      "director": "Joss Whedon",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "item-47",
+      "title": "Marvel One-Shot: Item 47",
+      "poster": "item47",
+      "year": 2012,
+      "runtime": "12m",
+      "synopsis": "Two ordinary civilians discover abandoned Chitauri technology after the Battle of New York, drawing the attention of S.H.I.E.L.D.",
+      "director": "Louis D'Esposito",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Short"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "thor-the-dark-world",
+      "title": "Thor: The Dark World",
+      "poster": "thor2",
+      "year": 2013,
+      "runtime": "1h 52m",
+      "synopsis": "Thor reunites with Jane Foster as an ancient force threatens the Nine Realms, forcing him to confront a powerful enemy from Asgard's past.",
+      "director": "Alan Taylor",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Fantasy"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "iron-man-3",
+      "title": "Iron Man 3",
+      "poster": "ironman3",
+      "year": 2013,
+      "runtime": "2h 10m",
+      "synopsis": "Still haunted by recent events, Tony Stark faces a mysterious terrorist whose attacks push him to rely on his ingenuity more than ever before.",
+      "director": "Shane Black",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "all-hail-the-king",
+      "title": "Marvel One-Shot: All Hail the King",
+      "poster": "allhailtheking",
+      "year": 2014,
+      "runtime": "14m",
+      "synopsis": "A documentary filmmaker visits Seagate Prison to interview Trevor Slattery, but unexpected visitors have plans of their own.",
+      "director": "Drew Pearce",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Short"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "captain-america-the-winter-soldier",
+      "title": "Captain America: The Winter Soldier",
+      "poster": "captainamerica2",
+      "year": 2014,
+      "runtime": "2h 16m",
+      "synopsis": "As Steve Rogers adjusts to the modern world, he uncovers a conspiracy that threatens S.H.I.E.L.D. and forces him to question who he can trust.",
+      "director": "Anthony Russo & Joe Russo",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Thriller"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "guardians-of-the-galaxy",
+      "title": "Guardians of the Galaxy",
+      "poster": "guardians1",
+      "year": 2014,
+      "runtime": "2h 1m",
+      "synopsis": "A group of unlikely outlaws must work together after stealing a mysterious artifact that powerful forces will stop at nothing to obtain.",
+      "director": "James Gunn",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "guardians-of-the-galaxy-vol-2",
+      "title": "Guardians of the Galaxy Vol. 2",
+      "poster": "guardians2",
+      "year": 2017,
+      "runtime": "2h 16m",
+      "synopsis": "While exploring Peter Quill's mysterious origins, the Guardians discover that family can be both a source of strength and great danger.",
+      "director": "James Gunn",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "i-am-groot-season-1",
+      "title": "I Am Groot",
+      "poster": "iamgroot1",
+      "year": 2022,
+      "runtime": "5 Episodes",
+      "synopsis": "Baby Groot embarks on a series of delightful adventures across the galaxy, meeting unusual creatures and finding trouble in the smallest places.",
+      "director": "Kirsten Lepore",
+      "genres": [
+        "Animation",
+        "Comedy",
+        "Family"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "i-am-groot-season-2",
+      "title": "I Am Groot Season 2",
+      "poster": "iamgroot2",
+      "year": 2023,
+      "runtime": "5 Episodes",
+      "synopsis": "Groot returns for another collection of lighthearted adventures that showcase his curiosity, bravery, and unique charm.",
+      "director": "Kirsten Lepore",
+      "genres": [
+        "Animation",
+        "Comedy",
+        "Family"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "daredevil-season-1",
+      "title": "Daredevil",
+      "poster": "daredevil1",
+      "year": 2015,
+      "runtime": "13 Episodes",
+      "synopsis": "Blind lawyer Matt Murdock fights for justice by day and protects Hell's Kitchen by night as the masked vigilante Daredevil.",
+      "director": "Drew Goddard",
+      "genres": [
+        "Action",
+        "Crime",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "jessica-jones-season-1",
+      "title": "Jessica Jones",
+      "poster": "jessicajones1",
+      "year": 2015,
+      "runtime": "13 Episodes",
+      "synopsis": "A private investigator with extraordinary abilities is forced to confront the traumatic past she has spent years trying to escape.",
+      "director": "Melissa Rosenberg",
+      "genres": [
+        "Action",
+        "Crime",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "avengers-age-of-ultron",
+      "title": "Avengers: Age of Ultron",
+      "poster": "avengers2",
+      "year": 2015,
+      "runtime": "2h 21m",
+      "synopsis": "When an ambitious peacekeeping program goes terribly wrong, Earth's Mightiest Heroes must unite against a powerful new enemy of their own making.",
+      "director": "Joss Whedon",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "ant-man",
+      "title": "Ant-Man",
+      "poster": "antman1",
+      "year": 2015,
+      "runtime": "1h 57m",
+      "synopsis": "Master thief Scott Lang gains an extraordinary suit that allows him to shrink in size while increasing in strength, giving him a chance at redemption.",
+      "director": "Peyton Reed",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Comedy"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "daredevil-season-2",
+      "title": "Daredevil Season 2",
+      "poster": "daredevil2",
+      "year": 2016,
+      "runtime": "13 Episodes",
+      "synopsis": "New allies and dangerous enemies challenge Matt Murdock as Hell's Kitchen becomes more dangerous than ever.",
+      "director": "Doug Petrie & Marco Ramirez",
+      "genres": [
+        "Action",
+        "Crime",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "luke-cage-season-1",
+      "title": "Luke Cage",
+      "poster": "lukecage1",
+      "year": 2016,
+      "runtime": "13 Episodes",
+      "synopsis": "After a failed experiment leaves him with unbreakable skin and superhuman strength, Luke Cage becomes an unlikely hero in Harlem.",
+      "director": "Cheo Hodari Coker",
+      "genres": [
+        "Action",
+        "Crime",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "iron-fist-season-1",
+      "title": "Iron Fist",
+      "poster": "ironfist1",
+      "year": 2017,
+      "runtime": "13 Episodes",
+      "synopsis": "Danny Rand returns to New York after years away, determined to reclaim his family's legacy while mastering the mystical power of the Iron Fist.",
+      "director": "Scott Buck",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "the-defenders",
+      "title": "The Defenders",
+      "poster": "defenders1",
+      "year": 2017,
+      "runtime": "8 Episodes",
+      "synopsis": "New York's street-level heroes unite to confront a powerful organization that threatens the city.",
+      "director": "Doug Petrie & Marco Ramirez",
+      "genres": [
+        "Action",
+        "Crime",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "captain-america-civil-war",
+      "title": "Captain America: Civil War",
+      "poster": "captainamerica3",
+      "year": 2016,
+      "runtime": "2h 27m",
+      "synopsis": "Political pressure divides the Avengers, forcing friends to choose sides as an internal conflict threatens to tear the team apart.",
+      "director": "Anthony Russo & Joe Russo",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "black-widow",
+      "title": "Black Widow",
+      "poster": "blackwidow",
+      "year": 2021,
+      "runtime": "2h 14m",
+      "synopsis": "Natasha Romanoff confronts unfinished business from her past when a dangerous conspiracy forces her back into the world she tried to leave behind.",
+      "director": "Cate Shortland",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Spy"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "black-panther",
+      "title": "Black Panther",
+      "poster": "blackpanther1",
+      "year": 2018,
+      "runtime": "2h 14m",
+      "synopsis": "Returning home to Wakanda as king, T'Challa faces challenges that test his leadership and the future of his nation.",
+      "director": "Ryan Coogler",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "spider-man-homecoming",
+      "title": "Spider-Man: Homecoming",
+      "poster": "spidermanhomecoming",
+      "year": 2017,
+      "runtime": "2h 13m",
+      "synopsis": "Eager to prove himself as a hero, Peter Parker balances everyday life with the opportunity to become something greater.",
+      "director": "Jon Watts",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "the-punisher-season-1",
+      "title": "The Punisher",
+      "poster": "thepunisher1",
+      "year": 2017,
+      "runtime": "13 Episodes",
+      "synopsis": "Frank Castle uncovers a military conspiracy while seeking justice for the loss of his family.",
+      "director": "Steve Lightfoot",
+      "genres": [
+        "Action",
+        "Crime",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "doctor-strange",
+      "title": "Doctor Strange",
+      "poster": "doctorstrange1",
+      "year": 2016,
+      "runtime": "1h 55m",
+      "synopsis": "A brilliant surgeon discovers a hidden world of mystic arts after a life-changing accident sends him on an unexpected path.",
+      "director": "Scott Derrickson",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Fantasy"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "jessica-jones-season-2",
+      "title": "Jessica Jones Season 2",
+      "poster": "jessicajones2",
+      "year": 2018,
+      "runtime": "13 Episodes",
+      "synopsis": "Jessica investigates the origins of her extraordinary abilities while confronting painful truths from her past.",
+      "director": "Melissa Rosenberg",
+      "genres": [
+        "Action",
+        "Crime",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "luke-cage-season-2",
+      "title": "Luke Cage Season 2",
+      "poster": "lukecage2",
+      "year": 2018,
+      "runtime": "13 Episodes",
+      "synopsis": "Luke struggles with the responsibilities of being Harlem's protector as new threats challenge his values.",
+      "director": "Cheo Hodari Coker",
+      "genres": [
+        "Action",
+        "Crime",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "iron-fist-season-2",
+      "title": "Iron Fist Season 2",
+      "poster": "ironfist2",
+      "year": 2018,
+      "runtime": "10 Episodes",
+      "synopsis": "Danny Rand continues protecting New York while facing enemies connected to his past and the legacy of the Iron Fist.",
+      "director": "M. Raven Metzner",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "daredevil-season-3",
+      "title": "Daredevil Season 3",
+      "poster": "daredevil3",
+      "year": 2018,
+      "runtime": "13 Episodes",
+      "synopsis": "Broken in body and spirit, Matt Murdock must rise once again to protect Hell's Kitchen from an old enemy.",
+      "director": "Erik Oleson",
+      "genres": [
+        "Action",
+        "Crime",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "thor-ragnarok",
+      "title": "Thor: Ragnarok",
+      "poster": "thor3",
+      "year": 2017,
+      "runtime": "2h 10m",
+      "synopsis": "Imprisoned far from Asgard, Thor races against time to prevent the destruction of his home and stop a powerful new ruler.",
+      "director": "Taika Waititi",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Comedy"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "the-punisher-season-2",
+      "title": "The Punisher Season 2",
+      "poster": "thepunisher2",
+      "year": 2019,
+      "runtime": "13 Episodes",
+      "synopsis": "Frank Castle is drawn into another deadly conflict while protecting a young girl from dangerous enemies.",
+      "director": "Steve Lightfoot",
+      "genres": [
+        "Action",
+        "Crime",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "jessica-jones-season-3",
+      "title": "Jessica Jones Season 3",
+      "poster": "jessicajones3",
+      "year": 2019,
+      "runtime": "13 Episodes",
+      "synopsis": "Jessica Jones faces one final investigation as a brilliant and dangerous adversary threatens everything she stands for.",
+      "director": "Melissa Rosenberg",
+      "genres": [
+        "Action",
+        "Crime",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "ant-man-and-the-wasp",
+      "title": "Ant-Man and the Wasp",
+      "poster": "antman2",
+      "year": 2018,
+      "runtime": "1h 58m",
+      "synopsis": "Scott Lang teams up with Hope van Dyne on a mission that uncovers long-buried secrets while pushing their shrinking technology to new limits.",
+      "director": "Peyton Reed",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Comedy"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "avengers-infinity-war",
+      "title": "Avengers: Infinity War",
+      "poster": "avengers3",
+      "year": 2018,
+      "runtime": "2h 29m",
+      "synopsis": "The Avengers and their allies unite against a cosmic warlord determined to gather artifacts of unimaginable power before it's too late.",
+      "director": "Anthony Russo & Joe Russo",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "avengers-endgame",
+      "title": "Avengers: Endgame",
+      "poster": "avengers4",
+      "year": 2019,
+      "runtime": "3h 1m",
+      "synopsis": "After a devastating defeat, Earth's Mightiest Heroes embark on a desperate mission that could restore hope and change the fate of the universe forever.",
+      "director": "Anthony Russo & Joe Russo",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "infinity_saga"
+      ]
+    },
+    {
+      "id": "loki-season-1",
+      "title": "Loki",
+      "poster": "loki1",
+      "year": 2021,
+      "runtime": "6 Episodes",
+      "synopsis": "After escaping with the Tesseract, Loki is drawn into a mysterious organization that exists beyond time itself.",
+      "director": "Kate Herron",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "what-if-season-1",
+      "title": "What If...?",
+      "poster": "whatif1",
+      "year": 2021,
+      "runtime": "9 Episodes",
+      "synopsis": "Watch familiar moments from across the Marvel Universe unfold in surprising new ways as alternate realities reshape history.",
+      "director": "Bryan Andrews",
+      "genres": [
+        "Animation",
+        "Action",
+        "Adventure"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "marvel-zombies",
+      "title": "Marvel Zombies",
+      "poster": "marvelzombies",
+      "year": 2025,
+      "runtime": "4 Episodes",
+      "synopsis": "In a universe overrun by the undead, a handful of survivors fight to stay alive against terrifying versions of Earth's Mightiest Heroes.",
+      "director": "Bryan Andrews",
+      "genres": [
+        "Animation",
+        "Action",
+        "Horror"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "wandavision",
+      "title": "WandaVision",
+      "poster": "wandavision",
+      "year": 2021,
+      "runtime": "9 Episodes",
+      "synopsis": "Wanda Maximoff and Vision begin an idyllic suburban life that slowly reveals unsettling mysteries hiding beneath the surface.",
+      "director": "Matt Shakman",
+      "genres": [
+        "Drama",
+        "Mystery",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "shang-chi-and-the-legend-of-the-ten-rings",
+      "title": "Shang-Chi and the Legend of the Ten Rings",
+      "poster": "shangchi",
+      "year": 2021,
+      "runtime": "2h 12m",
+      "synopsis": "A skilled martial artist is forced to confront his past when he becomes entangled with the mysterious Ten Rings organization.",
+      "director": "Destin Daniel Cretton",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Fantasy"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "the-falcon-and-the-winter-soldier",
+      "title": "The Falcon and the Winter Soldier",
+      "poster": "falconwintersoldier",
+      "year": 2021,
+      "runtime": "6 Episodes",
+      "synopsis": "Sam Wilson and Bucky Barnes join forces on a global mission that challenges their partnership and the legacy of Captain America.",
+      "director": "Kari Skogland",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "spider-man-far-from-home",
+      "title": "Spider-Man: Far From Home",
+      "poster": "spidermanfarfromhome",
+      "year": 2019,
+      "runtime": "2h 9m",
+      "synopsis": "Peter Parker hopes for a normal school trip across Europe, but unexpected responsibilities force him back into action.",
+      "director": "Jon Watts",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "eternals",
+      "title": "Eternals",
+      "poster": "externals",
+      "year": 2021,
+      "runtime": "2h 37m",
+      "synopsis": "Immortal heroes who have secretly protected Earth for thousands of years reunite when an ancient threat emerges once again.",
+      "director": "Chloé Zhao",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Fantasy"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "spider-man-no-way-home",
+      "title": "Spider-Man: No Way Home",
+      "poster": "spidermannowayhome",
+      "year": 2021,
+      "runtime": "2h 28m",
+      "synopsis": "Peter Parker's life is turned upside down when a spell meant to restore his secret identity tears open the Multiverse, bringing dangerous villains from other worlds.",
+      "director": "Jon Watts",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "doctor-strange-in-the-multiverse-of-madness",
+      "title": "Doctor Strange in the Multiverse of Madness",
+      "poster": "doctorstrange2",
+      "year": 2022,
+      "runtime": "2h 6m",
+      "synopsis": "Doctor Strange ventures into the Multiverse where impossible realities force him to confront powerful new dangers.",
+      "director": "Sam Raimi",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Fantasy"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "hawkeye",
+      "title": "Hawkeye",
+      "poster": "hawkeye",
+      "year": 2021,
+      "runtime": "6 Episodes",
+      "synopsis": "Clint Barton teams up with a gifted young archer while trying to leave his past behind before the holidays.",
+      "director": "Rhys Thomas & Bert & Bertie",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Crime"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "moon-knight",
+      "title": "Moon Knight",
+      "poster": "moonknight",
+      "year": 2022,
+      "runtime": "6 Episodes",
+      "synopsis": "A quiet museum employee discovers he shares his body with a mysterious mercenary connected to the gods of ancient Egypt.",
+      "director": "Mohamed Diab",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Fantasy"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "black-panther-wakanda-forever",
+      "title": "Black Panther: Wakanda Forever",
+      "poster": "blackpanther2",
+      "year": 2022,
+      "runtime": "2h 41m",
+      "synopsis": "As Wakanda mourns the loss of its king, old and new threats challenge the nation's future and force its leaders to unite.",
+      "director": "Ryan Coogler",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "echo",
+      "title": "Echo",
+      "poster": "echo",
+      "year": 2024,
+      "runtime": "5 Episodes",
+      "synopsis": "Maya Lopez returns to her hometown, where confronting her past becomes the key to defining her future.",
+      "director": "Sydney Freeland & Catriona McKenzie",
+      "genres": [
+        "Action",
+        "Crime",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "she-hulk-attorney-at-law",
+      "title": "She-Hulk: Attorney at Law",
+      "poster": "shehulk",
+      "year": 2022,
+      "runtime": "9 Episodes",
+      "synopsis": "Lawyer Jennifer Walters unexpectedly gains Hulk-like abilities while trying to balance a demanding legal career with extraordinary new responsibilities.",
+      "director": "Kat Coiro & Anu Valia",
+      "genres": [
+        "Action",
+        "Comedy",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "ms-marvel",
+      "title": "Ms. Marvel",
+      "poster": "msmarvel",
+      "year": 2022,
+      "runtime": "6 Episodes",
+      "synopsis": "Teenager Kamala Khan discovers mysterious powers that transform her lifelong dream of becoming a superhero into reality.",
+      "director": "Adil El Arbi & Bilall Fallah, Sharmeen Obaid-Chinoy",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Comedy"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "thor-love-and-thunder",
+      "title": "Thor: Love and Thunder",
+      "poster": "thor4",
+      "year": 2022,
+      "runtime": "1h 59m",
+      "synopsis": "Thor embarks on a new journey of self-discovery, but a dangerous new enemy forces him back into battle alongside unexpected allies.",
+      "director": "Taika Waititi",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Comedy"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "ironheart",
+      "title": "Ironheart",
+      "poster": "ironheart",
+      "year": 2025,
+      "runtime": "6 Episodes",
+      "synopsis": "Young genius Riri Williams pushes her incredible inventions to the next level while confronting powerful forces beyond science.",
+      "director": "Sam Bailey & Angela Barnes",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "werewolf-by-night",
+      "title": "Werewolf by Night",
+      "poster": "werewolfbynight",
+      "year": 2022,
+      "runtime": "53m",
+      "synopsis": "A secret gathering of monster hunters takes a deadly turn as an ancient relic draws out hidden rivalries and terrifying creatures.",
+      "director": "Michael Giacchino",
+      "genres": [
+        "Action",
+        "Fantasy",
+        "Horror"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "the-guardians-of-the-galaxy-holiday-special",
+      "title": "The Guardians of the Galaxy Holiday Special",
+      "poster": "guardiansholidayspecial",
+      "year": 2022,
+      "runtime": "44m",
+      "synopsis": "The Guardians set out on a heartfelt mission to bring Peter Quill an unforgettable Christmas celebration on Earth.",
+      "director": "James Gunn",
+      "genres": [
+        "Adventure",
+        "Comedy",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "ant-man-and-the-wasp-quantumania",
+      "title": "Ant-Man and the Wasp: Quantumania",
+      "poster": "antman3",
+      "year": 2023,
+      "runtime": "2h 5m",
+      "synopsis": "Scott Lang and his family are pulled into the mysterious Quantum Realm, where they encounter a powerful new adversary.",
+      "director": "Peyton Reed",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "guardians-of-the-galaxy-vol-3",
+      "title": "Guardians of the Galaxy Vol. 3",
+      "poster": "guardians3",
+      "year": 2023,
+      "runtime": "2h 30m",
+      "synopsis": "The Guardians embark on a dangerous mission to save one of their own while confronting painful truths about Rocket's past.",
+      "director": "James Gunn",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "secret-invasion",
+      "title": "Secret Invasion",
+      "poster": "secretinvasion",
+      "year": 2023,
+      "runtime": "6 Episodes",
+      "synopsis": "Nick Fury returns to Earth after uncovering a covert invasion that threatens humanity from within.",
+      "director": "Ali Selim",
+      "genres": [
+        "Action",
+        "Drama",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "the-marvels",
+      "title": "The Marvels",
+      "poster": "themarvels",
+      "year": 2023,
+      "runtime": "1h 45m",
+      "synopsis": "Carol Danvers, Kamala Khan, and Monica Rambeau discover their powers have become mysteriously linked, forcing them to fight as one.",
+      "director": "Nia DaCosta",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "loki-season-2",
+      "title": "Loki Season 2",
+      "poster": "loki2",
+      "year": 2023,
+      "runtime": "6 Episodes",
+      "synopsis": "Loki races against time across the multiverse to protect the fragile balance of reality itself.",
+      "director": "Justin Benson & Aaron Moorhead",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "what-if-season-2",
+      "title": "What If...? Season 2",
+      "poster": "whatif2",
+      "year": 2023,
+      "runtime": "9 Episodes",
+      "synopsis": "New alternate realities reveal unexpected heroes, villains, and possibilities across the Marvel Multiverse.",
+      "director": "Bryan Andrews",
+      "genres": [
+        "Animation",
+        "Action",
+        "Adventure"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "deadpool-and-wolverine",
+      "title": "Deadpool & Wolverine",
+      "poster": "deadpoolwolverine",
+      "year": 2024,
+      "runtime": "2h 8m",
+      "synopsis": "Deadpool is pulled into a mission that forces him to team up with a reluctant Wolverine, sending both on a multiversal adventure.",
+      "director": "Shawn Levy",
+      "genres": [
+        "Action",
+        "Comedy",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "agatha-all-along",
+      "title": "Agatha All Along",
+      "poster": "agathaallalong",
+      "year": 2024,
+      "runtime": "9 Episodes",
+      "synopsis": "Agatha Harkness sets out on a magical journey that reveals new allies, dangerous enemies, and long-buried secrets.",
+      "director": "Jac Schaeffer",
+      "genres": [
+        "Comedy",
+        "Fantasy",
+        "Mystery"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "what-if-season-3",
+      "title": "What If...? Season 3",
+      "poster": "whatif3",
+      "year": 2024,
+      "runtime": "8 Episodes",
+      "synopsis": "The Watcher returns to explore even more alternate realities where familiar heroes face extraordinary new destinies.",
+      "director": "Bryan Andrews",
+      "genres": [
+        "Animation",
+        "Action",
+        "Adventure"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "daredevil-born-again-season-1",
+      "title": "Daredevil: Born Again",
+      "poster": "daredevilbornagain1",
+      "year": 2025,
+      "runtime": "9 Episodes",
+      "synopsis": "Matt Murdock and Wilson Fisk find themselves on a collision course as old rivalries reignite in a changed New York City.",
+      "director": "Dario Scardapane",
+      "genres": [
+        "Action",
+        "Crime",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "captain-america-brave-new-world",
+      "title": "Captain America: Brave New World",
+      "poster": "captainamerica4",
+      "year": 2025,
+      "runtime": "1h 58m",
+      "synopsis": "Sam Wilson faces an international crisis that tests his leadership and the meaning of carrying Captain America's shield.",
+      "director": "Julius Onah",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "thunderbolts",
+      "title": "Thunderbolts*",
+      "poster": "thunderbolts",
+      "year": 2025,
+      "runtime": "2h 6m",
+      "synopsis": "A group of unlikely antiheroes is brought together for a dangerous mission that will test their loyalty and redefine their future.",
+      "director": "Jake Schreier",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "the-fantastic-four-first-steps",
+      "title": "The Fantastic Four: First Steps",
+      "poster": "fantasticfourfirststeps",
+      "year": 2025,
+      "runtime": "2h 10m",
+      "synopsis": "Marvel's First Family begins a new adventure as they face extraordinary challenges that could reshape their future.",
+      "director": "Matt Shakman",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "wonder-man",
+      "title": "Wonder Man",
+      "poster": "wonderman",
+      "year": 2026,
+      "runtime": "8 Episodes",
+      "synopsis": "Struggling actor Simon Williams unexpectedly finds himself thrust into a world where fame and superpowers collide.",
+      "director": "Destin Daniel Cretton",
+      "genres": [
+        "Action",
+        "Comedy",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "daredevil-born-again-season-2",
+      "title": "Daredevil: Born Again Season 2",
+      "poster": "daredevilbornagain2",
+      "year": 2026,
+      "runtime": "8 Episodes",
+      "synopsis": "Matt Murdock's fight for justice continues as new threats emerge across Hell's Kitchen.",
+      "director": "Dario Scardapane",
+      "genres": [
+        "Action",
+        "Crime",
+        "Drama"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "the-punisher-one-last-kill",
+      "title": "The Punisher: One Last Kill",
+      "poster": "thepunisheronelastkill",
+      "year": 2026,
+      "runtime": "TBD",
+      "synopsis": "Frank Castle returns for one final mission, confronting the violence and enemies that have defined his life as The Punisher.",
+      "director": "TBD",
+      "genres": [
+        "Action",
+        "Crime",
+        "Thriller"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "others"
+      ]
+    },
+    {
+      "id": "spider-man-brand-new-day",
+      "title": "Spider-Man: Brand New Day",
+      "poster": "spidermanbrandnewday",
+      "year": 2026,
+      "runtime": "2h 10m",
+      "synopsis": "Four years after the events of No Way Home, Peter Parker continues protecting New York while confronting dangerous new threats and the consequences of living a life no one remembers.",
+      "director": "Destin Daniel Cretton",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    },
+    {
+      "id": "avengers-doomsday",
+      "title": "Avengers: Doomsday",
+      "poster": "avengers5",
+      "year": 2026,
+      "runtime": "TBA",
+      "synopsis": "As powerful forces from across the Multiverse collide, Earth's Mightiest Heroes and unexpected allies must unite to face a threat unlike any they have encountered before.",
+      "director": "Anthony Russo & Joe Russo",
+      "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "isWatched": false,
+      "isSkipped": false,
+      "tags": [
+        "multiverse_saga"
+      ]
+    }
+  ]
+}
