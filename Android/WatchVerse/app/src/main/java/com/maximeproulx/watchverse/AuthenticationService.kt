@@ -8,6 +8,11 @@ import kotlinx.coroutines.launch
 
 object AuthenticationService {
 
+    sealed class DeleteAccountResult {
+        data object Success : DeleteAccountResult()
+        data class Failure(val message: String) : DeleteAccountResult()
+    }
+
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
@@ -346,32 +351,178 @@ object AuthenticationService {
     }
 
     fun deleteCurrentUser(
-        onComplete: (Boolean) -> Unit = {}
+        activity: androidx.activity.ComponentActivity,
+        onComplete: (DeleteAccountResult) -> Unit
     ) {
         val user = auth.currentUser
 
         if (user == null) {
-            onComplete(false)
+            onComplete(
+                DeleteAccountResult.Failure("No signed-in account was found.")
+            )
             return
         }
 
+        val providerIds = user.providerData.map { it.providerId }
+
+        when {
+            providerIds.contains("google.com") -> {
+                reauthenticateGoogle(activity, user) { success, message ->
+                    if (success) {
+                        deleteFirestoreAndAuthUser(user, onComplete)
+                    } else {
+                        onComplete(DeleteAccountResult.Failure(message))
+                    }
+                }
+            }
+
+            providerIds.contains("apple.com") -> {
+                reauthenticateApple(activity, user) { success, message ->
+                    if (success) {
+                        deleteFirestoreAndAuthUser(user, onComplete)
+                    } else {
+                        onComplete(DeleteAccountResult.Failure(message))
+                    }
+                }
+            }
+
+            else -> {
+                onComplete(
+                    DeleteAccountResult.Failure(
+                        "This sign-in provider cannot be reauthenticated. Log out, sign in again, and retry."
+                    )
+                )
+            }
+        }
+    }
+
+    private fun reauthenticateGoogle(
+        activity: androidx.activity.ComponentActivity,
+        user: FirebaseUser,
+        onComplete: (Boolean, String) -> Unit
+    ) {
+        val credentialManager =
+            androidx.credentials.CredentialManager.create(activity)
+
+        val googleIdOption =
+            com.google.android.libraries.identity.googleid.GetGoogleIdOption.Builder()
+                .setFilterByAuthorizedAccounts(true)
+                .setServerClientId(
+                    activity.getString(
+                        activity.resources.getIdentifier(
+                            "default_web_client_id",
+                            "string",
+                            activity.packageName
+                        )
+                    )
+                )
+                .setAutoSelectEnabled(false)
+                .build()
+
+        val request =
+            androidx.credentials.GetCredentialRequest.Builder()
+                .addCredentialOption(googleIdOption)
+                .build()
+
+        activity.lifecycleScope.launch {
+            try {
+                val credential = credentialManager.getCredential(
+                    context = activity,
+                    request = request
+                ).credential
+
+                if (
+                    credential !is androidx.credentials.CustomCredential ||
+                    credential.type !=
+                    com.google.android.libraries.identity.googleid.GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+                ) {
+                    onComplete(false, "Google reauthentication was cancelled or returned an invalid credential.")
+                    return@launch
+                }
+
+                val googleCredential =
+                    com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+                        .createFrom(credential.data)
+
+                val firebaseCredential =
+                    com.google.firebase.auth.GoogleAuthProvider.getCredential(
+                        googleCredential.idToken,
+                        null
+                    )
+
+                user.reauthenticate(firebaseCredential)
+                    .addOnSuccessListener {
+                        onComplete(true, "")
+                    }
+                    .addOnFailureListener { error ->
+                        onComplete(
+                            false,
+                            "Google reauthentication failed: ${error.localizedMessage ?: "Unknown error"}"
+                        )
+                    }
+            } catch (error: Exception) {
+                onComplete(
+                    false,
+                    "Google reauthentication failed: ${error.localizedMessage ?: "Unknown error"}"
+                )
+            }
+        }
+    }
+
+    private fun reauthenticateApple(
+        activity: androidx.activity.ComponentActivity,
+        user: FirebaseUser,
+        onComplete: (Boolean, String) -> Unit
+    ) {
+        val provider = com.google.firebase.auth.OAuthProvider
+            .newBuilder("apple.com")
+
+        provider.scopes = listOf("email", "name")
+
+        user.startActivityForReauthenticateWithProvider(
+            activity,
+            provider.build()
+        )
+            .addOnSuccessListener {
+                onComplete(true, "")
+            }
+            .addOnFailureListener { error ->
+                onComplete(
+                    false,
+                    "Apple reauthentication failed: ${error.localizedMessage ?: "Unknown error"}"
+                )
+            }
+    }
+
+    private fun deleteFirestoreAndAuthUser(
+        user: FirebaseUser,
+        onComplete: (DeleteAccountResult) -> Unit
+    ) {
         val uid = user.uid
 
         db.collection("users")
             .document(uid)
             .delete()
             .addOnSuccessListener {
-
                 user.delete()
                     .addOnSuccessListener {
-                        onComplete(true)
+                        onComplete(DeleteAccountResult.Success)
                     }
-                    .addOnFailureListener {
-                        onComplete(false)
+                    .addOnFailureListener { error ->
+                        onComplete(
+                            DeleteAccountResult.Failure(
+                                "The account data was removed, but Firebase Authentication deletion failed: " +
+                                        (error.localizedMessage ?: "Unknown error")
+                            )
+                        )
                     }
             }
-            .addOnFailureListener {
-                onComplete(false)
+            .addOnFailureListener { error ->
+                onComplete(
+                    DeleteAccountResult.Failure(
+                        "Firestore account deletion failed: ${error.localizedMessage ?: "Unknown error"}"
+                    )
+                )
             }
     }
     fun signInWithGoogle(

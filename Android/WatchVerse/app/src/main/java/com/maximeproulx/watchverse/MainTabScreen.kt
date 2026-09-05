@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import kotlinx.coroutines.delay
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,14 +43,101 @@ private enum class WatchVerseTab {
 
 @Composable
 fun MainTabScreen(
+    currentUser: WatchVerseUser,
+    onCurrentUserChanged: (WatchVerseUser) -> Unit,
     onSignedOut: () -> Unit = {}
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val activeUniverse = remember(context.applicationContext) {
+        JSONLoader.loadActiveUniverse(context.applicationContext)
+    }
 
     var selectedTab by remember {
         mutableStateOf(WatchVerseTab.HOME)
     }
     var hideBottomBar by remember {
         mutableStateOf(false)
+    }
+    var showSettings by remember {
+        mutableStateOf(false)
+    }
+    var queuedBadgePopups by remember {
+        mutableStateOf(emptyList<Badge>())
+    }
+    var popupBadge by remember {
+        mutableStateOf<Badge?>(null)
+    }
+    var badgeGalleryScrollTargetID by remember {
+        mutableStateOf<String?>(null)
+    }
+
+    fun queueBadgePopups(badges: List<Badge>) {
+        val queuedIDs = queuedBadgePopups.map { badge -> badge.id }.toSet()
+        val popupBadgeID = popupBadge?.id
+        val badgesToQueue = badges.filter { badge ->
+            !currentUser.shownBadgePopups.contains(badge.id) &&
+                    badge.id != popupBadgeID &&
+                    !queuedIDs.contains(badge.id)
+        }
+
+        if (badgesToQueue.isNotEmpty()) {
+            queuedBadgePopups = queuedBadgePopups + badgesToQueue
+        }
+    }
+
+    androidx.compose.runtime.LaunchedEffect(
+        currentUser.uid,
+        currentUser.isFounder,
+        currentUser.shownBadgePopups
+    ) {
+        if (
+            currentUser.isFounder &&
+            !currentUser.shownBadgePopups.contains("founder")
+        ) {
+            BadgeData.all
+                .firstOrNull { badge -> badge.id == "founder" }
+                ?.let { founderBadge ->
+                    queueBadgePopups(listOf(founderBadge))
+                }
+        }
+    }
+
+    androidx.compose.runtime.LaunchedEffect(
+        queuedBadgePopups,
+        popupBadge
+    ) {
+        if (popupBadge == null && queuedBadgePopups.isNotEmpty()) {
+            val nextBadge = queuedBadgePopups.first()
+
+            delay(500)
+
+            queuedBadgePopups = queuedBadgePopups.drop(1)
+
+            if (!currentUser.shownBadgePopups.contains(nextBadge.id)) {
+                val updatedShownBadgePopups =
+                    currentUser.shownBadgePopups + nextBadge.id
+
+                popupBadge = nextBadge
+                onCurrentUserChanged(
+                    currentUser.copy(
+                        shownBadgePopups = updatedShownBadgePopups
+                    )
+                )
+                AuthenticationService.updateShownBadgePopups(
+                    updatedShownBadgePopups
+                )
+            }
+        }
+    }
+
+    fun openSettings() {
+        showSettings = true
+        hideBottomBar = true
+    }
+
+    fun closeSettings() {
+        showSettings = false
+        hideBottomBar = false
     }
 
     Box(
@@ -59,24 +147,41 @@ fun MainTabScreen(
         when (selectedTab) {
 
             WatchVerseTab.HOME -> {
-                HomeScreen()
+                HomeScreen(
+                    onContinueWatchingClick = {
+                        selectedTab = WatchVerseTab.JOURNEY
+                    },
+                    onSettingsClick = ::openSettings
+                )
             }
 
             WatchVerseTab.JOURNEY -> {
-                val context = androidx.compose.ui.platform.LocalContext.current
-                val activeUniverse = JSONLoader.loadActiveUniverse(context)
-
                 JourneyScreen(
                     universe = activeUniverse,
-                    onSignedOut = onSignedOut,
+                    currentUser = currentUser,
+                    onCurrentUserChanged = onCurrentUserChanged,
+                    onSettingsClick = ::openSettings,
+                    onBadgesUnlocked = { badges ->
+                        queueBadgePopups(badges)
+                    },
                     onFullScreenOverlayChanged = { hidden ->
                         hideBottomBar = hidden
-                    }
+                    },
                 )
             }
 
             WatchVerseTab.BADGES -> {
-                PlaceholderScreen("Badges")
+                BadgeGalleryScreen(
+                    currentUser = currentUser,
+                    scrollTargetBadgeID = badgeGalleryScrollTargetID,
+                    onScrollTargetConsumed = {
+                        badgeGalleryScrollTargetID = null
+                    },
+                    onSettingsClick = ::openSettings,
+                    onFullScreenOverlayChanged = { hidden ->
+                        hideBottomBar = hidden
+                    }
+                )
             }
         }
 
@@ -94,6 +199,131 @@ fun MainTabScreen(
                         end = 20.dp,
                         bottom = 10.dp
                     )
+            )
+        }
+        if (showSettings) {
+            SettingsScreen(
+                universe = activeUniverse,
+                showReleaseYears = currentUser.showReleaseYears,
+                onShowReleaseYearsChanged = { value ->
+                    val previousUser = currentUser
+                    onCurrentUserChanged(
+                        currentUser.copy(showReleaseYears = value)
+                    )
+                    AuthenticationService.updateShowReleaseYears(value) { success ->
+                        if (!success) {
+                            onCurrentUserChanged(previousUser)
+                        }
+                    }
+                },
+                notifyNewUniverses = currentUser.notifyNewUniverses,
+                onNotifyNewUniversesChanged = { value ->
+                    val previousUser = currentUser
+                    onCurrentUserChanged(
+                        currentUser.copy(notifyNewUniverses = value)
+                    )
+                    AuthenticationService.updateNotifyNewUniverses(value) { success ->
+                        if (!success) {
+                            onCurrentUserChanged(previousUser)
+                        }
+                    }
+                },
+                displayName = currentUser.displayName,
+                accountSubtitle = currentUser.let { user ->
+                    val formattedDate =
+                        java.text.SimpleDateFormat(
+                            "MMMM yyyy",
+                            java.util.Locale.getDefault()
+                        ).format(java.util.Date(user.joinedDate))
+
+                    if (user.isFounder) {
+                        "WatchVerse Founder | $formattedDate"
+                    } else {
+                        "Joined | $formattedDate"
+                    }
+                },
+                onResetUniverseProgress = {
+                    val movieIds = activeUniverse.movies.map { it.id }.toSet()
+                    AuthenticationService.resetUniverseProgress(
+                        movieIds = movieIds.toList()
+                    ) { success ->
+                        if (success) {
+                            onCurrentUserChanged(
+                                currentUser.copy(
+                                    watchedMovies = currentUser.watchedMovies.filterNot(movieIds::contains),
+                                    skippedMovies = currentUser.skippedMovies.filterNot(movieIds::contains)
+                                )
+                            )
+                        }
+                    }
+                },
+                onResetAllProgress = {
+                    AuthenticationService.resetAllProgress { success ->
+                        if (success) {
+                            onCurrentUserChanged(
+                                currentUser.copy(
+                                    watchedMovies = emptyList(),
+                                    skippedMovies = emptyList()
+                                )
+                            )
+                        } else {
+                            android.widget.Toast.makeText(
+                                context,
+                                "Unable to reset all progress. Please try again.",
+                                android.widget.Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                },
+                onLogout = {
+                    AuthenticationService.signOut()
+                    closeSettings()
+                    onSignedOut()
+                },
+                onDeleteAccount = {
+                    val activity = context as? androidx.activity.ComponentActivity
+
+                    if (activity == null) {
+                        android.widget.Toast.makeText(
+                            context,
+                            "Unable to start account verification.",
+                            android.widget.Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        AuthenticationService.deleteCurrentUser(activity) { result ->
+                            when (result) {
+                                AuthenticationService.DeleteAccountResult.Success -> {
+                                    AuthenticationService.signOut()
+                                    closeSettings()
+                                    onSignedOut()
+                                }
+
+                                is AuthenticationService.DeleteAccountResult.Failure -> {
+                                    android.widget.Toast.makeText(
+                                        context,
+                                        result.message,
+                                        android.widget.Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            }
+                        }
+                    }
+                },
+                onClose = ::closeSettings
+            )
+        }
+
+        popupBadge?.let { badge ->
+            BadgeUnlockOverlay(
+                badge = badge,
+                onClose = {
+                    popupBadge = null
+                },
+                onSeeBadge = {
+                    popupBadge = null
+                    badgeGalleryScrollTargetID = badge.id
+                    selectedTab = WatchVerseTab.BADGES
+                }
             )
         }
     }

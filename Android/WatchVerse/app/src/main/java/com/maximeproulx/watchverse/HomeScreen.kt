@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.clickable
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -25,6 +26,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -73,9 +76,11 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // MARK: WatchVerse title + Settings
+            // MARK: WatchVerse title
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(42.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
@@ -86,25 +91,6 @@ fun HomeScreen(
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.weight(1f)
                 )
-
-                Box(
-                    modifier = Modifier
-                        .size(42.dp)
-                        .clip(RoundedCornerShape(21.dp))
-                        .background(Color(0xFF2C2C2C).copy(alpha = 0.85f)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    IconButton(
-                        onClick = onSettingsClick,
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        Text(
-                            text = "⚙",
-                            color = Color.White,
-                            fontSize = 22.sp
-                        )
-                    }
-                }
             }
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -167,7 +153,30 @@ fun HomeScreen(
                     }
             }
 
-            Spacer(modifier = Modifier.height(120.dp))
+            Spacer(modifier = Modifier.height(180.dp))
+        }
+
+        Box(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .statusBarsPadding()
+                .padding(top = 10.dp, end = 16.dp)
+                .size(42.dp)
+                .clip(RoundedCornerShape(21.dp))
+                .background(Color(0xFF2C2C2C).copy(alpha = 0.85f)),
+            contentAlignment = Alignment.Center
+        ) {
+            IconButton(
+                onClick = onSettingsClick,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_settings_gear),
+                    contentDescription = "Settings",
+                    tint = Color.White,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
         }
     }
 }
@@ -194,6 +203,9 @@ private fun HeroUniverseCard(
             .fillMaxWidth()
             .height(150.dp)
             .clip(RoundedCornerShape(18.dp))
+            .clickable {
+                onClick()
+            }
     ) {
         Image(
             painter = painterResource(bannerRes),
@@ -238,7 +250,12 @@ private fun ComingSoonCard(
                 ),
                 contentDescription = universe.fullTitle,
                 modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
+                colorFilter = ColorFilter.colorMatrix(
+                    ColorMatrix().apply {
+                        setToSaturation(0f)
+                    }
+                )
             )
 
             // Locked appearance

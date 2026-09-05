@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -105,10 +106,11 @@ fun SettingsScreen(
                         .clickable { onClose() },
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = "✕",
-                        color = Color.White,
-                        fontSize = 20.sp
+                    Icon(
+                        painter = painterResource(R.drawable.ic_settings_close),
+                        contentDescription = "Close Settings",
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp)
                     )
                 }
             }
@@ -117,7 +119,7 @@ fun SettingsScreen(
 
             SettingsSection(title = "WATCHING") {
                 SettingsToggleRow(
-                    icon = "▣",
+                    iconRes = R.drawable.ic_settings_calendar,
                     title = "Show Release Years",
                     checked = showReleaseYears,
                     onCheckedChange = onShowReleaseYearsChanged
@@ -126,7 +128,7 @@ fun SettingsScreen(
                 SettingsDivider()
 
                 SettingsComingSoonRow(
-                    icon = "🔒",
+                    iconRes = R.drawable.ic_settings_bell,
                     title = "Spoiler Protection"
                 )
             }
@@ -135,7 +137,7 @@ fun SettingsScreen(
 
             SettingsSection(title = "NOTIFICATIONS") {
                 SettingsToggleRow(
-                    icon = "♢",
+                    iconRes = R.drawable.ic_settings_bell,
                     title = "Notify About New Universes",
                     checked = notifyNewUniverses,
                     onCheckedChange = onNotifyNewUniversesChanged
@@ -144,7 +146,7 @@ fun SettingsScreen(
                 SettingsDivider()
 
                 SettingsComingSoonRow(
-                    icon = "▣",
+                    iconRes = R.drawable.ic_settings_tv,
                     title = "New Episode Alerts"
                 )
             }
@@ -153,7 +155,7 @@ fun SettingsScreen(
 
             SettingsSection(title = "DATA") {
                 SettingsActionRow(
-                    icon = "↻",
+                    iconRes = R.drawable.ic_settings_reset,
                     title = "Reset ${universe.title} Progress",
                     textColor = Color.White,
                     onClick = {
@@ -164,7 +166,7 @@ fun SettingsScreen(
                 SettingsDivider()
 
                 SettingsActionRow(
-                    icon = "♜",
+                    iconRes = R.drawable.ic_settings_trash,
                     title = "Reset All Universe Progress",
                     textColor = Color.Red,
                     onClick = {
@@ -182,10 +184,11 @@ fun SettingsScreen(
                         .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = "●",
-                        color = Color.White,
-                        fontSize = 26.sp
+                    Icon(
+                        painter = painterResource(R.drawable.ic_settings_person),
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp)
                     )
 
                     Spacer(modifier = Modifier.size(12.dp))
@@ -211,7 +214,7 @@ fun SettingsScreen(
                 SettingsDivider()
 
                 SettingsActionRow(
-                    icon = "⇥",
+                    iconRes = R.drawable.ic_settings_logout,
                     title = "Log Out",
                     textColor = Color.Red,
                     onClick = {
@@ -222,7 +225,7 @@ fun SettingsScreen(
                 SettingsDivider()
 
                 SettingsActionRow(
-                    icon = "⊗",
+                    iconRes = R.drawable.ic_settings_delete_account,
                     title = "Delete Account",
                     textColor = Color.Red,
                     onClick = {
@@ -240,10 +243,11 @@ fun SettingsScreen(
                         .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = "ⓘ",
-                        color = Color.White.copy(alpha = 0.85f),
-                        fontSize = 20.sp
+                    Icon(
+                        painter = painterResource(R.drawable.ic_settings_info),
+                        contentDescription = null,
+                        tint = Color.White.copy(alpha = 0.85f),
+                        modifier = Modifier.size(24.dp)
                     )
 
                     Spacer(modifier = Modifier.size(12.dp))
@@ -473,7 +477,7 @@ private fun SettingsSection(
 
 @Composable
 private fun SettingsToggleRow(
-    icon: String,
+    iconRes: Int,
     title: String,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit
@@ -484,10 +488,11 @@ private fun SettingsToggleRow(
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
-            text = icon,
-            color = Color.White.copy(alpha = 0.85f),
-            fontSize = 20.sp
+        Icon(
+            painter = painterResource(iconRes),
+            contentDescription = null,
+            tint = Color.White.copy(alpha = 0.85f),
+            modifier = Modifier.size(24.dp)
         )
 
         Spacer(modifier = Modifier.size(12.dp))
@@ -512,7 +517,7 @@ private fun SettingsToggleRow(
 
 @Composable
 private fun SettingsComingSoonRow(
-    icon: String,
+    iconRes: Int,
     title: String
 ) {
     Row(
@@ -521,10 +526,11 @@ private fun SettingsComingSoonRow(
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
-            text = icon,
-            color = Color.White.copy(alpha = 0.85f),
-            fontSize = 20.sp
+        Icon(
+            painter = painterResource(iconRes),
+            contentDescription = null,
+            tint = Color.White.copy(alpha = 0.85f),
+            modifier = Modifier.size(24.dp)
         )
 
         Spacer(modifier = Modifier.size(12.dp))
@@ -546,7 +552,7 @@ private fun SettingsComingSoonRow(
 
 @Composable
 private fun SettingsActionRow(
-    icon: String,
+    iconRes: Int,
     title: String,
     textColor: Color,
     onClick: () -> Unit
@@ -560,10 +566,11 @@ private fun SettingsActionRow(
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
-            text = icon,
-            color = textColor,
-            fontSize = 20.sp
+        Icon(
+            painter = painterResource(iconRes),
+            contentDescription = null,
+            tint = textColor,
+            modifier = Modifier.size(24.dp)
         )
 
         Spacer(modifier = Modifier.size(12.dp))

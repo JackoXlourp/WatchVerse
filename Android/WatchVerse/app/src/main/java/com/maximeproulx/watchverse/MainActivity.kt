@@ -4,16 +4,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.painterResource
 import com.maximeproulx.watchverse.ui.theme.WatchVerseTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +23,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             WatchVerseTheme {
+                var showLaunchArtwork by androidx.compose.runtime.remember {
+                    androidx.compose.runtime.mutableStateOf(true)
+                }
+
+                androidx.compose.runtime.LaunchedEffect(Unit) {
+                    delay(700)
+                    showLaunchArtwork = false
+                }
+
+                Box(modifier = Modifier.fillMaxSize()) {
 
                 var signedIn by androidx.compose.runtime.remember {
                     androidx.compose.runtime.mutableStateOf(
@@ -64,7 +76,12 @@ class MainActivity : ComponentActivity() {
                         } else {
 
                             MainTabScreen(
+                                currentUser = currentUser!!,
+                                onCurrentUserChanged = { user ->
+                                    currentUser = user
+                                },
                                 onSignedOut = {
+                                    currentUser = null
                                     signedIn = false
                                 }
                             )
@@ -91,6 +108,18 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     )
+                }
+
+                    if (showLaunchArtwork) {
+                        Image(
+                            painter = painterResource(R.drawable.wv_launch),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(Color.Black),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
                 }
             }
         }
