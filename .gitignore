@@ -62,3 +62,4 @@ fastlane/screenshots/**/*.png
 fastlane/test_output
 /Android/WatchVerse Sign-In
 Android/WatchVerse/app/release/app-release.aab
+Android/WatchVerse/app/release/app-release 2.aab

@@ -40,6 +40,20 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
+                val googleSignInFallbackLauncher =
+                    androidx.activity.compose.rememberLauncherForActivityResult(
+                        contract = androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()
+                    ) { result ->
+                        AuthenticationService.handleGoogleSignInFallbackResult(
+                            activity = this@MainActivity,
+                            data = result.data
+                        ) { success ->
+                            if (success) {
+                                signedIn = true
+                            }
+                        }
+                    }
+
                 if (signedIn) {
 
                     var currentUser by androidx.compose.runtime.remember {
@@ -100,7 +114,10 @@ class MainActivity : ComponentActivity() {
                         },
                         onGoogleSignInClick = {
                             AuthenticationService.signInWithGoogle(
-                                activity = this@MainActivity
+                                activity = this@MainActivity,
+                                launchFallback = { intent ->
+                                    googleSignInFallbackLauncher.launch(intent)
+                                }
                             ) { success ->
                                 if (success) {
                                     signedIn = true

@@ -14,11 +14,27 @@
       },
       "oauth_client": [
         {
+          "client_id": "358620856635-a1o828amudl2o6ahfjfrfjspm84funjv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maximeproulx.watchverse",
+            "certificate_hash": "87c1d2bc6ec3f2aeb0ef55efa31aabeebe54750b"
+          }
+        },
+        {
           "client_id": "358620856635-g64jc4olr1k79eb2dqnpfuenoftu4vb6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.maximeproulx.watchverse",
             "certificate_hash": "086287300359b802545616ecaca77999d7149c0d"
+          }
+        },
+        {
+          "client_id": "358620856635-qhrj409qaevnjkl74eji93t3qdipo067.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maximeproulx.watchverse",
+            "certificate_hash": "4d45406594bb06b8340eee08dc3327367a384e5d"
           }
         },
         {
