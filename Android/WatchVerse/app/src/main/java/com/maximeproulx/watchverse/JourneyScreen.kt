@@ -87,6 +87,47 @@ private data class JourneyCarouselMovie(
     val isSkipped: Boolean
 )
 
+private fun resolveJourneyPosition(
+    universeMovies: List<Movie>,
+    filteredMovies: List<Movie>,
+    savedMovieID: String?,
+    watchedMovieIDs: Set<String>,
+    skippedMovieIDs: Set<String>
+): Int {
+    val firstPendingIndex = filteredMovies.indexOfFirst { movie ->
+        !watchedMovieIDs.contains(movie.id) &&
+                !skippedMovieIDs.contains(movie.id)
+    }
+
+    if (savedMovieID == null) {
+        return if (firstPendingIndex == -1) filteredMovies.size else firstPendingIndex
+    }
+
+    val exactIndex = filteredMovies.indexOfFirst { movie -> movie.id == savedMovieID }
+    if (exactIndex != -1) {
+        return exactIndex
+    }
+
+    val savedGlobalIndex = universeMovies.indexOfFirst { movie -> movie.id == savedMovieID }
+    if (savedGlobalIndex == -1) {
+        return if (firstPendingIndex == -1) filteredMovies.size else firstPendingIndex
+    }
+
+    val globalIndexes = universeMovies
+        .mapIndexed { index, movie -> movie.id to index }
+        .toMap()
+
+    val nextFilteredIndex = filteredMovies.indexOfFirst { movie ->
+        (globalIndexes[movie.id] ?: Int.MAX_VALUE) >= savedGlobalIndex
+    }
+
+    return if (nextFilteredIndex != -1) {
+        nextFilteredIndex
+    } else {
+        filteredMovies.lastIndex.coerceAtLeast(0)
+    }
+}
+
 @Composable
 fun JourneyScreen(
     universe: Universe,
@@ -100,8 +141,8 @@ fun JourneyScreen(
     onFullScreenOverlayChanged: (Boolean) -> Unit = {},
 ) {
     val context = LocalContext.current
-    var selectedFilters by remember {
-        mutableStateOf(emptySet<String>())
+    var selectedFilters by remember(currentUser.selectedUniverseFilters) {
+        mutableStateOf(currentUser.selectedUniverseFilters.toSet())
     }
     val movies = remember(universe.movies, selectedFilters) {
         if (selectedFilters.isEmpty()) {
@@ -120,6 +161,7 @@ fun JourneyScreen(
     val skippedMovieIDs = remember(currentUser.skippedMovies) {
         currentUser.skippedMovies.toSet()
     }
+    val latestCurrentUser = androidx.compose.runtime.rememberUpdatedState(currentUser)
     val posterResourceIDs = remember(context.applicationContext, movies) {
         movies.map { movie ->
             val posterName = movie.poster
@@ -220,16 +262,24 @@ fun JourneyScreen(
         return
     }
 
-    val firstUnwatchedIndex =
-        movies.indexOfFirst { movie ->
-            !watchedMovieIDs.contains(movie.id) &&
-                    !skippedMovieIDs.contains(movie.id)
-        }.let {
-            if (it == -1) movies.size else it
-        }
+    val savedJourneyMovieID = currentUser.journeyPositions[universe.id]
+    val initialJourneyIndex = remember(universe.id) {
+        resolveJourneyPosition(
+            universeMovies = universe.movies,
+            filteredMovies = movies,
+            savedMovieID = savedJourneyMovieID,
+            watchedMovieIDs = watchedMovieIDs,
+            skippedMovieIDs = skippedMovieIDs
+        )
+    }
 
-    var currentIndex by remember {
-        mutableIntStateOf(firstUnwatchedIndex)
+    var currentIndex by remember(universe.id) {
+        mutableIntStateOf(initialJourneyIndex)
+    }
+    var browsingMovieID by remember(universe.id) {
+        mutableStateOf(
+            movies.getOrNull(initialJourneyIndex)?.id ?: savedJourneyMovieID
+        )
     }
     var dragOffsetPx by remember {
         mutableFloatStateOf(0f)
@@ -237,11 +287,21 @@ fun JourneyScreen(
     var carouselTransitionInProgress by remember {
         mutableStateOf(false)
     }
-    var hasAppliedInitialFilterPosition by remember {
-        mutableStateOf(false)
+    val carouselPosition = remember(universe.id) {
+        Animatable(initialJourneyIndex.toFloat())
     }
-    val carouselPosition = remember {
-        Animatable(firstUnwatchedIndex.toFloat())
+
+    fun saveJourneyPosition(movieID: String) {
+        browsingMovieID = movieID
+
+        val user = latestCurrentUser.value
+        if (user.journeyPositions[universe.id] == movieID) {
+            return
+        }
+
+        val updatedPositions = user.journeyPositions + (universe.id to movieID)
+        onCurrentUserChanged(user.copy(journeyPositions = updatedPositions))
+        AuthenticationService.updateJourneyPositions(updatedPositions)
     }
 
     suspend fun animateCarouselTo(
@@ -266,38 +326,27 @@ fun JourneyScreen(
         }
     }
 
-    androidx.compose.runtime.LaunchedEffect(selectedFilters) {
-        val targetIndex = movies.indexOfFirst {
-            !watchedMovieIDs.contains(it.id) &&
-                    !skippedMovieIDs.contains(it.id)
-        }.let {
-            if (it == -1) 0 else it
-        }
+    androidx.compose.runtime.LaunchedEffect(movies) {
+        val targetIndex = resolveJourneyPosition(
+            universeMovies = universe.movies,
+            filteredMovies = movies,
+            savedMovieID = browsingMovieID,
+            watchedMovieIDs = watchedMovieIDs,
+            skippedMovieIDs = skippedMovieIDs
+        )
 
-        if (!hasAppliedInitialFilterPosition) {
-            hasAppliedInitialFilterPosition = true
-            currentIndex = targetIndex
-            carouselPosition.snapTo(targetIndex.toFloat())
-        } else {
-            if (carouselPosition.value !in 0f..movies.size.toFloat()) {
-                val boundedPosition = carouselPosition.value.coerceIn(
-                    0f,
-                    movies.size.toFloat()
-                )
-                carouselPosition.snapTo(boundedPosition)
-            }
-            animateCarouselTo(targetIndex)
-        }
+        currentIndex = targetIndex
+        carouselPosition.snapTo(targetIndex.toFloat())
     }
 
-    val completedCount = movies.count { movie ->
+    val completedCount = universe.movies.count { movie ->
         watchedMovieIDs.contains(movie.id) ||
                 skippedMovieIDs.contains(movie.id)
     }
 
     val journeyComplete =
-        movies.isNotEmpty() &&
-                completedCount == movies.size
+        universe.movies.isNotEmpty() &&
+                completedCount == universe.movies.size
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -388,6 +437,10 @@ fun JourneyScreen(
                         } finally {
                             carouselTransitionInProgress = false
                         }
+
+                        movies.getOrNull(targetIndex)?.let { movie ->
+                            saveJourneyPosition(movie.id)
+                        }
                     }
                 },
                 onMovieClick = { index, movie ->
@@ -399,6 +452,7 @@ fun JourneyScreen(
                     } else if (!carouselTransitionInProgress) {
                         animationScope.launch {
                             animateCarouselTo(index, stiffness = 322f)
+                            saveJourneyPosition(movie.id)
                         }
                     }
                 },
@@ -532,7 +586,7 @@ fun JourneyScreen(
             } else {
                 val percent =
                     if (movies.isNotEmpty()) {
-                        ((completedCount.toFloat() / movies.size) * 100).toInt()
+                        ((completedCount.toFloat() / universe.movies.size) * 100).toInt()
                     } else {
                         0
                     }
@@ -550,7 +604,7 @@ fun JourneyScreen(
                     )
 
                     Text(
-                        text = "$completedCount of ${movies.size}",
+                        text = "$completedCount of ${universe.movies.size}",
                         color = Color.White,
                         fontSize = 17.sp,
                         fontWeight = FontWeight.Bold
@@ -626,6 +680,18 @@ fun JourneyScreen(
                         selectedFilters = selectedFilters,
                         onApply = { newSelection ->
                             selectedFilters = newSelection
+
+                            val user = latestCurrentUser.value
+                            onCurrentUserChanged(
+                                user.copy(
+                                    selectedUniverseFilters = newSelection.toList()
+                                )
+                            )
+
+                            AuthenticationService.updateSelectedUniverseFilters(
+                                newSelection.toList()
+                            )
+
                             showFilterDropdown = false
                         }
                     )
@@ -642,149 +708,166 @@ fun JourneyScreen(
         ) {
             selectedMovie?.let { movie ->
                 MovieDetailScreen(
-                movie = movie,
-                isWatched = currentUser.watchedMovies.contains(movie.id),
-                isSkipped = currentUser.skippedMovies.contains(movie.id),
-                onBadgeClick = { badge ->
-                    selectedBadge = badge
-                },
-                onMarkWatched = {
-                    val updatedWatchedMovies =
-                        currentUser.watchedMovies
-                            .toMutableList()
+                    movie = movie,
+                    isWatched = currentUser.watchedMovies.contains(movie.id),
+                    isSkipped = currentUser.skippedMovies.contains(movie.id),
+                    showReleaseYears = currentUser.showReleaseYears,
+                    onBadgeClick = { badge ->
+                        selectedBadge = badge
+                    },
+                    onMarkWatched = {
+                        val updatedWatchedMovies =
+                            currentUser.watchedMovies
+                                .toMutableList()
 
-                    if (updatedWatchedMovies.contains(movie.id)) {
-                        updatedWatchedMovies.remove(movie.id)
+                        if (updatedWatchedMovies.contains(movie.id)) {
+                            updatedWatchedMovies.remove(movie.id)
 
-                        AuthenticationService.updateWatchedMovies(
-                            updatedWatchedMovies
-                        ) { success ->
-                            if (success) {
-                                onCurrentUserChanged(
-                                    currentUser.copy(watchedMovies = updatedWatchedMovies)
-                                )
-                            }
-                        }
-
-                        return@MovieDetailScreen
-                    }
-
-                    updatedWatchedMovies.add(movie.id)
-                    val updatedSkippedMovies =
-                        currentUser.skippedMovies.filterNot { skippedID ->
-                            skippedID == movie.id
-                        }
-
-                    currentAnimationMovieID = movie.id
-                    completionStage = CompletionStage.GROWING
-                    dismissMovieDetail()
-
-                    animationScope.launch {
-                        var watchedPersistenceSucceeded = false
-                        var completionAnimationFinished = false
-
-                        fun finishBadgeUnlockEvaluation() {
-                            val unlockResult = BadgeUnlockEvaluator.check(
-                                currentUser.copy(
-                                    watchedMovies = updatedWatchedMovies,
-                                    skippedMovies = updatedSkippedMovies
-                                )
-                            )
-                            onCurrentUserChanged(unlockResult.user)
-
-                            if (unlockResult.newlyUnlockedBadges.isNotEmpty()) {
-                                AuthenticationService.updateUnlockedBadges(
-                                    unlockResult.user.unlockedBadges
-                                )
-                                onBadgesUnlocked(unlockResult.newlyUnlockedBadges)
-                            }
-                        }
-
-                        delay(450)
-
-                        val watchedUser = currentUser.copy(
-                            watchedMovies = updatedWatchedMovies,
-                            skippedMovies = updatedSkippedMovies
-                        )
-                        onCurrentUserChanged(watchedUser)
-                        completionStage = CompletionStage.COMPLETED
-
-                        AuthenticationService.updateSkippedMovies(updatedSkippedMovies)
-                        AuthenticationService.updateWatchedMovies(
-                            updatedWatchedMovies
-                        ) { success ->
-                            if (success) {
-                                watchedPersistenceSucceeded = true
-
-                                if (completionAnimationFinished) {
-                                    finishBadgeUnlockEvaluation()
+                            AuthenticationService.updateWatchedMovies(
+                                updatedWatchedMovies
+                            ) { success ->
+                                if (success) {
+                                    onCurrentUserChanged(
+                                        currentUser.copy(watchedMovies = updatedWatchedMovies)
+                                    )
                                 }
                             }
+
+                            return@MovieDetailScreen
                         }
 
-                        delay(250)
-                        completionStage = CompletionStage.SHRINKING
+                        updatedWatchedMovies.add(movie.id)
+                        val updatedSkippedMovies =
+                            currentUser.skippedMovies.filterNot { skippedID ->
+                                skippedID == movie.id
+                            }
 
-                        delay(450)
-                        completionStage = CompletionStage.IDLE
-                        currentAnimationMovieID = null
+                        currentAnimationMovieID = movie.id
+                        completionStage = CompletionStage.GROWING
+                        dismissMovieDetail()
 
-                        val targetIndex = movies.indexOfFirst { candidate ->
-                            !updatedWatchedMovies.contains(candidate.id) &&
-                                    !updatedSkippedMovies.contains(candidate.id)
-                        }.let { index ->
-                            if (index == -1) movies.size else index
-                        }
+                        animationScope.launch {
+                            var watchedPersistenceSucceeded = false
+                            var completionAnimationFinished = false
 
-                        animateCarouselTo(targetIndex)
+                            fun finishBadgeUnlockEvaluation() {
+                                val unlockResult = BadgeUnlockEvaluator.check(
+                                    currentUser.copy(
+                                        watchedMovies = updatedWatchedMovies,
+                                        skippedMovies = updatedSkippedMovies
+                                    )
+                                )
+                                onCurrentUserChanged(unlockResult.user)
 
-                        completionAnimationFinished = true
+                                if (unlockResult.newlyUnlockedBadges.isNotEmpty()) {
+                                    AuthenticationService.updateUnlockedBadges(
+                                        unlockResult.user.unlockedBadges
+                                    )
+                                    onBadgesUnlocked(unlockResult.newlyUnlockedBadges)
+                                }
+                            }
 
-                        if (watchedPersistenceSucceeded) {
-                            finishBadgeUnlockEvaluation()
-                        }
-                    }
-                },
-                onSkip = {
-                    val updatedSkippedMovies =
-                        currentUser.skippedMovies
-                            .toMutableList()
+                            delay(450)
 
-                    if (updatedSkippedMovies.contains(movie.id)) {
-                        updatedSkippedMovies.remove(movie.id)
-                    } else {
-                        updatedSkippedMovies.add(movie.id)
-                    }
-
-                    AuthenticationService.updateSkippedMovies(
-                        updatedSkippedMovies
-                    ) { success ->
-                        if (success) {
-                            onCurrentUserChanged(currentUser.copy(
+                            val watchedUser = currentUser.copy(
+                                watchedMovies = updatedWatchedMovies,
                                 skippedMovies = updatedSkippedMovies
-                            ))
+                            )
+                            onCurrentUserChanged(watchedUser)
+                            completionStage = CompletionStage.COMPLETED
 
-                            dismissMovieDetail()
+                            AuthenticationService.updateSkippedMovies(updatedSkippedMovies)
+                            AuthenticationService.updateWatchedMovies(
+                                updatedWatchedMovies
+                            ) { success ->
+                                if (success) {
+                                    watchedPersistenceSucceeded = true
 
-                            animationScope.launch {
-                                delay(500)
-
-                                val targetIndex = movies.indexOfFirst { candidate ->
-                                    !currentUser.watchedMovies.contains(candidate.id) &&
-                                            !updatedSkippedMovies.contains(candidate.id)
-                                }.let { index ->
-                                    if (index == -1) movies.size else index
+                                    if (completionAnimationFinished) {
+                                        finishBadgeUnlockEvaluation()
+                                    }
                                 }
+                            }
 
-                                animateCarouselTo(targetIndex)
+                            delay(250)
+                            completionStage = CompletionStage.SHRINKING
+
+                            delay(450)
+                            completionStage = CompletionStage.IDLE
+                            currentAnimationMovieID = null
+
+                            val completedIndex = movies.indexOfFirst { candidate ->
+                                candidate.id == movie.id
+                            }.takeIf { index -> index >= 0 }
+                                ?: currentIndex.coerceAtMost(movies.lastIndex)
+                            val targetIndex = movies.indices
+                                .firstOrNull { index ->
+                                    index > completedIndex &&
+                                            !updatedWatchedMovies.contains(movies[index].id) &&
+                                            !updatedSkippedMovies.contains(movies[index].id)
+                                }
+                                ?: movies.size
+
+                            animateCarouselTo(targetIndex)
+                            saveJourneyPosition(
+                                movies.getOrNull(targetIndex)?.id ?: movie.id
+                            )
+
+                            completionAnimationFinished = true
+
+                            if (watchedPersistenceSucceeded) {
+                                finishBadgeUnlockEvaluation()
                             }
                         }
+                    },
+                    onSkip = {
+                        val updatedSkippedMovies =
+                            currentUser.skippedMovies
+                                .toMutableList()
+
+                        if (updatedSkippedMovies.contains(movie.id)) {
+                            updatedSkippedMovies.remove(movie.id)
+                        } else {
+                            updatedSkippedMovies.add(movie.id)
+                        }
+
+                        AuthenticationService.updateSkippedMovies(
+                            updatedSkippedMovies
+                        ) { success ->
+                            if (success) {
+                                onCurrentUserChanged(currentUser.copy(
+                                    skippedMovies = updatedSkippedMovies
+                                ))
+
+                                dismissMovieDetail()
+
+                                animationScope.launch {
+                                    delay(500)
+
+                                    val skippedIndex = movies.indexOfFirst { candidate ->
+                                        candidate.id == movie.id
+                                    }.takeIf { index -> index >= 0 }
+                                        ?: currentIndex.coerceAtMost(movies.lastIndex)
+                                    val targetIndex = movies.indices
+                                        .firstOrNull { index ->
+                                            index > skippedIndex &&
+                                                !currentUser.watchedMovies.contains(movies[index].id) &&
+                                                !updatedSkippedMovies.contains(movies[index].id)
+                                        }
+                                        ?: movies.size
+
+                                    animateCarouselTo(targetIndex)
+                                    saveJourneyPosition(
+                                        movies.getOrNull(targetIndex)?.id ?: movie.id
+                                    )
+                                }
+                            }
+                        }
+                    },
+                    onClose = {
+                        dismissMovieDetail()
                     }
-                },
-                onClose = {
-                    dismissMovieDetail()
-                }
-            )
+                )
             }
         }
 
@@ -900,6 +983,7 @@ private fun JourneyCarousel(
                             movie = movie,
                             posterResourceID = carouselMovie.posterResourceID,
                             isWatched = carouselMovie.isWatched,
+                            isSkipped = carouselMovie.isSkipped,
                             centerProgress = centerProgress,
                             completionStage =
                                 if (currentAnimationMovieID == movie.id) {
@@ -937,6 +1021,7 @@ private fun JourneyPosterCard(
     movie: Movie,
     posterResourceID: Int,
     isWatched: Boolean,
+    isSkipped: Boolean,
     centerProgress: Float,
     completionStage: CompletionStage,
     onClick: () -> Unit,
@@ -1016,6 +1101,9 @@ private fun JourneyPosterCard(
                                     centerProgress > 0.5f ->
                                 Color(0xFF48C774)
 
+                            isSkipped && centerProgress > 0.5f ->
+                                Color(0xFFFF8A33)
+
                             centerProgress > 0.5f ->
                                 JourneyGold
 
@@ -1050,6 +1138,36 @@ private fun JourneyPosterCard(
                             Color.Black.copy(alpha = 0.60f)
                         }
                     )
+            )
+        }
+        if (isSkipped && !isWatched) {
+            Text(
+                text = "»",
+                color =
+                    if (centerProgress > 0.5f) {
+                        Color(0xFFFF8A33)
+                    } else {
+                        Color.Gray
+                    },
+                fontSize = 55.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(12.dp)
+            )
+        }
+        if (movie.releaseStatus == "comingSoon") {
+            Text(
+                text = "COMING SOON",
+                color = Color.Black,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 12.dp)
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(JourneyGold)
+                    .padding(horizontal = 10.dp, vertical = 5.dp)
             )
         }
     }

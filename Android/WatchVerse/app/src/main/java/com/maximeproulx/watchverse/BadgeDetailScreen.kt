@@ -51,10 +51,13 @@ fun BadgeDetailScreen(
         "drawable",
         context.packageName
     )
-    val completedMovies = movies.count { movie ->
-        currentUser.watchedMovies.contains(movie.id)
+    val completedMovies = badge.requiredMovieIDs.count { movieID ->
+        currentUser.watchedMovies.contains(movieID)
     }
-    val isCompleted = movies.isNotEmpty() && completedMovies == movies.size
+
+    val isCompleted =
+        badge.requiredMovieIDs.isNotEmpty() &&
+                completedMovies == badge.requiredMovieIDs.size
 
     Box(
         modifier = Modifier
@@ -87,7 +90,7 @@ fun BadgeDetailScreen(
 
             if (movies.isNotEmpty()) {
                 Text(
-                    text = "$completedMovies / ${movies.size} completed",
+                    text = "$completedMovies / ${badge.requiredMovieIDs.size} completed",
                     color = Color.Gray,
                     fontSize = 17.sp,
                     fontWeight = FontWeight.SemiBold

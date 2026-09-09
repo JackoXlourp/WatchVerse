@@ -10,6 +10,7 @@ data class Movie(
     val director: String,
     val genres: List<String>,
     val tags: List<String> = emptyList(),
+    val releaseStatus: String = "released",
     var isWatched: Boolean = false,
     var isSkipped: Boolean = false
 )

@@ -12,7 +12,7 @@ struct MovieDetailView: View {
     let movie: Movie
     let viewModel: JourneyViewModel
     let onMovieWatched: ((String) -> Void)?
-    let onMovieSkipped: (() -> Void)?
+    let onMovieSkipped: ((String) -> Void)?
     
     @Environment(\.dismiss) private var dismiss
     
@@ -105,63 +105,67 @@ struct MovieDetailView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     
-                    // MARK: Movie Watched Button
-                    Button {
-                        
-                        if currentMovie.isWatched {
-                            viewModel.markMovieUnwatched(id: movie.id)
-                        } else {
-                            onMovieWatched?(movie.id)
-                            dismiss()
-                        }
-                        
-                    } label: {
-                        Label(
-                            currentMovie.isWatched ? "Watched" : "Mark as Watched",
-                            systemImage: currentMovie.isWatched
-                            ? "checkmark.circle.fill"
-                            : "circle"
-                        )
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(
-                            currentMovie.isWatched ? Color.green: Color.yellow
-                        )
-                        .foregroundStyle(.black)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
-                    }
-                    .buttonStyle(.plain)
-                    
-                    if !currentMovie.isWatched {
-                        
-                        // MARK: SKIP BUTTON
+                    if currentMovie.releaseStatus == .comingSoon {
+                        Label("Coming Soon", systemImage: "calendar.badge.clock")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.watchVerseGold.opacity(0.25))
+                            .foregroundStyle(Color.watchVerseGold)
+                            .clipShape(RoundedRectangle(cornerRadius: 16))
+                    } else {
+                        // MARK: Movie Watched Button
                         Button {
-                            
-                            if currentMovie.isSkipped {
-                                viewModel.unskipMovie(id: movie.id)
+                            if currentMovie.isWatched {
+                                viewModel.markMovieUnwatched(id: movie.id)
                             } else {
-                                viewModel.skipMovie(id: movie.id)
-                                onMovieSkipped?()
+                                onMovieWatched?(movie.id)
                                 dismiss()
                             }
-                            
                         } label: {
                             Label(
-                                currentMovie.isSkipped ? "Unskip" : "Skip",
-                                systemImage: currentMovie.isSkipped
-                                ? "arrow.uturn.backward"
-                                : "forward.fill"
+                                currentMovie.isWatched ? "Watched" : "Mark as Watched",
+                                systemImage: currentMovie.isWatched
+                                ? "checkmark.circle.fill"
+                                : "circle"
                             )
                             .font(.headline)
-                            .frame(width: 140)
+                            .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.gray.opacity(0.25))
-                            .foregroundStyle(.white)
+                            .background(
+                                currentMovie.isWatched ? Color.green: Color.yellow
+                            )
+                            .foregroundStyle(.black)
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                         }
                         .buttonStyle(.plain)
-                        
+
+                        if !currentMovie.isWatched {
+                            // MARK: SKIP BUTTON
+                            Button {
+                                if currentMovie.isSkipped {
+                                    viewModel.unskipMovie(id: movie.id)
+                                } else {
+                                    viewModel.skipMovie(id: movie.id)
+                                    onMovieSkipped?(movie.id)
+                                    dismiss()
+                                }
+                            } label: {
+                                Label(
+                                    currentMovie.isSkipped ? "Unskip" : "Skip",
+                                    systemImage: currentMovie.isSkipped
+                                    ? "arrow.uturn.backward"
+                                    : "forward.fill"
+                                )
+                                .font(.headline)
+                                .frame(width: 140)
+                                .padding()
+                                .background(Color.gray.opacity(0.25))
+                                .foregroundStyle(.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 16))
+                            }
+                            .buttonStyle(.plain)
+                        }
                     }
                     
                     //MARK: Synopsis....

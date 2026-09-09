@@ -1531,7 +1531,7 @@
       "isWatched": false,
       "isSkipped": false,
       "tags": [
-        "others"
+        "multiverse_saga"
       ]
     },
     {
@@ -1570,7 +1570,8 @@
       "isSkipped": false,
       "tags": [
         "multiverse_saga"
-      ]
+      ],
+      "releaseStatus": "comingSoon"
     }
   ]
 }

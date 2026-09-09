@@ -58,6 +58,8 @@ object AuthenticationService {
                     "isFounder" to true,
                     "showReleaseYears" to true,
                     "notifyNewUniverses" to true,
+                    "selectedUniverseFilters" to emptyList<String>(),
+                    "journeyPositions" to emptyMap<String, String>(),
                     "unlockedBadges" to emptyList<String>(),
                     "shownBadgePopups" to emptyList<String>(),
                     "watchedMovies" to emptyList<String>(),
@@ -153,6 +155,51 @@ object AuthenticationService {
                 "notifyNewUniverses",
                 value
             )
+            .addOnSuccessListener {
+                onComplete(true)
+            }
+            .addOnFailureListener {
+                onComplete(false)
+            }
+    }
+    fun updateSelectedUniverseFilters(
+        filters: List<String>,
+        onComplete: (Boolean) -> Unit = {}
+    ) {
+        val user = auth.currentUser
+
+        if (user == null) {
+            onComplete(false)
+            return
+        }
+
+        db.collection("users")
+            .document(user.uid)
+            .update(
+                "selectedUniverseFilters",
+                filters
+            )
+            .addOnSuccessListener {
+                onComplete(true)
+            }
+            .addOnFailureListener {
+                onComplete(false)
+            }
+    }
+    fun updateJourneyPositions(
+        positions: Map<String, String>,
+        onComplete: (Boolean) -> Unit = {}
+    ) {
+        val user = auth.currentUser
+
+        if (user == null) {
+            onComplete(false)
+            return
+        }
+
+        db.collection("users")
+            .document(user.uid)
+            .update("journeyPositions", positions)
             .addOnSuccessListener {
                 onComplete(true)
             }

@@ -46,12 +46,15 @@ fun MovieDetailScreen(
     movie: Movie,
     isWatched: Boolean,
     isSkipped: Boolean,
+    showReleaseYears: Boolean,
     onBadgeClick: (Badge) -> Unit = {},
     onMarkWatched: () -> Unit = {},
     onSkip: () -> Unit = {},
     onClose: () -> Unit = {}
 ) {
     val context = LocalContext.current
+
+    val isComingSoon = movie.releaseStatus == "comingSoon"
 
     val posterName = movie.poster
         .substringBeforeLast(".")
@@ -135,7 +138,12 @@ fun MovieDetailScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "${movie.year}  •  ${movie.runtime}",
+                    text =
+                        if (showReleaseYears) {
+                            "${movie.year}  •  ${movie.runtime}"
+                        } else {
+                            movie.runtime
+                        },
                     color = Color.White.copy(alpha = 0.65f),
                     fontSize = 15.sp
                 )
@@ -154,65 +162,86 @@ fun MovieDetailScreen(
                 modifier = Modifier.height(20.dp)
             )
 
-            Button(
-                onClick = onMarkWatched,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(54.dp),
-                shape = RoundedCornerShape(14.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor =
-                        if (isWatched) {
-                            Color(0xFF48C774)
-                        } else {
-                            MovieDetailGold
-                        },
-                    contentColor = Color.Black
-                )
-            ) {
-                Text(
-                    text =
-                        if (isWatched) {
-                            "Watched"
-                        } else {
-                            "Mark as Watched"
-                        },
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
-
-            if (!isWatched) {
-                Spacer(
-                    modifier = Modifier.height(12.dp)
-                )
-
+            if (isComingSoon) {
                 Button(
-                    onClick = onSkip,
+                    onClick = {},
+                    enabled = false,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(54.dp),
                     shape = RoundedCornerShape(14.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF2A2A2A),
-                        contentColor =
-                            if (isSkipped) {
-                                MovieDetailGold
+                        disabledContainerColor = MovieDetailGold.copy(alpha = 0.35f),
+                        disabledContentColor = Color.White.copy(alpha = 0.75f)
+                    )
+                ) {
+                    Text(
+                        text = "Coming Soon",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            } else {
+                Button(
+                    onClick = onMarkWatched,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(54.dp),
+                    shape = RoundedCornerShape(14.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor =
+                            if (isWatched) {
+                                Color(0xFF48C774)
                             } else {
-                                Color.White
-                            }
+                                MovieDetailGold
+                            },
+                        contentColor = Color.Black
                     )
                 ) {
                     Text(
                         text =
-                            if (isSkipped) {
-                                "Skipped"
+                            if (isWatched) {
+                                "Watched"
                             } else {
-                                "Skip"
+                                "Mark as Watched"
                             },
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold
                     )
+                }
+
+                if (!isWatched) {
+                    Spacer(
+                        modifier = Modifier.height(12.dp)
+                    )
+
+                    Button(
+                        onClick = onSkip,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(54.dp),
+                        shape = RoundedCornerShape(14.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF2A2A2A),
+                            contentColor =
+                                if (isSkipped) {
+                                    MovieDetailGold
+                                } else {
+                                    Color.White
+                                }
+                        )
+                    ) {
+                        Text(
+                            text =
+                                if (isSkipped) {
+                                    "Skipped"
+                                } else {
+                                    "Skip"
+                                },
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
                 }
             }
 

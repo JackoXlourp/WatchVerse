@@ -161,6 +161,22 @@ fun MainTabScreen(
                     currentUser = currentUser,
                     onCurrentUserChanged = onCurrentUserChanged,
                     onSettingsClick = ::openSettings,
+                    onResetJourney = {
+                        val movieIds = activeUniverse.movies.map { it.id }.toSet()
+
+                        AuthenticationService.resetUniverseProgress(
+                            movieIds = movieIds.toList()
+                        ) { success ->
+                            if (success) {
+                                onCurrentUserChanged(
+                                    currentUser.copy(
+                                        watchedMovies = currentUser.watchedMovies.filterNot(movieIds::contains),
+                                        skippedMovies = currentUser.skippedMovies.filterNot(movieIds::contains)
+                                    )
+                                )
+                            }
+                        }
+                    },
                     onBadgesUnlocked = { badges ->
                         queueBadgePopups(badges)
                     },

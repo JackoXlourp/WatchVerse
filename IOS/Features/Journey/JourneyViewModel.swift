@@ -56,7 +56,8 @@ class JourneyViewModel {
     //MARK: func
     func markMovieWatched(id: String) {
 
-        guard let index = movies.firstIndex(where: { $0.id == id }) else {
+        guard let index = movies.firstIndex(where: { $0.id == id }),
+              movies[index].releaseStatus == .released else {
             return
         }
 
@@ -132,7 +133,8 @@ class JourneyViewModel {
     
     func skipMovie(id: String) {
 
-        guard let index = movies.firstIndex(where: { $0.id == id }) else {
+        guard let index = movies.firstIndex(where: { $0.id == id }),
+              movies[index].releaseStatus == .released else {
             return
         }
 
@@ -208,8 +210,9 @@ class JourneyViewModel {
     func loadWatchedMovies(from user: User) {
 
         for index in movies.indices {
-            movies[index].isWatched = user.watchedMovies.contains(movies[index].id)
-            movies[index].isSkipped = user.skippedMovies.contains(movies[index].id)
+            let movie = movies[index]
+            movies[index].isWatched = movie.releaseStatus == .released && user.watchedMovies.contains(movie.id)
+            movies[index].isSkipped = movie.releaseStatus == .released && user.skippedMovies.contains(movie.id)
             
         }
     }

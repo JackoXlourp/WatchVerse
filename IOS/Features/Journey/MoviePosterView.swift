@@ -77,6 +77,19 @@ struct MoviePosterView: View {
                         .padding(8 + (4 * centerProgress))
                     }
                 }
+                .overlay(alignment: .bottom) {
+                    if movie.releaseStatus == .comingSoon {
+                        Text("COMING SOON")
+                            .font(.caption2.weight(.bold))
+                            .tracking(1.2)
+                            .foregroundStyle(.black)
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 6)
+                            .background(Color.watchVerseGold)
+                            .clipShape(Capsule())
+                            .padding(12)
+                    }
+                }
             
             RoundedRectangle(
                 cornerRadius: 16 + (4 * centerProgress)

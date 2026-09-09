@@ -1531,7 +1531,7 @@
       "isWatched": false,
       "isSkipped": false,
       "tags": [
-        "others"
+        "multiverse_saga"
       ]
     },
     {
@@ -1559,6 +1559,7 @@
       "poster": "avengers5",
       "year": 2026,
       "runtime": "TBA",
+      "releaseStatus": "comingSoon",
       "synopsis": "As powerful forces from across the Multiverse collide, Earth's Mightiest Heroes and unexpected allies must unite to face a threat unlike any they have encountered before.",
       "director": "Anthony Russo & Joe Russo",
       "genres": [

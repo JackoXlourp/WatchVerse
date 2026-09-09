@@ -11,7 +11,6 @@ struct JourneyView: View {
     @State private var currentIndex = 0
     @State private var dragOffset: CGSize = .zero
     @State private var selectedMovie: Movie?
-    @State private var advanceAfterDismiss = false
     @State private var completionStage: CompletionStage = .idle
     @State private var currentAnimationMovieID: String?
     @State private var showFilterMenu = false
@@ -109,6 +108,7 @@ struct JourneyView: View {
                                         withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                                             currentIndex = index
                                         }
+                                        saveJourneyPosition(movie.id)
                                     }
                                 },
                                 completionStage: currentAnimationMovieID == movie.id
@@ -212,6 +212,10 @@ struct JourneyView: View {
                                 withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                                     currentIndex = newIndex
                                     dragOffset = .zero
+                                }
+
+                                if newIndex < filteredMovies.count {
+                                    saveJourneyPosition(filteredMovies[newIndex].id)
                                 }
                             }
                     )
@@ -347,51 +351,23 @@ struct JourneyView: View {
             
         }
         .navigationBarBackButtonHidden(true)
-        .onChange(of: filteredMovies.count) {
-            if currentIndex >= filteredMovies.count {
-                currentIndex = 0
-            }
-        }
         .onChange(of: authentication.currentUser?.settings.selectedUniverseFilters) {
-            updateCurrentIndexToNextMovie()
+            restoreJourneyPosition()
         }
         .onAppear {
-            updateCurrentIndexToNextMovie()
+            restoreJourneyPosition()
         }
-        .sheet(
-            item: $selectedMovie,
-            onDismiss: {
-                if advanceAfterDismiss {
-                    advanceAfterDismiss = false
-
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        if let index = nextFilteredMovieIndex() {
-                            withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                                currentIndex = index
-                            }
-                        }
-                    }
-                }
-            }
-        ) { movie in
+        .sheet(item: $selectedMovie) { movie in
             NavigationStack {
                 MovieDetailView(
                     movie: movie,
                     viewModel: viewModel,
                     onMovieWatched: { movieID in
-                        
-                        advanceAfterDismiss = true
                         playCompletionAnimation(for: movieID)
                     },
-                    onMovieSkipped: {
-                        advanceAfterDismiss = true
-                        
+                    onMovieSkipped: { movieID in
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            if let index = nextFilteredMovieIndex() {
-                                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                                    currentIndex = index
-                                }
-                            }
+                            advanceToNextUnfinishedMovie(after: movieID)
                         }
                     }
                 )
@@ -446,19 +422,75 @@ struct JourneyView: View {
         }
     }
     
-    private func updateCurrentIndexToNextMovie() {
-        if let index = filteredMovies.firstIndex(where: { !$0.isWatched && !$0.isSkipped }) {
-            withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                currentIndex = index
-            }
-        } else {
-            currentIndex = 0
-        }
-    }
-    private func nextFilteredMovieIndex() -> Int? {
+    private func restoreJourneyPosition() {
+        let savedMovieID = authentication.currentUser?
+            .settings
+            .journeyPositions[viewModel.journey.id]
 
-        filteredMovies.firstIndex {
+        currentIndex = resolvedJourneyIndex(savedMovieID: savedMovieID)
+    }
+
+    private func resolvedJourneyIndex(savedMovieID: String?) -> Int {
+        let firstUnfinishedIndex = filteredMovies.firstIndex {
             !$0.isWatched && !$0.isSkipped
+        }
+
+        guard let savedMovieID else {
+            return firstUnfinishedIndex ?? filteredMovies.count
+        }
+
+        if let savedIndex = filteredMovies.firstIndex(where: { $0.id == savedMovieID }) {
+            return savedIndex
+        }
+
+        guard let savedGlobalIndex = viewModel.movies.firstIndex(where: { $0.id == savedMovieID }) else {
+            return firstUnfinishedIndex ?? filteredMovies.count
+        }
+
+        if let nearbyFilteredIndex = filteredMovies.firstIndex(where: { movie in
+            guard let movieGlobalIndex = viewModel.movies.firstIndex(where: { $0.id == movie.id }) else {
+                return false
+            }
+            return movieGlobalIndex >= savedGlobalIndex
+        }) {
+            return nearbyFilteredIndex
+        }
+
+        return filteredMovies.indices.last ?? 0
+    }
+
+    private func saveJourneyPosition(_ movieID: String) {
+        guard var user = authentication.currentUser else {
+            return
+        }
+
+        guard user.settings.journeyPositions[viewModel.journey.id] != movieID else {
+            return
+        }
+
+        user.settings.journeyPositions[viewModel.journey.id] = movieID
+        authentication.currentUser = user
+        cloudKit.save(user: user)
+    }
+
+    private func advanceToNextUnfinishedMovie(after movieID: String) {
+        let currentMovieIndex = filteredMovies.firstIndex(where: { $0.id == movieID }) ?? currentIndex
+        let nextMovieIndex = filteredMovies.indices.first { index in
+            index > currentMovieIndex &&
+            !filteredMovies[index].isWatched &&
+            !filteredMovies[index].isSkipped
+        }
+
+        let targetIndex = nextMovieIndex ?? filteredMovies.count
+
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+            currentIndex = targetIndex
+        }
+
+        if targetIndex < filteredMovies.count {
+            saveJourneyPosition(filteredMovies[targetIndex].id)
+        } else {
+            saveJourneyPosition(movieID)
         }
     }
     
@@ -484,11 +516,7 @@ struct JourneyView: View {
 
                     currentAnimationMovieID = nil
 
-                    if let index = nextFilteredMovieIndex() {
-                        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                            currentIndex = index
-                        }
-                    }
+                    advanceToNextUnfinishedMovie(after: movieID)
                 }
             }
         }
@@ -498,4 +526,3 @@ struct JourneyView: View {
     #Preview {
         JourneyView()
     }
-

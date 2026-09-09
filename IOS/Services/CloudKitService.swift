@@ -89,6 +89,9 @@ final class CloudKitService {
             if let data = try? JSONEncoder().encode(user.settings.selectedUniverseFilters) {
                 record["selectedUniverseFilters"] = data
             }
+            if let data = try? JSONEncoder().encode(user.settings.journeyPositions) {
+                record["journeyPositions"] = data
+            }
 
             record["watchedMovies"] = user.watchedMovies
             record["skippedMovies"] = user.skippedMovies
@@ -126,7 +129,16 @@ final class CloudKitService {
                         return [:]
                     }
                     return filters
-                }()            ),
+                }(),
+                journeyPositions: {
+                    guard let data = record["journeyPositions"] as? Data,
+                          let positions = try? JSONDecoder().decode([String: String].self, from: data)
+                    else {
+                        return [:]
+                    }
+                    return positions
+                }()
+            ),
             shownBadgePopups: record["shownBadgePopups"] as? [String] ?? [],
         )
     }
@@ -146,6 +158,9 @@ final class CloudKitService {
         record["showReleaseYears"] = user.settings.showReleaseYears
         if let data = try? JSONEncoder().encode(user.settings.selectedUniverseFilters) {
             record["selectedUniverseFilters"] = data
+        }
+        if let data = try? JSONEncoder().encode(user.settings.journeyPositions) {
+            record["journeyPositions"] = data
         }
 
         record["watchedMovies"] = user.watchedMovies

@@ -18,16 +18,18 @@ struct BadgeDetailView: View {
     @Environment(\.dismiss) private var dismiss
     
     private var completedMovies: Int {
+        let availableMovieIDs = Set(movies.map(\.id))
 
-        movies.filter {
-            authentication.currentUser?.watchedMovies.contains($0.id) == true
+        return badge.requiredMovieIDs.filter {
+            availableMovieIDs.contains($0) &&
+            authentication.currentUser?.watchedMovies.contains($0) == true
         }
         .count
     }
     
     private var isCompleted: Bool {
 
-        completedMovies == movies.count
+        completedMovies == badge.requiredMovieIDs.count
     }
 
     var body: some View {
@@ -44,8 +46,8 @@ struct BadgeDetailView: View {
                 Text(badge.title)
                     .font(.title.bold())
                 
-                if !movies.isEmpty {
-                    Text("\(completedMovies) / \(movies.count) completed")
+                if !badge.requiredMovieIDs.isEmpty {
+                    Text("\(completedMovies) / \(badge.requiredMovieIDs.count) completed")
                         .font(.headline)
                         .foregroundStyle(.secondary)
                 }

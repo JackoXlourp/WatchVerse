@@ -41,6 +41,7 @@ object JSONLoader {
                         movieObject.optJSONArray("tags")
                             ?: JSONArray()
                     ),
+                    releaseStatus = movieObject.optString("releaseStatus", "released"),
                     isWatched = movieObject.optBoolean(
                         "isWatched",
                         false

@@ -8,6 +8,8 @@ data class WatchVerseUser(
     val isFounder: Boolean = false,
     val showReleaseYears: Boolean = true,
     val notifyNewUniverses: Boolean = true,
+    val selectedUniverseFilters: List<String> = emptyList(),
+    val journeyPositions: Map<String, String> = emptyMap(),
     val unlockedBadges: List<String> = emptyList(),
     val shownBadgePopups: List<String> = emptyList(),
     val watchedMovies: List<String> = emptyList(),
