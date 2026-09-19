@@ -16,11 +16,22 @@ struct Universe: Identifiable, Codable {
     
     let description: String
     
-    let logo: String
     let banner: String
     let poster: String
     
     let filters: [String]?
     
     let movies: [Movie]
+    
+    static let loading = Universe(
+        id: "loading",
+        title: "",
+        subtitle: "",
+        fullTitle: "",
+        description: "",
+        banner: "",
+        poster: "",
+        filters: nil,
+        movies: []
+    )
 }

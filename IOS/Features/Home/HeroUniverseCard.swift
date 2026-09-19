@@ -18,9 +18,11 @@ struct HeroUniverseCard: View {
 
             VStack(alignment: .leading, spacing: 12) {
 
-                Image(universe.banner)
-                    .resizable()
-                    .scaledToFill()
+                ArtworkImageView(
+                    source: universe.banner,
+                    placeholder: "placeholder-banner"
+                )
+                .scaledToFill()
                     .frame(maxWidth: .infinity, minHeight: 170, maxHeight: 170)
                     .clipped()
                     .clipShape(RoundedRectangle(cornerRadius: 16))

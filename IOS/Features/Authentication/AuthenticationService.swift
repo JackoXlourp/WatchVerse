@@ -88,7 +88,10 @@ final class AuthenticationService {
 
                     CloudKitService().findOrCreateUser(
                         id: self.storedUserID,
-                        name: self.currentUser?.displayName ?? ""
+                        name: self.currentUser?.displayName ?? "",
+                        onFailure: { _ in
+                                self.isLoading = false
+                            }
                     ) { user, isNewUser in
                         self.currentUser = user
                         self.needsName = isNewUser

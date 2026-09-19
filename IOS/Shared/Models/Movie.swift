@@ -12,6 +12,13 @@ enum MovieReleaseStatus: String, Codable {
     case comingSoon
 }
 
+enum ContentType: String, Codable {
+    case movie
+    case series
+    case special
+    case short
+}
+
 struct Movie: Identifiable, Hashable, Codable {
     let id: String
     
@@ -27,12 +34,14 @@ struct Movie: Identifiable, Hashable, Codable {
     
     var tags: [String] = []
     let releaseStatus: MovieReleaseStatus
+    var type: ContentType = .movie
+    let timelineOrder: Int
     
     var isWatched: Bool
     var isSkipped: Bool
     
     private enum CodingKeys: String, CodingKey {
-        case id, title, poster, year, runtime, synopsis, director, genres, tags, releaseStatus, isWatched, isSkipped
+        case id, title, poster, year, runtime, synopsis, director, genres, tags, releaseStatus, type, timelineOrder, isWatched, isSkipped
     }
 
     init(
@@ -46,6 +55,7 @@ struct Movie: Identifiable, Hashable, Codable {
         genres: [String],
         tags: [String] = [],
         releaseStatus: MovieReleaseStatus = .released,
+        timelineOrder: Int = 0,
         isWatched: Bool,
         isSkipped: Bool
     ) {
@@ -59,6 +69,7 @@ struct Movie: Identifiable, Hashable, Codable {
         self.genres = genres
         self.tags = tags
         self.releaseStatus = releaseStatus
+        self.timelineOrder = timelineOrder
         self.isWatched = isWatched
         self.isSkipped = isSkipped
     }
@@ -76,7 +87,9 @@ struct Movie: Identifiable, Hashable, Codable {
         genres = try container.decode([String].self, forKey: .genres)
         tags = try container.decodeIfPresent([String].self, forKey: .tags) ?? []
         releaseStatus = try container.decodeIfPresent(MovieReleaseStatus.self, forKey: .releaseStatus) ?? .released
-        isWatched = try container.decode(Bool.self, forKey: .isWatched)
-        isSkipped = try container.decode(Bool.self, forKey: .isSkipped)
+        type = try container.decodeIfPresent(ContentType.self, forKey: .type) ?? .movie
+        timelineOrder = try container.decodeIfPresent(Int.self, forKey: .timelineOrder) ?? 0
+        isWatched = try container.decodeIfPresent(Bool.self, forKey: .isWatched) ?? false
+        isSkipped = try container.decodeIfPresent(Bool.self, forKey: .isSkipped) ?? false
     }
 }

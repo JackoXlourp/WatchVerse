@@ -26,21 +26,21 @@ struct JourneyView: View {
     private var cloudKit
     
     private let posterSpacing: CGFloat = 190
-
+    
     var filteredMovies: [Movie] {
         guard let filters = viewModel.journey.filters,
               !filters.isEmpty else {
             return viewModel.movies
         }
-
+        
         let selected = authentication.currentUser?
             .settings
             .selectedUniverseFilters[viewModel.journey.id] ?? []
-
+        
         if selected.isEmpty {
             return viewModel.movies
         }
-
+        
         return viewModel.movies.filter { movie in
             movie.tags.contains { selected.contains($0) }
         }
@@ -50,20 +50,20 @@ struct JourneyView: View {
         guard viewModel.movieCount > 0 else { return 0 }
         return Int((Double(viewModel.watchedCount) / Double(viewModel.movieCount)) * 100)
     }
-
+    
     var body: some View {
         
         ZStack {
             
             Image("AppBackground")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(
-                        width: UIScreen.main.bounds.width,
-                        height: UIScreen.main.bounds.height
-                    )
-                    .clipped()
-                    .ignoresSafeArea()
+                .resizable()
+                .scaledToFill()
+                .frame(
+                    width: UIScreen.main.bounds.width,
+                    height: UIScreen.main.bounds.height
+                )
+                .clipped()
+                .ignoresSafeArea()
             
             ScrollView(.vertical, showsIndicators: false) {
                 
@@ -89,7 +89,12 @@ struct JourneyView: View {
                     }
                     
                     ZStack {
-                        ForEach(Array(filteredMovies.enumerated()), id: \.element.id) { index, movie in
+                        ForEach(
+                            Array(filteredMovies.enumerated()).filter {
+                                abs($0.offset - currentIndex) <= 2
+                            },
+                            id: \.element.id
+                        ) { index, movie in
                             
                             let offset = CGFloat(index - currentIndex) * posterSpacing + dragOffset.width
                             
@@ -112,8 +117,8 @@ struct JourneyView: View {
                                     }
                                 },
                                 completionStage: currentAnimationMovieID == movie.id
-                                    ? completionStage
-                                    : .idle
+                                ? completionStage
+                                : .idle
                             )
                             .padding(.top, 60)
                             .offset(x: offset)
@@ -122,55 +127,57 @@ struct JourneyView: View {
                         
                         if currentIndex == filteredMovies.count {
                             
-                           ZStack {
-                                    
-                                    Image(viewModel.journey.poster)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(
-                                            width: carouselCardWidth,
-                                            height: carouselCardHeight
-                                        )
-                                        .blur(radius: 5)
-                                        .overlay(Color.black.opacity(0.18))
-                                        .clipShape(RoundedRectangle(cornerRadius: 24))
-                                    
-                                    VStack(spacing: 16) {
-                                        
-                                        Image(systemName: "film.stack.fill")
-                                            .font(.system(size: 40))
-                                            .foregroundStyle(.white)
-                                        
-                                        Text("The End")
-                                            .font(.title.bold())
-                                            .foregroundStyle(.white)
-                                        
-                                        if viewModel.isJourneyComplete {
-                                            
-                                            Text("You've completed")
-                                                .font(.subheadline)
-                                                .foregroundStyle(.white.opacity(0.85))
-                                            
-                                            Text(viewModel.journey.fullTitle)
-                                                .font(.headline)
-                                                .foregroundStyle(.white)
-                                                .multilineTextAlignment(.center)
-                                            
-                                        }
-                                        
-                                        Divider()
-                                            .overlay(.white.opacity(0.3))
-                                            .padding(.horizontal, 20)
-                                        
-                                        Label("Start Journey Again", systemImage: "arrow.counterclockwise")
-                                            .font(.headline)
-                                            .foregroundStyle(.white)
-                                    }
-                                }
+                            ZStack {
+                                
+                                ArtworkImageView(
+                                    source: viewModel.journey.poster,
+                                    placeholder: "placeholder-movie"
+                                )
+                                .scaledToFill()
                                 .frame(
                                     width: carouselCardWidth,
                                     height: carouselCardHeight
                                 )
+                                .blur(radius: 5)
+                                .overlay(Color.black.opacity(0.18))
+                                .clipShape(RoundedRectangle(cornerRadius: 24))
+                                
+                                VStack(spacing: 16) {
+                                    
+                                    Image(systemName: "film.stack.fill")
+                                        .font(.system(size: 40))
+                                        .foregroundStyle(.white)
+                                    
+                                    Text("The End")
+                                        .font(.title.bold())
+                                        .foregroundStyle(.white)
+                                    
+                                    if viewModel.isJourneyComplete {
+                                        
+                                        Text("You've completed")
+                                            .font(.subheadline)
+                                            .foregroundStyle(.white.opacity(0.85))
+                                        
+                                        Text(viewModel.journey.fullTitle)
+                                            .font(.headline)
+                                            .foregroundStyle(.white)
+                                            .multilineTextAlignment(.center)
+                                        
+                                    }
+                                    
+                                    Divider()
+                                        .overlay(.white.opacity(0.3))
+                                        .padding(.horizontal, 20)
+                                    
+                                    Label("Start Journey Again", systemImage: "arrow.counterclockwise")
+                                        .font(.headline)
+                                        .foregroundStyle(.white)
+                                }
+                            }
+                            .frame(
+                                width: carouselCardWidth,
+                                height: carouselCardHeight
+                            )
                             .contentShape(Rectangle())
                             .onTapGesture {
                                 withAnimation(.spring(response: 0.4, dampingFraction: 0.55)) {
@@ -194,11 +201,11 @@ struct JourneyView: View {
                                 
                                 let predicted = value.predictedEndTranslation.width
                                 let actual = value.translation.width
-
+                                
                                 let velocityBoost = (predicted - actual) * 0.25
-
+                                
                                 let finalTranslation = actual + velocityBoost
-
+                                
                                 let movement = Int((-finalTranslation / 120).rounded())
                                 
                                 let newIndex = max(
@@ -213,7 +220,7 @@ struct JourneyView: View {
                                     currentIndex = newIndex
                                     dragOffset = .zero
                                 }
-
+                                
                                 if newIndex < filteredMovies.count {
                                     saveJourneyPosition(filteredMovies[newIndex].id)
                                 }
@@ -252,23 +259,23 @@ struct JourneyView: View {
                             let badges = BadgeData.badgesContaining(
                                 movieID: filteredMovies[currentIndex].id
                             )
-
+                            
                             if !badges.isEmpty {
-
+                                
                                 HStack(spacing: 8) {
-
+                                    
                                     ForEach(badges) { badge in
-
+                                        
                                         Button {
                                             selectedBadge = badge
                                         } label: {
                                             HStack(spacing: 6) {
-
+                                                
                                                 Image(badge.imageName)
                                                     .resizable()
                                                     .scaledToFit()
                                                     .frame(width: 20, height: 20)
-
+                                                
                                                 Text(badge.title)
                                                     .font(.caption.weight(.semibold))
                                                     .foregroundStyle(.white)
@@ -403,11 +410,11 @@ struct JourneyView: View {
                             onApply: { selected in
                                 if var user = authentication.currentUser {
                                     user.settings.selectedUniverseFilters[viewModel.journey.id] = selected
-
+                                    
                                     authentication.currentUser = user
                                     cloudKit.save(user: user)
                                 }
-
+                                
                                 showFilterMenu = false
                             }
                         )
@@ -415,38 +422,37 @@ struct JourneyView: View {
                     }
                 }
             }
-
+            
             ToolbarItem(placement: .topBarTrailing) {
                 SettingsButton()
             }
         }
     }
-    
     private func restoreJourneyPosition() {
         let savedMovieID = authentication.currentUser?
             .settings
             .journeyPositions[viewModel.journey.id]
-
+        
         currentIndex = resolvedJourneyIndex(savedMovieID: savedMovieID)
     }
-
+    
     private func resolvedJourneyIndex(savedMovieID: String?) -> Int {
         let firstUnfinishedIndex = filteredMovies.firstIndex {
             !$0.isWatched && !$0.isSkipped
         }
-
+        
         guard let savedMovieID else {
             return firstUnfinishedIndex ?? filteredMovies.count
         }
-
+        
         if let savedIndex = filteredMovies.firstIndex(where: { $0.id == savedMovieID }) {
             return savedIndex
         }
-
+        
         guard let savedGlobalIndex = viewModel.movies.firstIndex(where: { $0.id == savedMovieID }) else {
             return firstUnfinishedIndex ?? filteredMovies.count
         }
-
+        
         if let nearbyFilteredIndex = filteredMovies.firstIndex(where: { movie in
             guard let movieGlobalIndex = viewModel.movies.firstIndex(where: { $0.id == movie.id }) else {
                 return false
@@ -455,24 +461,24 @@ struct JourneyView: View {
         }) {
             return nearbyFilteredIndex
         }
-
+        
         return filteredMovies.indices.last ?? 0
     }
-
+    
     private func saveJourneyPosition(_ movieID: String) {
         guard var user = authentication.currentUser else {
             return
         }
-
+        
         guard user.settings.journeyPositions[viewModel.journey.id] != movieID else {
             return
         }
-
+        
         user.settings.journeyPositions[viewModel.journey.id] = movieID
         authentication.currentUser = user
         cloudKit.save(user: user)
     }
-
+    
     private func advanceToNextUnfinishedMovie(after movieID: String) {
         let currentMovieIndex = filteredMovies.firstIndex(where: { $0.id == movieID }) ?? currentIndex
         let nextMovieIndex = filteredMovies.indices.first { index in
@@ -480,13 +486,13 @@ struct JourneyView: View {
             !filteredMovies[index].isWatched &&
             !filteredMovies[index].isSkipped
         }
-
+        
         let targetIndex = nextMovieIndex ?? filteredMovies.count
-
+        
         withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
             currentIndex = targetIndex
         }
-
+        
         if targetIndex < filteredMovies.count {
             saveJourneyPosition(filteredMovies[targetIndex].id)
         } else {
@@ -495,27 +501,27 @@ struct JourneyView: View {
     }
     
     private func playCompletionAnimation(for movieID: String) {
-
+        
         currentAnimationMovieID = movieID
-
+        
         completionStage = .growing
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
-
+            
             viewModel.markMovieWatched(id: movieID)
-
+            
             completionStage = .completed
-
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-
+                
                 completionStage = .shrinking
-
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
-
+                    
                     completionStage = .idle
-
+                    
                     currentAnimationMovieID = nil
-
+                    
                     advanceToNextUnfinishedMovie(after: movieID)
                 }
             }

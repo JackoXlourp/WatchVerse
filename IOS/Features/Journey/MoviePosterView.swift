@@ -25,93 +25,91 @@ struct MoviePosterView: View {
         
         ZStack {
             
-            let posterName = UIImage(named: movie.poster) != nil
-                ? movie.poster
-                : "placeholder-movie"
-            
-            Image(posterName)
-                .resizable()
-                .scaledToFill()
-                .saturation(
-                    movie.isWatched && centerProgress <= 0.5 ? 0 : 1
+            ArtworkImageView(
+                source: movie.poster,
+                placeholder: "placeholder-movie"
+            )
+            .scaledToFill()
+            .saturation(
+                movie.isWatched && centerProgress <= 0.5 ? 0 : 1
+            )
+            .opacity(
+                movie.isWatched && centerProgress <= 0.5
+                ? 0.65
+                : movie.isSkipped && centerProgress <= 0.5
+                ? 0.80
+                : 1
+            )
+            .clipShape(
+                RoundedRectangle(
+                    cornerRadius: 16 + (4 * centerProgress)
                 )
-                .opacity(
-                    movie.isWatched && centerProgress <= 0.5
-                        ? 0.65
-                        : movie.isSkipped && centerProgress <= 0.5
-                            ? 0.80
-                            : 1
-                )
-                .clipShape(
-                    RoundedRectangle(
-                        cornerRadius: 16 + (4 * centerProgress)
-                    )
-                )
-                .overlay(alignment: .topTrailing) {
-                    if movie.isWatched {
-                        Image(systemName: "checkmark.circle.fill")
-                            .font(.system(size: 30))
-                            .scaleEffect(0.8 + (0.2 * centerProgress))
-                            .foregroundStyle(centerProgress > 0.5 ? .green : .white)
-                            .opacity(centerProgress > 0.5 ? 1 : 0.6)
-                            .shadow(radius: centerProgress > 0.5 ? 8 : 0)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-                            .padding(8 + (4 * centerProgress))
-
-                    } else if movie.isSkipped {
-
-                        ZStack {
-                            Image(systemName: "forward.fill")
-                                .font(.system(size: 30))
-                                .foregroundStyle(.black)
-                                .offset(x: 1, y: 1)
-
-                            Image(systemName: "forward.fill")
-                                .font(.system(size: 30))
-                                .foregroundStyle(centerProgress > 0.5 ? .orange : .white)
-                        }
+            )
+            .overlay(alignment: .topTrailing) {
+                if movie.isWatched {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 30))
                         .scaleEffect(0.8 + (0.2 * centerProgress))
+                        .foregroundStyle(centerProgress > 0.5 ? .green : .white)
                         .opacity(centerProgress > 0.5 ? 1 : 0.6)
                         .shadow(radius: centerProgress > 0.5 ? 8 : 0)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                         .padding(8 + (4 * centerProgress))
-                    }
-                }
-                .overlay(alignment: .bottom) {
-                    if movie.releaseStatus == .comingSoon {
-                        Text("COMING SOON")
-                            .font(.caption2.weight(.bold))
-                            .tracking(1.2)
+                    
+                } else if movie.isSkipped {
+                    
+                    ZStack {
+                        Image(systemName: "forward.fill")
+                            .font(.system(size: 30))
                             .foregroundStyle(.black)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 6)
-                            .background(Color.watchVerseGold)
-                            .clipShape(Capsule())
-                            .padding(12)
+                            .offset(x: 1, y: 1)
+                        
+                        Image(systemName: "forward.fill")
+                            .font(.system(size: 30))
+                            .foregroundStyle(centerProgress > 0.5 ? .orange : .white)
                     }
+                    .scaleEffect(0.8 + (0.2 * centerProgress))
+                    .opacity(centerProgress > 0.5 ? 1 : 0.6)
+                    .shadow(radius: centerProgress > 0.5 ? 8 : 0)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                    .padding(8 + (4 * centerProgress))
                 }
+            }
+            .overlay(alignment: .bottom) {
+                if movie.releaseStatus == .comingSoon {
+                    Text("COMING SOON")
+                        .font(.caption2.weight(.bold))
+                        .tracking(1.2)
+                        .foregroundStyle(.black)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(Color.watchVerseGold)
+                        .clipShape(Capsule())
+                        .padding(12)
+                }
+            }
             
             RoundedRectangle(
                 cornerRadius: 16 + (4 * centerProgress)
             )
             .stroke(
                 (movie.isWatched || completionStage == .completed) && centerProgress > 0.5
-                    ? .green
-                    : movie.isSkipped && centerProgress > 0.5
-                        ? .orange
-                        : centerProgress > 0.5
-                            ? Color(red: 0.86, green: 0.72, blue: 0.28)
-                            : Color.white.opacity(0.12),
+                ? .green
+                : movie.isSkipped && centerProgress > 0.5
+                ? .orange
+                : centerProgress > 0.5
+                ? Color(red: 0.86, green: 0.72, blue: 0.28)
+                : Color.white.opacity(0.12),
                 lineWidth:
                     (movie.isWatched || movie.isSkipped) && centerProgress > 0.5
-                    ? 3
-                    : 2
+                ? 3
+                : 2
             )
         }
         .scaleEffect(
             completionStage == .growing || completionStage == .completed
-                ? 1.25
-                : 1.0
+            ? 1.25
+            : 1.0
         )
         .animation(
             .spring(response: 0.35, dampingFraction: 0.65),

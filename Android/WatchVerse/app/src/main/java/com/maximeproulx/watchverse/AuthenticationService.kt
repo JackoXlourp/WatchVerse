@@ -575,6 +575,7 @@ object AuthenticationService {
     fun signInWithGoogle(
         activity: androidx.activity.ComponentActivity,
         launchFallback: (android.content.Intent) -> Unit,
+        onError: (String) -> Unit,
         onComplete: (Boolean) -> Unit
     ) {
         val credentialManager =
@@ -612,11 +613,26 @@ object AuthenticationService {
                         com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
                             .createFrom(credential.data)
 
-                    signInToFirebaseWithGoogleIdToken(
-                        idToken = googleCredential.idToken,
-                        onComplete = onComplete
-                    )
+                    if (googleCredential.idToken.isBlank()) {
+                        android.util.Log.e(
+                            "WatchVerseAuth",
+                            "Credential Manager returned an empty Google ID token."
+                        )
+                        onError("Google sign-in failed (TOKEN)")
+                        onComplete(false)
+                    } else {
+                        signInToFirebaseWithGoogleIdToken(
+                            idToken = googleCredential.idToken,
+                            onError = onError,
+                            onComplete = onComplete
+                        )
+                    }
                 } else {
+                    android.util.Log.e(
+                        "WatchVerseAuth",
+                        "Credential Manager returned unsupported credential type ${credential::class.java.name}."
+                    )
+                    onError("Google sign-in failed (CM-TYPE)")
                     onComplete(false)
                 }
 
@@ -627,12 +643,7 @@ object AuthenticationService {
                     error
                 )
 
-                android.widget.Toast.makeText(
-                    activity,
-                    "No Google account is available for sign-in. Check that a Google account is signed in on this device.",
-                    android.widget.Toast.LENGTH_LONG
-                ).show()
-
+                onError("Google sign-in failed (CM-NONE)")
                 onComplete(false)
             } catch (error: androidx.credentials.exceptions.GetCredentialCancellationException) {
                 val message = error.message.orEmpty()
@@ -669,64 +680,49 @@ object AuthenticationService {
                             "Unable to launch legacy Google Sign-In fallback: ${fallbackError::class.java.name}",
                             fallbackError
                         )
+                        onError("Google sign-in failed (CM-16)")
                         onComplete(false)
                     }
                 } else {
-                    val exceptionName = error::class.java.simpleName
-
                     android.util.Log.i(
                         "WatchVerseAuth",
                         "Google sign-in was cancelled: ${error::class.java.name}",
                         error
                     )
-
-                    android.widget.Toast.makeText(
-                        activity,
-                        "Google sign-in cancelled ($exceptionName).",
-                        android.widget.Toast.LENGTH_LONG
-                    ).show()
-
+                    onError("Google sign-in cancelled (CM-CANCEL)")
                     onComplete(false)
                 }
+            } catch (error: com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException) {
+                android.util.Log.e(
+                    "WatchVerseAuth",
+                    "Credential Manager Google ID token parsing failed: ${error::class.java.name}",
+                    error
+                )
+                onError("Google sign-in failed (CM-PARSE)")
+                onComplete(false)
             } catch (error: androidx.credentials.exceptions.GetCredentialException) {
-                val exceptionName = error::class.java.simpleName
-
                 android.util.Log.e(
                     "WatchVerseAuth",
                     "Google Credential Manager failed with ${error::class.java.name}",
                     error
                 )
-
-                android.widget.Toast.makeText(
-                    activity,
-                    "Google sign-in error ($exceptionName): ${error.message ?: "No details available"}",
-                    android.widget.Toast.LENGTH_LONG
-                ).show()
-
+                onError("Google sign-in failed (CM-OTHER)")
                 onComplete(false)
             } catch (error: Exception) {
-                val exceptionName = error::class.java.simpleName
-
                 android.util.Log.e(
                     "WatchVerseAuth",
                     "Unexpected Google sign-in failure: ${error::class.java.name}",
                     error
                 )
-
-                android.widget.Toast.makeText(
-                    activity,
-                    "Google sign-in error ($exceptionName): ${error.message ?: "No details available"}",
-                    android.widget.Toast.LENGTH_LONG
-                ).show()
-
+                onError("Google sign-in failed (UNEXPECTED)")
                 onComplete(false)
             }
         }
     }
 
     fun handleGoogleSignInFallbackResult(
-        activity: androidx.activity.ComponentActivity,
         data: android.content.Intent?,
+        onError: (String) -> Unit,
         onComplete: (Boolean) -> Unit
     ) {
         val accountTask =
@@ -743,17 +739,14 @@ object AuthenticationService {
                     "WatchVerseAuth",
                     "Legacy Google Sign-In fallback returned no ID token."
                 )
-                android.widget.Toast.makeText(
-                    activity,
-                    "Google sign-in did not return an ID token.",
-                    android.widget.Toast.LENGTH_LONG
-                ).show()
+                onError("Google sign-in failed (TOKEN)")
                 onComplete(false)
                 return
             }
 
             signInToFirebaseWithGoogleIdToken(
                 idToken = idToken,
+                onError = onError,
                 onComplete = onComplete
             )
         } catch (error: com.google.android.gms.common.api.ApiException) {
@@ -762,11 +755,14 @@ object AuthenticationService {
                 "Legacy Google Sign-In fallback failed with status ${error.statusCode}",
                 error
             )
-            android.widget.Toast.makeText(
-                activity,
-                "Google sign-in fallback failed (${error.statusCode}): ${error.message ?: "No details available"}",
-                android.widget.Toast.LENGTH_LONG
-            ).show()
+            if (
+                error.statusCode ==
+                com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes.SIGN_IN_CANCELLED
+            ) {
+                onError("Google sign-in cancelled (GSI-${error.statusCode})")
+            } else {
+                onError("Google sign-in failed (GSI-${error.statusCode})")
+            }
             onComplete(false)
         } catch (error: Exception) {
             android.util.Log.e(
@@ -774,17 +770,14 @@ object AuthenticationService {
                 "Unexpected legacy Google Sign-In fallback failure: ${error::class.java.name}",
                 error
             )
-            android.widget.Toast.makeText(
-                activity,
-                "Google sign-in fallback error (${error::class.java.simpleName}): ${error.message ?: "No details available"}",
-                android.widget.Toast.LENGTH_LONG
-            ).show()
+            onError("Google sign-in failed (GSI-UNEXPECTED)")
             onComplete(false)
         }
     }
 
     private fun signInToFirebaseWithGoogleIdToken(
         idToken: String,
+        onError: (String) -> Unit,
         onComplete: (Boolean) -> Unit
     ) {
         val firebaseCredential =
@@ -795,8 +788,15 @@ object AuthenticationService {
 
         auth.signInWithCredential(firebaseCredential)
             .addOnSuccessListener {
-                createUserDocumentIfNeeded {
-                    onComplete(it)
+                createUserDocumentIfNeeded { success ->
+                    if (!success) {
+                        android.util.Log.e(
+                            "WatchVerseAuth",
+                            "Firebase sign-in succeeded, but the WatchVerse user document could not be loaded or created."
+                        )
+                        onError("Google sign-in failed (PROFILE)")
+                    }
+                    onComplete(success)
                 }
             }
             .addOnFailureListener { error ->
@@ -805,6 +805,7 @@ object AuthenticationService {
                     "Firebase Google credential exchange failed: ${error::class.java.name}",
                     error
                 )
+                onError("Google sign-in failed (FIREBASE)")
                 onComplete(false)
             }
     }

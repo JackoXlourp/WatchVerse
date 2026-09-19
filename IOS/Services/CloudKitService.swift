@@ -17,6 +17,7 @@ final class CloudKitService {
     func findOrCreateUser(
         id: String,
         name: String,
+        onFailure: ((Error) -> Void)? = nil,
         completion: @escaping (User, Bool) -> Void
     ) {
 
@@ -35,6 +36,7 @@ final class CloudKitService {
                 if error.code != .unknownItem {
 
                     print("❌ CloudKit fetch failed:", error.localizedDescription)
+                    onFailure?(error)
                     return
                 }
             }

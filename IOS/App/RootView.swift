@@ -20,6 +20,9 @@ struct RootView: View {
     
     @Environment(AppNavigation.self)
     private var navigation
+    
+    @Environment(ContentStore.self)
+    private var contentStore
 
     @State private var showingBadgeOverlay = false
     @State private var popupBadge: Badge?
@@ -28,7 +31,7 @@ struct RootView: View {
 
         Group {
 
-            if authentication.isLoading {
+            if authentication.isLoading || contentStore.isLoading {
 
                 splashScreenView()
 

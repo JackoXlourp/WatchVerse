@@ -11,6 +11,7 @@ struct HomeView: View {
     
     @Environment(JourneyViewModel.self) private var viewModel
     @Environment(AppNavigation.self) private var navigation
+    @Environment(ContentStore.self) private var contentStore
     
     var body: some View {
             
@@ -79,7 +80,7 @@ struct HomeView: View {
                             ],
                             spacing: 20
                         ) {
-                            ForEach(comingSoon) { universe in
+                            ForEach(contentStore.comingSoonUniverses) { universe in
                                 UniverseCard(
                                     universe: universe,
                                     isLocked: true
@@ -105,6 +106,7 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
+        .environment(ContentStore())
         .environment(
             JourneyViewModel(
                 journey: universes[0],

@@ -26,16 +26,18 @@ struct MovieDetailView: View {
         
         ZStack {
             
-            Image(currentMovie.poster)
-                .resizable()
-                .scaledToFill()
-                .frame(
-                    width: UIScreen.main.bounds.width,
-                    height: UIScreen.main.bounds.height
-                )
-                .clipped()
-                .blur(radius: 15)
-                .ignoresSafeArea()
+            ArtworkImageView(
+                source: currentMovie.poster,
+                placeholder: "placeholder-movie"
+            )
+            .scaledToFill()
+            .frame(
+                width: UIScreen.main.bounds.width,
+                height: UIScreen.main.bounds.height
+            )
+            .clipped()
+            .blur(radius: 15)
+            .ignoresSafeArea()
             
             Color.black
                 .opacity(0.65)
@@ -50,11 +52,13 @@ struct MovieDetailView: View {
                     
                     HStack(alignment: .top, spacing: 20) {
                         
-                        Image(currentMovie.poster)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 150)
-                            .clipShape(RoundedRectangle(cornerRadius: 18))
+                        ArtworkImageView(
+                            source: currentMovie.poster,
+                            placeholder: "placeholder-movie"
+                        )
+                        .scaledToFit()
+                        .frame(width: 150)
+                        .clipShape(RoundedRectangle(cornerRadius: 18))
                         
                         VStack(alignment: .leading, spacing: 12) {
                             
@@ -139,7 +143,7 @@ struct MovieDetailView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                         }
                         .buttonStyle(.plain)
-
+                        
                         if !currentMovie.isWatched {
                             // MARK: SKIP BUTTON
                             Button {

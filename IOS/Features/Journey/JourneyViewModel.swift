@@ -16,8 +16,8 @@ class JourneyViewModel {
     @ObservationIgnored
     var cloudKit: CloudKitService?
     
-    let journey: Universe
-    let universes: [Universe]
+    var journey: Universe
+    var universes: [Universe]
     
     var movies: [Movie]
     
@@ -214,6 +214,16 @@ class JourneyViewModel {
             movies[index].isWatched = movie.releaseStatus == .released && user.watchedMovies.contains(movie.id)
             movies[index].isSkipped = movie.releaseStatus == .released && user.skippedMovies.contains(movie.id)
             
+        }
+    }
+    
+    func replaceJourney(with universe: Universe) {
+        journey = universe
+        universes = [universe]
+        movies = universe.movies
+
+        if let user = authentication?.currentUser {
+            loadWatchedMovies(from: user)
         }
     }
     

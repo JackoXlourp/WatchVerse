@@ -39,16 +39,22 @@ class MainActivity : ComponentActivity() {
                         AuthenticationService.isSignedIn()
                     )
                 }
+                var googleSignInMessage by androidx.compose.runtime.remember {
+                    androidx.compose.runtime.mutableStateOf<String?>(null)
+                }
 
                 val googleSignInFallbackLauncher =
                     androidx.activity.compose.rememberLauncherForActivityResult(
                         contract = androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()
                     ) { result ->
                         AuthenticationService.handleGoogleSignInFallbackResult(
-                            activity = this@MainActivity,
-                            data = result.data
+                            data = result.data,
+                            onError = { message ->
+                                googleSignInMessage = message
+                            }
                         ) { success ->
                             if (success) {
+                                googleSignInMessage = null
                                 signedIn = true
                             }
                         }
@@ -103,6 +109,7 @@ class MainActivity : ComponentActivity() {
                     }
                 } else {
                     AuthenticationScreen(
+                        googleSignInMessage = googleSignInMessage,
                         onAppleSignInClick = {
                             AuthenticationService.signInWithApple(
                                 activity = this@MainActivity
@@ -113,13 +120,18 @@ class MainActivity : ComponentActivity() {
                             }
                         },
                         onGoogleSignInClick = {
+                            googleSignInMessage = null
                             AuthenticationService.signInWithGoogle(
                                 activity = this@MainActivity,
                                 launchFallback = { intent ->
                                     googleSignInFallbackLauncher.launch(intent)
+                                },
+                                onError = { message ->
+                                    googleSignInMessage = message
                                 }
                             ) { success ->
                                 if (success) {
+                                    googleSignInMessage = null
                                     signedIn = true
                                 }
                             }

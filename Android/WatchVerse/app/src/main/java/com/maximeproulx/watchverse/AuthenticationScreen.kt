@@ -34,7 +34,8 @@ private val AuthGold = Color(
 @Composable
 fun AuthenticationScreen(
     onAppleSignInClick: () -> Unit = {},
-    onGoogleSignInClick: () -> Unit = {}
+    onGoogleSignInClick: () -> Unit = {},
+    googleSignInMessage: String? = null
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -117,6 +118,19 @@ fun AuthenticationScreen(
                     color = Color.Black,
                     fontSize = 17.sp,
                     fontWeight = FontWeight.SemiBold
+                )
+            }
+
+            if (googleSignInMessage != null) {
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Text(
+                    text = googleSignInMessage,
+                    color = Color(0xFFFF8A80),
+                    fontSize = 13.sp,
+                    lineHeight = 18.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = 12.dp)
                 )
             }
 
