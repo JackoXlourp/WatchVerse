@@ -25,6 +25,9 @@ struct JourneyView: View {
     @Environment(CloudKitService.self)
     private var cloudKit
     
+    @Environment(ContentStore.self)
+    private var contentStore
+    
     private let posterSpacing: CGFloat = 190
     
     var filteredMovies: [Movie] {
@@ -256,9 +259,11 @@ struct JourneyView: View {
                                     .foregroundStyle(.gray)
                             }
                             
-                            let badges = BadgeData.badgesContaining(
-                                movieID: filteredMovies[currentIndex].id
-                            )
+                            let badges = contentStore.badges.filter {
+                                $0.requiredContentIDs.contains(
+                                    filteredMovies[currentIndex].id
+                                )
+                            }
                             
                             if !badges.isEmpty {
                                 
@@ -271,10 +276,12 @@ struct JourneyView: View {
                                         } label: {
                                             HStack(spacing: 6) {
                                                 
-                                                Image(badge.imageName)
-                                                    .resizable()
-                                                    .scaledToFit()
-                                                    .frame(width: 20, height: 20)
+                                                ArtworkImageView(
+                                                    source: badge.artwork,
+                                                    placeholder: "placeholder-badge"
+                                                )
+                                                .scaledToFit()
+                                                .frame(width: 20, height: 20)
                                                 
                                                 Text(badge.title)
                                                     .font(.caption.weight(.semibold))
@@ -384,7 +391,7 @@ struct JourneyView: View {
             BadgeDetailView(
                 badge: badge,
                 movies: viewModel.movies.filter {
-                    badge.requiredMovieIDs.contains($0.id)
+                    badge.requiredContentIDs.contains($0.id)
                 }
             )
         }

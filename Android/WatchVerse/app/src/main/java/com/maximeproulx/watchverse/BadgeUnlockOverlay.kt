@@ -23,8 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -42,12 +40,6 @@ fun BadgeUnlockOverlay(
     onClose: () -> Unit,
     onSeeBadge: () -> Unit
 ) {
-    val context = LocalContext.current
-    val imageResource = context.resources.getIdentifier(
-        badge.imageName,
-        "drawable",
-        context.packageName
-    )
     val backdropInteraction = remember {
         MutableInteractionSource()
     }
@@ -78,11 +70,12 @@ fun BadgeUnlockOverlay(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            Image(
-                painter = painterResource(imageResource),
+            ArtworkImage(
+                source = badge.artwork,
                 contentDescription = badge.title,
                 modifier = Modifier.size(160.dp),
-                contentScale = ContentScale.Fit
+                contentScale = ContentScale.Fit,
+                placeholder = R.drawable.placeholder_movie
             )
 
             Text(

@@ -18,6 +18,17 @@ final class ContentStore {
     var isLoading = true
     var errorMessage: String?
     var comingSoonUniverses: [Universe] = []
+    var badges: [Badge] = []
+    
+    private var contentCache: [String: [Movie]] = [:]
+    
+    func loadBadges() async {
+        do {
+            badges = try await service.fetchBadges()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
 
     func loadContent(for universeID: String) async {
         isLoading = false
@@ -69,6 +80,12 @@ final class ContentStore {
             universe = loadedUniverse
             content = loadedUniverse.movies
             comingSoonUniverses = loadedComingSoon
+            
+            badges = try await service.fetchBadges()
+            
+            for badge in badges {
+                await ArtworkPreloader.preload(badge.artwork)
+            }
 
             let homeArtworkSources = Set(
                 [loadedUniverse.banner] +
@@ -84,5 +101,29 @@ final class ContentStore {
         }
 
         isLoading = false
+    }
+    func content(for universeID: String) async -> [Movie] {
+
+        if universe?.id == universeID {
+            return content
+        }
+
+        if let cachedContent = contentCache[universeID] {
+            return cachedContent
+        }
+
+        do {
+            let loadedContent = try await service.fetchContent(
+                for: universeID
+            )
+
+            contentCache[universeID] = loadedContent
+
+            return loadedContent
+
+        } catch {
+            errorMessage = error.localizedDescription
+            return []
+        }
     }
 }

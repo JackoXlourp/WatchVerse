@@ -105,12 +105,24 @@ struct HomeView: View {
 }
 
 #Preview {
+    let previewUniverse = Universe(
+        id: "preview",
+        title: "Marvel",
+        subtitle: "The Infinity Saga",
+        fullTitle: "Marvel Cinematic Universe",
+        description: "",
+        banner: "placeholder-poster",
+        poster: "placeholder-poster",
+        filters: nil,
+        movies: []
+    )
+
     HomeView()
         .environment(ContentStore())
         .environment(
             JourneyViewModel(
-                journey: universes[0],
-                universes: universes
+                journey: previewUniverse,
+                universes: [previewUniverse]
             )
         )
 }

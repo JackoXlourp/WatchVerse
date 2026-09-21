@@ -16,6 +16,9 @@ struct MovieDetailView: View {
     
     @Environment(\.dismiss) private var dismiss
     
+    @Environment(ContentStore.self)
+    private var contentStore
+    
     @State private var selectedBadge: Badge?
     
     private var currentMovie: Movie {
@@ -72,7 +75,9 @@ struct MovieDetailView: View {
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
                             
-                            let badges = BadgeData.badgesContaining(movieID: currentMovie.id)
+                            let badges = contentStore.badges.filter {
+                                $0.requiredContentIDs.contains(currentMovie.id)
+                            }
                             
                             if !badges.isEmpty {
                                 
@@ -85,10 +90,12 @@ struct MovieDetailView: View {
                                         } label: {
                                             HStack(spacing: 6) {
                                                 
-                                                Image(badge.imageName)
-                                                    .resizable()
-                                                    .scaledToFit()
-                                                    .frame(width: 20, height: 20)
+                                                ArtworkImageView(
+                                                    source: badge.artwork,
+                                                    placeholder: "placeholder-badge"
+                                                )
+                                                .scaledToFit()
+                                                .frame(width: 20, height: 20)
                                                 
                                                 Text(badge.title)
                                                     .font(.caption.weight(.semibold))
@@ -233,7 +240,7 @@ struct MovieDetailView: View {
                 BadgeDetailView(
                     badge: badge,
                     movies: viewModel.movies.filter {
-                        badge.requiredMovieIDs.contains($0.id)
+                        badge.requiredContentIDs.contains($0.id)
                     }
                 )
             }

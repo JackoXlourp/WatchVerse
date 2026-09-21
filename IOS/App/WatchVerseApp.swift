@@ -59,6 +59,7 @@ struct WatchVerseApp: App {
                 .onAppear {
                     viewModel.authentication = authentication
                     viewModel.cloudKit = cloudKit
+                    viewModel.contentStore = contentStore
                 }
         }
     }

@@ -12,7 +12,11 @@ struct BadgeGalleryView: View {
     @Environment(AuthenticationService.self)
     private var authentication
     
+    @Environment(ContentStore.self) private var contentStore
+    
     @State private var selectedBadge: Badge?
+    @State private var selectedBadgeMovies: [Movie] = []
+    
     
     private let columns = [
         GridItem(.flexible()),
@@ -21,35 +25,20 @@ struct BadgeGalleryView: View {
     ]
     
     private var badges: [Badge] {
-        
-        BadgeData.all
-            .filter { badge in
-                badge.id != "founder" || authentication.currentUser?.isFounder == true
-            }
-            .map { badge in
-                
-                if badge.id == "founder" {
-                    return Badge(
-                        id: badge.id,
-                        title: badge.title,
-                        universe: badge.universe,
-                        imageName: badge.imageName,
-                        description: badge.description,
-                        isUnlocked: true,
-                        requiredMovieIDs: badge.requiredMovieIDs
-                    )
-                }
-                
-                return Badge(
-                    id: badge.id,
-                    title: badge.title,
-                    universe: badge.universe,
-                    imageName: badge.imageName,
-                    description: badge.description,
-                    isUnlocked: authentication.currentUser?.unlockedBadges.contains(badge.id) ?? false,
-                    requiredMovieIDs: badge.requiredMovieIDs
-                )
-            }
+        contentStore.badges.filter { badge in
+            badge.id != "founder" ||
+            authentication.currentUser?.isFounder == true
+        }
+    }
+    
+    private func isUnlocked(_ badge: Badge) -> Bool {
+        if badge.id == "founder" {
+            return authentication.currentUser?.isFounder == true
+        }
+
+        return authentication.currentUser?
+            .unlockedBadges
+            .contains(badge.id) ?? false
     }
     
     var body: some View {
@@ -73,7 +62,7 @@ struct BadgeGalleryView: View {
                         .frame(height: 50)
                     
                     let groupedBadges = Dictionary(grouping: badges) { badge in
-                        badge.universe
+                        badge.universeTitle
                     }
 
                     ForEach(
@@ -101,10 +90,11 @@ struct BadgeGalleryView: View {
                                         
                                         BadgeCardView(
                                             title: badge.title,
-                                            imageName: badge.imageName,
-                                            isUnlocked: badge.isUnlocked
+                                            artwork: badge.artwork,
+                                            isUnlocked: isUnlocked(badge)
                                         )
                                         .onTapGesture {
+                                            selectedBadgeMovies = []
                                             selectedBadge = badge
                                         }
                                     }
@@ -125,8 +115,33 @@ struct BadgeGalleryView: View {
             .sheet(item: $selectedBadge) { badge in
                 BadgeDetailView(
                     badge: badge,
-                    movies: moviesForBadge(badge)
+                    movies: []
                 )
+                .task {
+                    let loadedContent = await contentStore.content(
+                        for: badge.universeID
+                    )
+
+                    selectedBadgeMovies = loadedContent
+                        .filter {
+                            badge.requiredContentIDs.contains($0.id)
+                        }
+                        .sorted { first, second in
+
+                            let firstWatched =
+                                authentication.currentUser?
+                                    .watchedMovies
+                                    .contains(first.id) == true
+
+                            let secondWatched =
+                                authentication.currentUser?
+                                    .watchedMovies
+                                    .contains(second.id) == true
+
+                            return firstWatched == false &&
+                                   secondWatched == true
+                        }
+                }
             }
         }
     }
@@ -146,30 +161,12 @@ struct BadgeGalleryView: View {
             content()
         }
     }
-    
-    private func moviesForBadge(_ badge: Badge) -> [Movie] {
-
-        let allMovies = allUniverses.flatMap { $0.movies }
-
-        return allMovies
-            .filter { movie in
-                badge.requiredMovieIDs.contains(movie.id)
-            }
-            .sorted { first, second in
-
-                let firstWatched = authentication.currentUser?.watchedMovies.contains(first.id) == true
-                let secondWatched = authentication.currentUser?.watchedMovies.contains(second.id) == true
-
-                return firstWatched == false && secondWatched == true
-            }
-    }
-    
 }
     
 struct BadgeCardView: View {
     
     let title: String
-    let imageName: String
+    let artwork: String
     let isUnlocked: Bool
     
     var body: some View {
@@ -178,11 +175,13 @@ struct BadgeCardView: View {
             
             ZStack {
 
-                Image(imageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 110, height: 110)
-                    .grayscale(isUnlocked ? 0 : 1)
+                ArtworkImageView(
+                    source: artwork,
+                    placeholder: "placeholder-badge"
+                )
+                .scaledToFit()
+                .frame(width: 110, height: 110)
+                .grayscale(isUnlocked ? 0 : 1)
 
                 if isUnlocked {
                     Image(systemName: "checkmark.seal.fill")

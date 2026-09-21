@@ -8,6 +8,9 @@ import kotlinx.coroutines.launch
 
 object AuthenticationService {
 
+    private const val currentUserSchemaVersion = 2L
+    private const val legacyFilterUniverseID = "mcu"
+
     sealed class DeleteAccountResult {
         data object Success : DeleteAccountResult()
         data class Failure(val message: String) : DeleteAccountResult()
@@ -55,15 +58,16 @@ object AuthenticationService {
                     "displayName" to (user.displayName ?: ""),
                     "email" to (user.email ?: ""),
                     "joinedDate" to System.currentTimeMillis(),
-                    "isFounder" to true,
+                    "isFounder" to false,
                     "showReleaseYears" to true,
                     "notifyNewUniverses" to true,
-                    "selectedUniverseFilters" to emptyList<String>(),
+                    "selectedUniverseFilters" to emptyMap<String, List<String>>(),
                     "journeyPositions" to emptyMap<String, String>(),
                     "unlockedBadges" to emptyList<String>(),
                     "shownBadgePopups" to emptyList<String>(),
                     "watchedMovies" to emptyList<String>(),
-                    "skippedMovies" to emptyList<String>()
+                    "skippedMovies" to emptyList<String>(),
+                    "schemaVersion" to currentUserSchemaVersion
                 )
 
                 userRef
@@ -99,16 +103,7 @@ object AuthenticationService {
                     return@addOnSuccessListener
                 }
 
-                val watchVerseUser = document.toObject(
-                    WatchVerseUser::class.java
-                )
-
-                val fixedUser = watchVerseUser?.copy(
-                    isFounder = document.getBoolean("isFounder") ?: false,
-                    joinedDate = document.getLong("joinedDate") ?: 0L
-                )
-
-                onComplete(fixedUser)
+                onComplete(userFromDocument(document))
             }
             .addOnFailureListener {
                 onComplete(null)
@@ -163,7 +158,7 @@ object AuthenticationService {
             }
     }
     fun updateSelectedUniverseFilters(
-        filters: List<String>,
+        filtersByUniverse: Map<String, List<String>>,
         onComplete: (Boolean) -> Unit = {}
     ) {
         val user = auth.currentUser
@@ -177,7 +172,7 @@ object AuthenticationService {
             .document(user.uid)
             .update(
                 "selectedUniverseFilters",
-                filters
+                filtersByUniverse
             )
             .addOnSuccessListener {
                 onComplete(true)
@@ -185,6 +180,67 @@ object AuthenticationService {
             .addOnFailureListener {
                 onComplete(false)
             }
+    }
+
+    private fun userFromDocument(
+        document: com.google.firebase.firestore.DocumentSnapshot
+    ): WatchVerseUser {
+        val filters = decodeUniverseFilters(
+            rawFilters = document.get("selectedUniverseFilters")
+        )
+
+        return WatchVerseUser(
+            uid = document.getString("uid") ?: document.id,
+            displayName = document.getString("displayName") ?: "",
+            email = document.getString("email") ?: "",
+            joinedDate = document.getLong("joinedDate") ?: 0L,
+            isFounder = document.getBoolean("isFounder") ?: false,
+            showReleaseYears = document.getBoolean("showReleaseYears") ?: true,
+            notifyNewUniverses = document.getBoolean("notifyNewUniverses") ?: true,
+            selectedUniverseFilters = filters,
+            journeyPositions = decodeStringMap(document.get("journeyPositions")),
+            unlockedBadges = decodeStringList(document.get("unlockedBadges")),
+            shownBadgePopups = decodeStringList(document.get("shownBadgePopups")),
+            watchedMovies = decodeStringList(document.get("watchedMovies")),
+            skippedMovies = decodeStringList(document.get("skippedMovies")),
+            schemaVersion = document.getLong("schemaVersion") ?: 1L,
+            cloudKitMigrationVersion = document.getLong("cloudKitMigrationVersion"),
+            legacyCloudKitRecordID = document.getString("legacyCloudKitRecordID")
+        )
+    }
+
+    private fun decodeUniverseFilters(
+        rawFilters: Any?
+    ): Map<String, List<String>> {
+        val perUniverse = rawFilters as? Map<*, *>
+        if (perUniverse != null) {
+            return perUniverse.mapNotNull { (universeID, filters) ->
+                val id = universeID as? String ?: return@mapNotNull null
+                id to decodeStringList(filters)
+            }.toMap()
+        }
+
+        val legacyFilters = decodeStringList(rawFilters)
+        return if (legacyFilters.isEmpty()) {
+            emptyMap()
+        } else {
+            mapOf(legacyFilterUniverseID to legacyFilters)
+        }
+    }
+
+    private fun decodeStringMap(rawMap: Any?): Map<String, String> {
+        return (rawMap as? Map<*, *>)
+            ?.mapNotNull { (key, value) ->
+                val stringKey = key as? String ?: return@mapNotNull null
+                val stringValue = value as? String ?: return@mapNotNull null
+                stringKey to stringValue
+            }
+            ?.toMap()
+            ?: emptyMap()
+    }
+
+    private fun decodeStringList(rawList: Any?): List<String> {
+        return (rawList as? List<*>)?.filterIsInstance<String>() ?: emptyList()
     }
     fun updateJourneyPositions(
         positions: Map<String, String>,

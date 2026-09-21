@@ -20,7 +20,7 @@ struct BadgeDetailView: View {
     private var completedMovies: Int {
         let availableMovieIDs = Set(movies.map(\.id))
 
-        return badge.requiredMovieIDs.filter {
+        return badge.requiredContentIDs.filter {
             availableMovieIDs.contains($0) &&
             authentication.currentUser?.watchedMovies.contains($0) == true
         }
@@ -29,7 +29,7 @@ struct BadgeDetailView: View {
     
     private var isCompleted: Bool {
 
-        completedMovies == badge.requiredMovieIDs.count
+        completedMovies == badge.requiredContentIDs.count
     }
 
     var body: some View {
@@ -38,16 +38,18 @@ struct BadgeDetailView: View {
 
             VStack(spacing: 24) {
 
-                Image(badge.imageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 160, height: 160)
+                ArtworkImageView(
+                    source: badge.artwork,
+                    placeholder: "placeholder-badge"
+                )
+                .scaledToFit()
+                .frame(width: 160, height: 160)
 
                 Text(badge.title)
                     .font(.title.bold())
                 
-                if !badge.requiredMovieIDs.isEmpty {
-                    Text("\(completedMovies) / \(badge.requiredMovieIDs.count) completed")
+                if !badge.requiredContentIDs.isEmpty {
+                    Text("\(completedMovies) / \(badge.requiredContentIDs.count) completed")
                         .font(.headline)
                         .foregroundStyle(.secondary)
                 }
@@ -65,27 +67,52 @@ struct BadgeDetailView: View {
                 if !movies.isEmpty {
 
                     List {
-
-                        Section("Movies") {
-
-                            ForEach(movies) { movie in
-
-                                HStack {
-
-                                    Text(movie.title)
-
-                                    Spacer()
-
-                                    Image(systemName:
-                                        authentication.currentUser?.watchedMovies.contains(movie.id) == true
-                                        ? "checkmark.square.fill"
-                                        : "square"
-                                    )
-                                    .foregroundStyle(
-                                        authentication.currentUser?.watchedMovies.contains(movie.id) == true
-                                        ? Color.watchVerseGold
-                                        : .secondary
-                                    )
+                        
+                        if !badge.requiredContentIDs.isEmpty {
+                            
+                            if movies.isEmpty {
+                                
+                                VStack(spacing: 12) {
+                                    Image(systemName: "clock.fill")
+                                        .font(.system(size: 28))
+                                        .foregroundStyle(Color.watchVerseGold)
+                                    
+                                    Text("Coming Soon")
+                                        .font(.headline)
+                                        .foregroundStyle(.white)
+                                    
+                                    Text("The required content for this badge is not available in WatchVerse yet.")
+                                        .font(.subheadline)
+                                        .foregroundStyle(.secondary)
+                                        .multilineTextAlignment(.center)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 20)
+                                
+                            } else {
+                                
+                                Section("Movies") {
+                                    
+                                    ForEach(movies) { movie in
+                                        
+                                        HStack {
+                                            
+                                            Text(movie.title)
+                                            
+                                            Spacer()
+                                            
+                                            Image(systemName:
+                                                    authentication.currentUser?.watchedMovies.contains(movie.id) == true
+                                                  ? "checkmark.square.fill"
+                                                  : "square"
+                                            )
+                                            .foregroundStyle(
+                                                authentication.currentUser?.watchedMovies.contains(movie.id) == true
+                                                ? Color.watchVerseGold
+                                                : .secondary
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }

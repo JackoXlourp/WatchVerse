@@ -25,8 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -45,19 +43,13 @@ fun BadgeDetailScreen(
     currentUser: WatchVerseUser,
     onClose: () -> Unit
 ) {
-    val context = LocalContext.current
-    val imageResource = context.resources.getIdentifier(
-        badge.imageName,
-        "drawable",
-        context.packageName
-    )
-    val completedMovies = badge.requiredMovieIDs.count { movieID ->
+    val completedMovies = badge.requiredContentIDs.count { movieID ->
         currentUser.watchedMovies.contains(movieID)
     }
 
     val isCompleted =
-        badge.requiredMovieIDs.isNotEmpty() &&
-                completedMovies == badge.requiredMovieIDs.size
+        badge.requiredContentIDs.isNotEmpty() &&
+                completedMovies == badge.requiredContentIDs.size
 
     Box(
         modifier = Modifier
@@ -73,11 +65,12 @@ fun BadgeDetailScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            Image(
-                painter = painterResource(imageResource),
+            ArtworkImage(
+                source = badge.artwork,
                 contentDescription = badge.title,
                 modifier = Modifier.size(160.dp),
-                contentScale = ContentScale.Fit
+                contentScale = ContentScale.Fit,
+                placeholder = R.drawable.placeholder_movie
             )
 
             Text(
@@ -90,7 +83,7 @@ fun BadgeDetailScreen(
 
             if (movies.isNotEmpty()) {
                 Text(
-                    text = "$completedMovies / ${badge.requiredMovieIDs.size} completed",
+                    text = "$completedMovies / ${badge.requiredContentIDs.size} completed",
                     color = Color.Gray,
                     fontSize = 17.sp,
                     fontWeight = FontWeight.SemiBold

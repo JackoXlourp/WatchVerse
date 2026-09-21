@@ -52,7 +52,6 @@ import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -82,7 +81,7 @@ private enum class CompletionStage {
 
 private data class JourneyCarouselMovie(
     val movie: Movie,
-    val posterResourceID: Int,
+    val poster: String,
     val isWatched: Boolean,
     val isSkipped: Boolean
 )
@@ -131,6 +130,7 @@ private fun resolveJourneyPosition(
 @Composable
 fun JourneyScreen(
     universe: Universe,
+    badges: List<Badge>,
     currentUser: WatchVerseUser,
     onCurrentUserChanged: (WatchVerseUser) -> Unit,
     onFilterClick: () -> Unit = {},
@@ -140,9 +140,12 @@ fun JourneyScreen(
     onBadgesUnlocked: (List<Badge>) -> Unit = {},
     onFullScreenOverlayChanged: (Boolean) -> Unit = {},
 ) {
-    val context = LocalContext.current
-    var selectedFilters by remember(currentUser.selectedUniverseFilters) {
-        mutableStateOf(currentUser.selectedUniverseFilters.toSet())
+    var selectedFilters by remember(currentUser.selectedUniverseFilters, universe.id) {
+        mutableStateOf(
+            currentUser.selectedUniverseFilters[universe.id]
+                ?.toSet()
+                ?: emptySet()
+        )
     }
     val movies = remember(universe.movies, selectedFilters) {
         if (selectedFilters.isEmpty()) {
@@ -162,56 +165,18 @@ fun JourneyScreen(
         currentUser.skippedMovies.toSet()
     }
     val latestCurrentUser = androidx.compose.runtime.rememberUpdatedState(currentUser)
-    val posterResourceIDs = remember(context.applicationContext, movies) {
-        movies.map { movie ->
-            val posterName = movie.poster
-                .substringBeforeLast(".")
-                .replace("-", "_")
-            val resolvedPoster = context.resources.getIdentifier(
-                posterName,
-                "drawable",
-                context.packageName
-            )
-
-            if (resolvedPoster != 0) {
-                resolvedPoster
-            } else {
-                R.drawable.placeholder_poster
-            }
-        }
-    }
     val carouselMovies = remember(
         movies,
-        posterResourceIDs,
         watchedMovieIDs,
         skippedMovieIDs
     ) {
-        movies.mapIndexed { index, movie ->
+        movies.map { movie ->
             JourneyCarouselMovie(
                 movie = movie,
-                posterResourceID = posterResourceIDs[index],
+                poster = movie.poster,
                 isWatched = watchedMovieIDs.contains(movie.id),
                 isSkipped = skippedMovieIDs.contains(movie.id)
             )
-        }
-    }
-    val endPosterResourceID = remember(
-        context.applicationContext,
-        universe.poster
-    ) {
-        val posterName = universe.poster
-            .substringBeforeLast(".")
-            .replace("-", "_")
-        val resolvedPoster = context.resources.getIdentifier(
-            posterName,
-            "drawable",
-            context.packageName
-        )
-
-        if (resolvedPoster != 0) {
-            resolvedPoster
-        } else {
-            R.drawable.placeholder_poster
         }
     }
     var showFilterDropdown by remember {
@@ -408,7 +373,7 @@ fun JourneyScreen(
             JourneyCarousel(
                 movies = carouselMovies,
                 universe = universe,
-                endPosterResourceID = endPosterResourceID,
+                endPoster = universe.poster,
                 journeyComplete = journeyComplete,
                 currentIndex = currentIndex,
                 carouselPosition = carouselPosition,
@@ -503,13 +468,15 @@ fun JourneyScreen(
                         fontSize = 14.sp
                     )
 
-                    val badges = BadgeData.badgesContaining(movie.id)
+                    val movieBadges = badges.filter { badge ->
+                        badge.requiredContentIDs.contains(movie.id)
+                    }
 
-                    if (badges.isNotEmpty()) {
+                    if (movieBadges.isNotEmpty()) {
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            badges.forEach { badge ->
+                            movieBadges.forEach { badge ->
                                 MovieBadgeCapsule(
                                     badge = badge,
                                     onClick = {
@@ -682,14 +649,15 @@ fun JourneyScreen(
                             selectedFilters = newSelection
 
                             val user = latestCurrentUser.value
+                            val updatedFilters = user.selectedUniverseFilters +
+                                (universe.id to newSelection.toList())
+
                             onCurrentUserChanged(
-                                user.copy(
-                                    selectedUniverseFilters = newSelection.toList()
-                                )
+                                user.copy(selectedUniverseFilters = updatedFilters)
                             )
 
                             AuthenticationService.updateSelectedUniverseFilters(
-                                newSelection.toList()
+                                updatedFilters
                             )
 
                             showFilterDropdown = false
@@ -709,6 +677,7 @@ fun JourneyScreen(
             selectedMovie?.let { movie ->
                 MovieDetailScreen(
                     movie = movie,
+                    badges = badges,
                     isWatched = currentUser.watchedMovies.contains(movie.id),
                     isSkipped = currentUser.skippedMovies.contains(movie.id),
                     showReleaseYears = currentUser.showReleaseYears,
@@ -755,7 +724,8 @@ fun JourneyScreen(
                                     currentUser.copy(
                                         watchedMovies = updatedWatchedMovies,
                                         skippedMovies = updatedSkippedMovies
-                                    )
+                                    ),
+                                    badges = badges
                                 )
                                 onCurrentUserChanged(unlockResult.user)
 
@@ -875,7 +845,7 @@ fun JourneyScreen(
             BadgeDetailScreen(
                 badge = badge,
                 movies = universe.movies.filter { movie ->
-                    badge.requiredMovieIDs.contains(movie.id)
+                    badge.requiredContentIDs.contains(movie.id)
                 },
                 currentUser = currentUser,
                 onClose = {
@@ -891,7 +861,7 @@ fun JourneyScreen(
 private fun JourneyCarousel(
     movies: List<JourneyCarouselMovie>,
     universe: Universe,
-    endPosterResourceID: Int,
+    endPoster: String,
     journeyComplete: Boolean,
     currentIndex: Int,
     carouselPosition: Animatable<Float, *>,
@@ -981,7 +951,7 @@ private fun JourneyCarousel(
                     key("journey-movie-${movie.id}") {
                         JourneyPosterCard(
                             movie = movie,
-                            posterResourceID = carouselMovie.posterResourceID,
+                            poster = carouselMovie.poster,
                             isWatched = carouselMovie.isWatched,
                             isSkipped = carouselMovie.isSkipped,
                             centerProgress = centerProgress,
@@ -1003,7 +973,7 @@ private fun JourneyCarousel(
                     key("journey-end-${universe.id}") {
                         JourneyEndCard(
                             universe = universe,
-                            posterResourceID = endPosterResourceID,
+                            poster = endPoster,
                             journeyComplete = journeyComplete,
                             centerProgress = centerProgress,
                             onClick = onEndClick,
@@ -1019,7 +989,7 @@ private fun JourneyCarousel(
 @Composable
 private fun JourneyPosterCard(
     movie: Movie,
-    posterResourceID: Int,
+    poster: String,
     isWatched: Boolean,
     isSkipped: Boolean,
     centerProgress: Float,
@@ -1069,10 +1039,9 @@ private fun JourneyPosterCard(
             }
         }
 
-        Image(
-            painter = painterResource(
-                posterResourceID
-            ),
+        ArtworkImage(
+            source = poster,
+            placeholder = R.drawable.placeholder_poster,
             contentDescription = movie.title,
             modifier = Modifier
                 .fillMaxSize()
@@ -1176,7 +1145,7 @@ private fun JourneyPosterCard(
 @Composable
 private fun JourneyEndCard(
     universe: Universe,
-    posterResourceID: Int,
+    poster: String,
     journeyComplete: Boolean,
     centerProgress: Float,
     onClick: () -> Unit,
@@ -1199,8 +1168,9 @@ private fun JourneyEndCard(
             },
         contentAlignment = Alignment.Center
     ) {
-        Image(
-            painter = painterResource(posterResourceID),
+        ArtworkImage(
+            source = poster,
+            placeholder = R.drawable.placeholder_poster,
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize()

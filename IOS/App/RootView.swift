@@ -71,7 +71,7 @@ struct RootView: View {
                 if !authentication.needsName,
                    user.isFounder,
                    !user.shownBadgePopups.contains("founder"),
-                   let badge = BadgeData.all.first(where: { $0.id == "founder" }) {
+                   let badge = contentStore.badges.first(where: { $0.id == "founder" }) {
 
                     viewModel.pendingBadgePopup = badge
                 }
@@ -86,7 +86,7 @@ struct RootView: View {
             
             if user.isFounder,
                !user.shownBadgePopups.contains("founder"),
-               let badge = BadgeData.all.first(where: { $0.id == "founder" }) {
+               let badge = contentStore.badges.first(where: { $0.id == "founder" }) {
                 
                 viewModel.pendingBadgePopup = badge
             }

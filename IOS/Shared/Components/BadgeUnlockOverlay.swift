@@ -22,10 +22,12 @@ struct BadgeUnlockOverlay: View {
 
             VStack(spacing: 24) {
 
-                Image(badge.imageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 160, height: 160)
+                ArtworkImageView(
+                    source: badge.artwork,
+                    placeholder: "placeholder-badge"
+                )
+                .scaledToFit()
+                .frame(width: 160, height: 160)
 
                 Text("Badge Unlocked!")
                     .font(.title.bold())

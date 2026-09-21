@@ -33,7 +33,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -48,6 +47,8 @@ private val BadgeGold = Color(
 
 @Composable
 fun BadgeGalleryScreen(
+    catalogStore: CatalogStore,
+    badges: List<Badge>,
     currentUser: WatchVerseUser,
     scrollTargetBadgeID: String? = null,
     onScrollTargetConsumed: () -> Unit = {},
@@ -57,8 +58,11 @@ fun BadgeGalleryScreen(
     var selectedBadge by remember {
         mutableStateOf<Badge?>(null)
     }
+    var selectedBadgeMovies by remember {
+        mutableStateOf<List<Movie>>(emptyList())
+    }
 
-    val badges = BadgeData.all
+    val displayBadges = badges
         .filter { badge ->
             badge.id != "founder" || currentUser.isFounder
         }
@@ -73,8 +77,8 @@ fun BadgeGalleryScreen(
             )
         }
 
-    val groupedBadges = badges.groupBy { badge ->
-        badge.universe
+    val groupedBadges = displayBadges.groupBy { badge ->
+        badge.universeTitle
     }
 
     val universes = groupedBadges.keys.sortedWith { first, second ->
@@ -113,13 +117,15 @@ fun BadgeGalleryScreen(
         }
     }
 
-    val context = LocalContext.current
-    val allMovies = remember(context) {
-        JSONLoader.loadUniverseSummaries(context).flatMap { summary ->
-            JSONLoader.loadUniverse(
-                context = context,
-                fileName = "${summary.file}.json"
-            ).movies
+    LaunchedEffect(selectedBadge) {
+        val badge = selectedBadge
+        selectedBadgeMovies = emptyList()
+
+        if (badge != null && badge.requiredContentIDs.isNotEmpty()) {
+            selectedBadgeMovies = catalogStore
+                .contentFor(badge.universeID)
+                .filter { movie -> badge.requiredContentIDs.contains(movie.id) }
+                .sortedBy { movie -> currentUser.watchedMovies.contains(movie.id) }
         }
     }
 
@@ -205,17 +211,9 @@ fun BadgeGalleryScreen(
         }
 
         selectedBadge?.let { badge ->
-            val badgeMovies = allMovies
-                .filter { movie ->
-                    badge.requiredMovieIDs.contains(movie.id)
-                }
-                .sortedBy { movie ->
-                    currentUser.watchedMovies.contains(movie.id)
-                }
-
             BadgeDetailScreen(
                 badge = badge,
-                movies = badgeMovies,
+                movies = selectedBadgeMovies,
                 currentUser = currentUser,
                 onClose = {
                     selectedBadge = null
@@ -270,13 +268,6 @@ private fun BadgeGalleryCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-    val imageResource = context.resources.getIdentifier(
-        badge.imageName,
-        "drawable",
-        context.packageName
-    )
-
     val grayscale = remember(badge.isUnlocked) {
         ColorMatrix().apply {
             setToSaturation(if (badge.isUnlocked) 1f else 0f)
@@ -292,12 +283,13 @@ private fun BadgeGalleryCard(
             modifier = Modifier.size(96.dp),
             contentAlignment = Alignment.Center
         ) {
-            Image(
-                painter = painterResource(imageResource),
+            ArtworkImage(
+                source = badge.artwork,
                 contentDescription = badge.title,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Fit,
-                colorFilter = ColorFilter.colorMatrix(grayscale)
+                colorFilter = ColorFilter.colorMatrix(grayscale),
+                placeholder = R.drawable.placeholder_movie
             )
 
             if (badge.isUnlocked) {

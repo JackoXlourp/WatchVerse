@@ -7,12 +7,17 @@
 
 import Foundation
 
-struct Badge: Identifiable, Equatable {
+struct Badge: Identifiable, Equatable, Codable {
     let id: String
     let title: String
-    let universe: String
-    let imageName: String
+
+    let universeID: String
+    let universeTitle: String
+
+    let artwork: String
     let description: String
-    let isUnlocked: Bool
-    let requiredMovieIDs: [String]
+
+    let requiredContentIDs: [String]
+
+    let sortOrder: Int
 }

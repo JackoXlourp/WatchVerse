@@ -8,10 +8,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import com.maximeproulx.watchverse.ui.theme.WatchVerseTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -22,6 +24,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val catalogStore = androidx.compose.runtime.remember {
+                CatalogStore(applicationContext)
+            }
+
+            androidx.compose.runtime.LaunchedEffect(catalogStore) {
+                catalogStore.loadInitialContent(universeID = "mcu")
+            }
+
             WatchVerseTheme {
                 var showLaunchArtwork by androidx.compose.runtime.remember {
                     androidx.compose.runtime.mutableStateOf(true)
@@ -95,16 +105,35 @@ class MainActivity : ComponentActivity() {
 
                         } else {
 
-                            MainTabScreen(
-                                currentUser = currentUser!!,
-                                onCurrentUserChanged = { user ->
-                                    currentUser = user
-                                },
-                                onSignedOut = {
-                                    currentUser = null
-                                    signedIn = false
+                            val activeUniverse = catalogStore.activeUniverse
+
+                            if (activeUniverse != null) {
+                                MainTabScreen(
+                                    catalogStore = catalogStore,
+                                    currentUser = currentUser!!,
+                                    onCurrentUserChanged = { user ->
+                                        currentUser = user
+                                    },
+                                    onSignedOut = {
+                                        currentUser = null
+                                        signedIn = false
+                                    }
+                                )
+                            } else {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(Color.Black),
+                                    contentAlignment = androidx.compose.ui.Alignment.Center
+                                ) {
+                                    androidx.compose.material3.Text(
+                                        text = catalogStore.errorMessage
+                                            ?: "Unable to load the WatchVerse catalog.",
+                                        color = Color.White,
+                                        modifier = Modifier.padding(24.dp)
+                                    )
                                 }
-                            )
+                            }
                         }
                     }
                 } else {
@@ -139,7 +168,7 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
-                    if (showLaunchArtwork) {
+                    if (showLaunchArtwork || catalogStore.isLoading) {
                         Image(
                             painter = painterResource(R.drawable.wv_launch),
                             contentDescription = null,

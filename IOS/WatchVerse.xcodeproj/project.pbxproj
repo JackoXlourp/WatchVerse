@@ -16,14 +16,8 @@
 		5083E45B30197563004A7AE7 /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E45A30197563004A7AE7 /* MovieDetailView.swift */; };
 		5083E469301A4937004A7AE7 /* JourneyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E468301A4937004A7AE7 /* JourneyViewModel.swift */; };
 		5083E47F301BAD2F004A7AE7 /* Universe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E47E301BAD2F004A7AE7 /* Universe.swift */; };
-		5083E481301BADE0004A7AE7 /* UniverseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E480301BADE0004A7AE7 /* UniverseData.swift */; };
 		5083E483301BB9EB004A7AE7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E482301BB9EB004A7AE7 /* HomeView.swift */; };
 		5083E485301BDE7D004A7AE7 /* UniverseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E484301BDE7D004A7AE7 /* UniverseCard.swift */; };
-		5083E48B301BF95E004A7AE7 /* JSONLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E48A301BF95E004A7AE7 /* JSONLoader.swift */; };
-		5083E48C301BFC30004A7AE7 /* marvel.json in Resources */ = {isa = PBXBuildFile; fileRef = 5083E487301BF21F004A7AE7 /* marvel.json */; };
-		5083E48D301BFC37004A7AE7 /* universes.json in Resources */ = {isa = PBXBuildFile; fileRef = 5083E488301BF5EF004A7AE7 /* universes.json */; };
-		5083E491301C0A75004A7AE7 /* UniverseCatalogItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E490301C0A75004A7AE7 /* UniverseCatalogItem.swift */; };
-		5083E493301C1D3C004A7AE7 /* lotr.json in Resources */ = {isa = PBXBuildFile; fileRef = 5083E492301C1D32004A7AE7 /* lotr.json */; };
 		5083E4A1301D550D004A7AE7 /* HeroUniverseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083E4A0301D550D004A7AE7 /* HeroUniverseCard.swift */; };
 		50949DD2301F6FF9005213AC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50949DD1301F6FF9005213AC /* SettingsView.swift */; };
 		50B7A139301EBE2000D4A1BF /* CarouselLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B7A138301EBE1300D4A1BF /* CarouselLayout.swift */; };
@@ -38,7 +32,6 @@
 		9C352737302909B300BF69FD /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C352736302909B200BF69FD /* UserSettings.swift */; };
 		9C35273C302909F600BF69FD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C35273B302909F300BF69FD /* User.swift */; };
 		9C772145303B720C00317644 /* FilterDropdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C772144303B720A00317644 /* FilterDropdownView.swift */; };
-		9C9EB14F30220C3700858C9E /* CSVLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9EB14E30220C3700858C9E /* CSVLoader.swift */; };
 		9C9EB15330237AD000858C9E /* completionStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9EB15230237AD000858C9E /* completionStage.swift */; };
 		9CC798733021709E0011DC42 /* SettingsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC798723021709E0011DC42 /* SettingsButton.swift */; };
 		9CDD366A305CA78700C36B13 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 9CDD3669305CA78700C36B13 /* FirebaseFirestore */; };
@@ -47,20 +40,16 @@
 		9CDD3671305CB42B00C36B13 /* ContentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD3670305CB42900C36B13 /* ContentStore.swift */; };
 		9CDD3674305DBC1E00C36B13 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 9CDD3673305DBC1E00C36B13 /* FirebaseStorage */; };
 		9CDD3676305DFF4C00C36B13 /* ArtworkImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD3675305DFF4400C36B13 /* ArtworkImageView.swift */; };
+		9CDD36AB305F4D5300C36B13 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9CDD36AA305F4D5300C36B13 /* FirebaseAuth */; };
+		9CDD36AD30609E8000C36B13 /* FirestoreUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD36AC30609E7F00C36B13 /* FirestoreUserProfile.swift */; };
+		9CDD36AF30609F2400C36B13 /* FirestoreUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD36AE30609F2300C36B13 /* FirestoreUserService.swift */; };
+		9CDD36B13060A35100C36B13 /* FirestoreUserProfile+Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD36B03060A34B00C36B13 /* FirestoreUserProfile+Migration.swift */; };
+		9CDD36B33060BC2E00C36B13 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 9CDD36B23060BC2E00C36B13 /* FirebaseFunctions */; };
+		9CDD36B53060BCB900C36B13 /* CloudKitMigrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD36B43060BCB800C36B13 /* CloudKitMigrationService.swift */; };
 		9CF398F4302A97740093B14D /* BadgeGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF398F3302A97740093B14D /* BadgeGalleryView.swift */; };
 		9CF398F7302A98660093B14D /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF398F6302A98640093B14D /* Badge.swift */; };
-		9CF398F9302A98A00093B14D /* BadgeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF398F8302A989E0093B14D /* BadgeData.swift */; };
 		9CF398FD302BFA6C0093B14D /* BadgeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF398FC302BFA6B0093B14D /* BadgeDetailView.swift */; };
 		9CF39913302C89970093B14D /* BadgeUnlockOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF39912302C89960093B14D /* BadgeUnlockOverlay.swift */; };
-		9CF39917302CC1CC0093B14D /* marvel.csv in Resources */ = {isa = PBXBuildFile; fileRef = 9CF39916302CC1CC0093B14D /* marvel.csv */; };
-		C0D3A001302CC1CC0093B14D /* starWars.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D3A002302CC1CC0093B14D /* starWars.json */; };
-		C0D3A003302CC1CC0093B14D /* wizardingWorld.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D3A004302CC1CC0093B14D /* wizardingWorld.json */; };
-		C0D3A005302CC1CC0093B14D /* dceu.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D3A006302CC1CC0093B14D /* dceu.json */; };
-		C0D3A007302CC1CC0093B14D /* monsterVerse.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D3A008302CC1CC0093B14D /* monsterVerse.json */; };
-		C0D3A009302CC1CC0093B14D /* jurassic.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D3A010302CC1CC0093B14D /* jurassic.json */; };
-		C0D3A011302CC1CC0093B14D /* planetOfTheApes.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D3A012302CC1CC0093B14D /* planetOfTheApes.json */; };
-		C0D3A013302CC1CC0093B14D /* matrix.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D3A014302CC1CC0093B14D /* matrix.json */; };
-		C0D3A015302CC1CC0093B14D /* fastFurious.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D3A016302CC1CC0093B14D /* fastFurious.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,14 +82,8 @@
 		5083E45A30197563004A7AE7 /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
 		5083E468301A4937004A7AE7 /* JourneyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyViewModel.swift; sourceTree = "<group>"; };
 		5083E47E301BAD2F004A7AE7 /* Universe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Universe.swift; sourceTree = "<group>"; };
-		5083E480301BADE0004A7AE7 /* UniverseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniverseData.swift; sourceTree = "<group>"; };
 		5083E482301BB9EB004A7AE7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		5083E484301BDE7D004A7AE7 /* UniverseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniverseCard.swift; sourceTree = "<group>"; };
-		5083E487301BF21F004A7AE7 /* marvel.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = marvel.json; sourceTree = "<group>"; };
-		5083E488301BF5EF004A7AE7 /* universes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = universes.json; sourceTree = "<group>"; };
-		5083E48A301BF95E004A7AE7 /* JSONLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONLoader.swift; sourceTree = "<group>"; };
-		5083E490301C0A75004A7AE7 /* UniverseCatalogItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniverseCatalogItem.swift; sourceTree = "<group>"; };
-		5083E492301C1D32004A7AE7 /* lotr.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lotr.json; sourceTree = "<group>"; };
 		5083E4A0301D550D004A7AE7 /* HeroUniverseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroUniverseCard.swift; sourceTree = "<group>"; };
 		50949DD1301F6FF9005213AC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		50B7A138301EBE1300D4A1BF /* CarouselLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselLayout.swift; sourceTree = "<group>"; };
@@ -115,7 +98,6 @@
 		9C352736302909B200BF69FD /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		9C35273B302909F300BF69FD /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		9C772144303B720A00317644 /* FilterDropdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDropdownView.swift; sourceTree = "<group>"; };
-		9C9EB14E30220C3700858C9E /* CSVLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVLoader.swift; sourceTree = "<group>"; };
 		9C9EB15130221DE900858C9E /* csv_to_json.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = csv_to_json.py; sourceTree = "<group>"; };
 		9C9EB15230237AD000858C9E /* completionStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = completionStage.swift; sourceTree = "<group>"; };
 		9CC798723021709E0011DC42 /* SettingsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButton.swift; sourceTree = "<group>"; };
@@ -128,20 +110,15 @@
 		9CDD3678305E2B9F00C36B13 /* firestore_universe_import.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = firestore_universe_import.py; sourceTree = "<group>"; };
 		9CDD3679305E349000C36B13 /* firestore_universe_artwork_import.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = firestore_universe_artwork_import.py; sourceTree = "<group>"; };
 		9CDD367A305E498800C36B13 /* firestore_progress_field_cleanup.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = firestore_progress_field_cleanup.py; sourceTree = "<group>"; };
+		9CDD367B305EDBE100C36B13 /* firestore_badge_import.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = firestore_badge_import.py; sourceTree = "<group>"; };
+		9CDD36AC30609E7F00C36B13 /* FirestoreUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreUserProfile.swift; sourceTree = "<group>"; };
+		9CDD36AE30609F2300C36B13 /* FirestoreUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreUserService.swift; sourceTree = "<group>"; };
+		9CDD36B03060A34B00C36B13 /* FirestoreUserProfile+Migration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirestoreUserProfile+Migration.swift"; sourceTree = "<group>"; };
+		9CDD36B43060BCB800C36B13 /* CloudKitMigrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitMigrationService.swift; sourceTree = "<group>"; };
 		9CF398F3302A97740093B14D /* BadgeGalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeGalleryView.swift; sourceTree = "<group>"; };
 		9CF398F6302A98640093B14D /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
-		9CF398F8302A989E0093B14D /* BadgeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeData.swift; sourceTree = "<group>"; };
 		9CF398FC302BFA6B0093B14D /* BadgeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeDetailView.swift; sourceTree = "<group>"; };
 		9CF39912302C89960093B14D /* BadgeUnlockOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeUnlockOverlay.swift; sourceTree = "<group>"; };
-		9CF39916302CC1CC0093B14D /* marvel.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = marvel.csv; sourceTree = "<group>"; };
-		C0D3A002302CC1CC0093B14D /* starWars.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = starWars.json; sourceTree = "<group>"; };
-		C0D3A004302CC1CC0093B14D /* wizardingWorld.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = wizardingWorld.json; sourceTree = "<group>"; };
-		C0D3A006302CC1CC0093B14D /* dceu.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = dceu.json; sourceTree = "<group>"; };
-		C0D3A008302CC1CC0093B14D /* monsterVerse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = monsterVerse.json; sourceTree = "<group>"; };
-		C0D3A010302CC1CC0093B14D /* jurassic.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = jurassic.json; sourceTree = "<group>"; };
-		C0D3A012302CC1CC0093B14D /* planetOfTheApes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = planetOfTheApes.json; sourceTree = "<group>"; };
-		C0D3A014302CC1CC0093B14D /* matrix.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = matrix.json; sourceTree = "<group>"; };
-		C0D3A016302CC1CC0093B14D /* fastFurious.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = fastFurious.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -168,7 +145,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9CDD366A305CA78700C36B13 /* FirebaseFirestore in Frameworks */,
+				9CDD36AB305F4D5300C36B13 /* FirebaseAuth in Frameworks */,
 				9CDD3674305DBC1E00C36B13 /* FirebaseStorage in Frameworks */,
+				9CDD36B33060BC2E00C36B13 /* FirebaseFunctions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,7 +215,6 @@
 				5083E495301C2711004A7AE7 /* Shared */,
 				5083E489301BF93D004A7AE7 /* Services */,
 				9C9EB15030221DC800858C9E /* Tools */,
-				5083E486301BF1DD004A7AE7 /* Data */,
 				507CAA8130163EAA00F8E384 /* WatchVerse */,
 				507CAA9130163EAE00F8E384 /* WatchVerseTests */,
 				507CAA9B30163EAE00F8E384 /* WatchVerseUITests */,
@@ -257,33 +235,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5083E486301BF1DD004A7AE7 /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				9CF39916302CC1CC0093B14D /* marvel.csv */,
-				5083E488301BF5EF004A7AE7 /* universes.json */,
-				5083E487301BF21F004A7AE7 /* marvel.json */,
-				5083E492301C1D32004A7AE7 /* lotr.json */,
-				C0D3A002302CC1CC0093B14D /* starWars.json */,
-				C0D3A004302CC1CC0093B14D /* wizardingWorld.json */,
-				C0D3A006302CC1CC0093B14D /* dceu.json */,
-				C0D3A008302CC1CC0093B14D /* monsterVerse.json */,
-				C0D3A010302CC1CC0093B14D /* jurassic.json */,
-				C0D3A012302CC1CC0093B14D /* planetOfTheApes.json */,
-				C0D3A014302CC1CC0093B14D /* matrix.json */,
-				C0D3A016302CC1CC0093B14D /* fastFurious.json */,
-			);
-			path = Data;
-			sourceTree = "<group>";
-		};
 		5083E489301BF93D004A7AE7 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				9CDD36B43060BCB800C36B13 /* CloudKitMigrationService.swift */,
+				9CDD36AE30609F2300C36B13 /* FirestoreUserService.swift */,
 				9CDD3670305CB42900C36B13 /* ContentStore.swift */,
 				9CDD366E305CB3DF00C36B13 /* FirestoreContentService.swift */,
 				9C3527343028FE2B00BF69FD /* CloudKitService.swift */,
-				5083E48A301BF95E004A7AE7 /* JSONLoader.swift */,
-				9C9EB14E30220C3700858C9E /* CSVLoader.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -302,7 +261,6 @@
 			isa = PBXGroup;
 			children = (
 				9CF39906302C202D0093B14D /* Components */,
-				9CF39905302C20040093B14D /* Data */,
 				9CF39900302C1C9B0093B14D /* Models */,
 				9CF39901302C1CCE0093B14D /* Themes */,
 			);
@@ -323,6 +281,7 @@
 		9C9EB15030221DC800858C9E /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				9CDD367B305EDBE100C36B13 /* firestore_badge_import.py */,
 				9CDD367A305E498800C36B13 /* firestore_progress_field_cleanup.py */,
 				9CDD3679305E349000C36B13 /* firestore_universe_artwork_import.py */,
 				9CDD3678305E2B9F00C36B13 /* firestore_universe_import.py */,
@@ -352,7 +311,6 @@
 			isa = PBXGroup;
 			children = (
 				9CF398F6302A98640093B14D /* Badge.swift */,
-				9CF398F8302A989E0093B14D /* BadgeData.swift */,
 				9CF398F3302A97740093B14D /* BadgeGalleryView.swift */,
 				9CF398FC302BFA6B0093B14D /* BadgeDetailView.swift */,
 			);
@@ -370,9 +328,10 @@
 		9CF39900302C1C9B0093B14D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9CDD36B03060A34B00C36B13 /* FirestoreUserProfile+Migration.swift */,
+				9CDD36AC30609E7F00C36B13 /* FirestoreUserProfile.swift */,
 				5083E44830180B36004A7AE7 /* Movie.swift */,
 				5083E47E301BAD2F004A7AE7 /* Universe.swift */,
-				5083E490301C0A75004A7AE7 /* UniverseCatalogItem.swift */,
 				9C9EB15230237AD000858C9E /* completionStage.swift */,
 			);
 			path = Models;
@@ -391,14 +350,6 @@
 			children = (
 			);
 			path = other;
-			sourceTree = "<group>";
-		};
-		9CF39905302C20040093B14D /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				5083E480301BADE0004A7AE7 /* UniverseData.swift */,
-			);
-			path = Data;
 			sourceTree = "<group>";
 		};
 		9CF39906302C202D0093B14D /* Components */ = {
@@ -433,6 +384,8 @@
 			packageProductDependencies = (
 				9CDD3669305CA78700C36B13 /* FirebaseFirestore */,
 				9CDD3673305DBC1E00C36B13 /* FirebaseStorage */,
+				9CDD36AA305F4D5300C36B13 /* FirebaseAuth */,
+				9CDD36B23060BC2E00C36B13 /* FirebaseFunctions */,
 			);
 			productName = WatchVerse;
 			productReference = 507CAA7F30163EAA00F8E384 /* WatchVerse.app */;
@@ -536,20 +489,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9CF39917302CC1CC0093B14D /* marvel.csv in Resources */,
-				5083E48D301BFC37004A7AE7 /* universes.json in Resources */,
 				9CDD366C305CA93C00C36B13 /* GoogleService-Info.plist in Resources */,
-				5083E48C301BFC30004A7AE7 /* marvel.json in Resources */,
 				50B7A13D301F655200D4A1BF /* Launch Screen.storyboard in Resources */,
-				5083E493301C1D3C004A7AE7 /* lotr.json in Resources */,
-				C0D3A001302CC1CC0093B14D /* starWars.json in Resources */,
-				C0D3A003302CC1CC0093B14D /* wizardingWorld.json in Resources */,
-				C0D3A005302CC1CC0093B14D /* dceu.json in Resources */,
-				C0D3A007302CC1CC0093B14D /* monsterVerse.json in Resources */,
-				C0D3A009302CC1CC0093B14D /* jurassic.json in Resources */,
-				C0D3A011302CC1CC0093B14D /* planetOfTheApes.json in Resources */,
-				C0D3A013302CC1CC0093B14D /* matrix.json in Resources */,
-				C0D3A015302CC1CC0093B14D /* fastFurious.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -574,10 +515,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9C9EB14F30220C3700858C9E /* CSVLoader.swift in Sources */,
 				5083E44A30180B36004A7AE7 /* Movie.swift in Sources */,
 				9C13D036303A4E9C0099CE3C /* NameSetupView.swift in Sources */,
-				5083E491301C0A75004A7AE7 /* UniverseCatalogItem.swift in Sources */,
+				9CDD36AD30609E8000C36B13 /* FirestoreUserProfile.swift in Sources */,
 				505094EA3016C0A8004E8760 /* WatchVerseApp.swift in Sources */,
 				9C35273C302909F600BF69FD /* User.swift in Sources */,
 				5083E44F301826DD004A7AE7 /* MoviePosterView.swift in Sources */,
@@ -585,29 +525,29 @@
 				9CDD366F305CB3E100C36B13 /* FirestoreContentService.swift in Sources */,
 				9CDD3676305DFF4C00C36B13 /* ArtworkImageView.swift in Sources */,
 				9C35272C3028EB1700BF69FD /* AuthenticationService.swift in Sources */,
-				5083E481301BADE0004A7AE7 /* UniverseData.swift in Sources */,
 				9C352737302909B300BF69FD /* UserSettings.swift in Sources */,
 				9C3527313028F01D00BF69FD /* AuthenticationView.swift in Sources */,
 				9C9EB15330237AD000858C9E /* completionStage.swift in Sources */,
 				5083E47F301BAD2F004A7AE7 /* Universe.swift in Sources */,
-				5083E48B301BF95E004A7AE7 /* JSONLoader.swift in Sources */,
 				5083E485301BDE7D004A7AE7 /* UniverseCard.swift in Sources */,
+				9CDD36B53060BCB900C36B13 /* CloudKitMigrationService.swift in Sources */,
 				505094F53016C879004E8760 /* RootView.swift in Sources */,
 				50B7A139301EBE2000D4A1BF /* CarouselLayout.swift in Sources */,
 				9CC798733021709E0011DC42 /* SettingsButton.swift in Sources */,
-				9CF398F9302A98A00093B14D /* BadgeData.swift in Sources */,
 				9C3527073026C10400BF69FD /* WatchVerseColors.swift in Sources */,
 				9C35271D3027E66700BF69FD /* AppNavigation.swift in Sources */,
 				9C3527353028FE2D00BF69FD /* CloudKitService.swift in Sources */,
 				9CF398F4302A97740093B14D /* BadgeGalleryView.swift in Sources */,
 				5083E4A1301D550D004A7AE7 /* HeroUniverseCard.swift in Sources */,
 				505095053016CE1E004E8760 /* JourneyView.swift in Sources */,
+				9CDD36AF30609F2400C36B13 /* FirestoreUserService.swift in Sources */,
 				9CF398F7302A98660093B14D /* Badge.swift in Sources */,
 				9CF398FD302BFA6C0093B14D /* BadgeDetailView.swift in Sources */,
 				9CF39913302C89970093B14D /* BadgeUnlockOverlay.swift in Sources */,
 				5083E483301BB9EB004A7AE7 /* HomeView.swift in Sources */,
 				50B7A13B301F605400D4A1BF /* splashScreenView.swift in Sources */,
 				9CDD3671305CB42B00C36B13 /* ContentStore.swift in Sources */,
+				9CDD36B13060A35100C36B13 /* FirestoreUserProfile+Migration.swift in Sources */,
 				5083E45B30197563004A7AE7 /* MovieDetailView.swift in Sources */,
 				9C772145303B720C00317644 /* FilterDropdownView.swift in Sources */,
 				505094F73016C9D0004E8760 /* MainTabView.swift in Sources */,
@@ -992,6 +932,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9CDD3668305CA78700C36B13 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		9CDD36AA305F4D5300C36B13 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9CDD3668305CA78700C36B13 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		9CDD36B23060BC2E00C36B13 /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9CDD3668305CA78700C36B13 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

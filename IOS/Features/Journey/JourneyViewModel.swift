@@ -16,6 +16,9 @@ class JourneyViewModel {
     @ObservationIgnored
     var cloudKit: CloudKitService?
     
+    @ObservationIgnored
+    var contentStore: ContentStore?
+    
     var journey: Universe
     var universes: [Universe]
     
@@ -87,9 +90,9 @@ class JourneyViewModel {
 
         var didUnlockBadge = false
 
-        for badge in BadgeData.all {
+        for badge in contentStore?.badges ?? [] {
 
-            guard !badge.requiredMovieIDs.isEmpty else {
+            guard !badge.requiredContentIDs.isEmpty else {
                 continue
             }
 
@@ -97,7 +100,7 @@ class JourneyViewModel {
                 continue
             }
 
-            let hasCompletedRequirements = badge.requiredMovieIDs.allSatisfy {
+            let hasCompletedRequirements = badge.requiredContentIDs.allSatisfy {
                 user.watchedMovies.contains($0)
             }
 

@@ -7,11 +7,14 @@ data class BadgeUnlockResult(
 
 object BadgeUnlockEvaluator {
 
-    fun check(user: WatchVerseUser): BadgeUnlockResult {
-        val newlyUnlockedBadges = BadgeData.all.filter { badge ->
-            badge.requiredMovieIDs.isNotEmpty() &&
+    fun check(
+        user: WatchVerseUser,
+        badges: List<Badge>
+    ): BadgeUnlockResult {
+        val newlyUnlockedBadges = badges.filter { badge ->
+            badge.requiredContentIDs.isNotEmpty() &&
                     !user.unlockedBadges.contains(badge.id) &&
-                    badge.requiredMovieIDs.all { movieID ->
+                    badge.requiredContentIDs.all { movieID ->
                         user.watchedMovies.contains(movieID)
                     }
         }

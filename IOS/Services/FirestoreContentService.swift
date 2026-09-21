@@ -24,6 +24,32 @@ struct FirestoreContentService {
         }
     }
     
+    func fetchBadges() async throws -> [Badge] {
+        let snapshot = try await db
+            .collection("badges")
+            .getDocuments()
+
+        let badges = try snapshot.documents.map { document in
+            try document.data(as: Badge.self)
+        }
+
+        return badges.sorted { first, second in
+            if first.universeID == "watchverse" && second.universeID != "watchverse" {
+                return true
+            }
+
+            if second.universeID == "watchverse" && first.universeID != "watchverse" {
+                return false
+            }
+
+            if first.universeTitle != second.universeTitle {
+                return first.universeTitle < second.universeTitle
+            }
+
+            return first.sortOrder < second.sortOrder
+        }
+    }
+    
     func fetchComingSoonUniverses() async throws -> [Universe] {
         let snapshot = try await db
             .collection("universes")

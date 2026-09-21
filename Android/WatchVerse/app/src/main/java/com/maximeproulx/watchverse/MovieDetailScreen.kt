@@ -44,6 +44,7 @@ private val MovieDetailGold = Color(
 @Composable
 fun MovieDetailScreen(
     movie: Movie,
+    badges: List<Badge>,
     isWatched: Boolean,
     isSkipped: Boolean,
     showReleaseYears: Boolean,
@@ -52,37 +53,19 @@ fun MovieDetailScreen(
     onSkip: () -> Unit = {},
     onClose: () -> Unit = {}
 ) {
-    val context = LocalContext.current
-
     val isComingSoon = movie.releaseStatus == "comingSoon"
-
-    val posterName = movie.poster
-        .substringBeforeLast(".")
-        .replace("-", "_")
-
-    val posterResId = context.resources.getIdentifier(
-        posterName,
-        "drawable",
-        context.packageName
-    )
-
-    val posterResource =
-        if (posterResId != 0) {
-            posterResId
-        } else {
-            R.drawable.placeholder_poster
-        }
 
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        Image(
-            painter = painterResource(posterResource),
+        ArtworkImage(
+            source = movie.poster,
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize()
                 .blur(28.dp),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            placeholder = R.drawable.placeholder_poster
         )
 
         Box(
@@ -103,8 +86,8 @@ fun MovieDetailScreen(
                 ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(posterResource),
+            ArtworkImage(
+                source = movie.poster,
                 contentDescription = movie.title,
                 modifier = Modifier
                     .size(
@@ -112,7 +95,8 @@ fun MovieDetailScreen(
                         height = 315.dp
                     )
                     .clip(RoundedCornerShape(18.dp)),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
+                placeholder = R.drawable.placeholder_poster
             )
 
             Spacer(
@@ -131,7 +115,9 @@ fun MovieDetailScreen(
                 modifier = Modifier.height(8.dp)
             )
 
-            val badges = BadgeData.badgesContaining(movie.id)
+            val movieBadges = badges.filter { badge ->
+                badge.requiredContentIDs.contains(movie.id)
+            }
 
             Row(
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -148,7 +134,7 @@ fun MovieDetailScreen(
                     fontSize = 15.sp
                 )
 
-                badges.forEach { badge ->
+                movieBadges.forEach { badge ->
                     MovieBadgeCapsule(
                         badge = badge,
                         onClick = {
@@ -357,13 +343,6 @@ fun MovieBadgeCapsule(
     badge: Badge,
     onClick: () -> Unit
 ) {
-    val context = LocalContext.current
-    val imageResource = context.resources.getIdentifier(
-        badge.imageName,
-        "drawable",
-        context.packageName
-    )
-
     Row(
         modifier = Modifier
             .clip(RoundedCornerShape(50))
@@ -376,11 +355,12 @@ fun MovieBadgeCapsule(
         horizontalArrangement = Arrangement.spacedBy(6.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = painterResource(imageResource),
+        ArtworkImage(
+            source = badge.artwork,
             contentDescription = badge.title,
             modifier = Modifier.size(20.dp),
-            contentScale = ContentScale.Fit
+            contentScale = ContentScale.Fit,
+            placeholder = R.drawable.placeholder_movie
         )
 
         Text(

@@ -43,14 +43,13 @@ private enum class WatchVerseTab {
 
 @Composable
 fun MainTabScreen(
+    catalogStore: CatalogStore,
     currentUser: WatchVerseUser,
     onCurrentUserChanged: (WatchVerseUser) -> Unit,
     onSignedOut: () -> Unit = {}
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    val activeUniverse = remember(context.applicationContext) {
-        JSONLoader.loadActiveUniverse(context.applicationContext)
-    }
+    val activeUniverse = requireNotNull(catalogStore.activeUniverse)
 
     var selectedTab by remember {
         mutableStateOf(WatchVerseTab.HOME)
@@ -94,7 +93,7 @@ fun MainTabScreen(
             currentUser.isFounder &&
             !currentUser.shownBadgePopups.contains("founder")
         ) {
-            BadgeData.all
+            catalogStore.badges
                 .firstOrNull { badge -> badge.id == "founder" }
                 ?.let { founderBadge ->
                     queueBadgePopups(listOf(founderBadge))
@@ -148,6 +147,8 @@ fun MainTabScreen(
 
             WatchVerseTab.HOME -> {
                 HomeScreen(
+                    activeUniverse = activeUniverse,
+                    comingSoonUniverses = catalogStore.comingSoonUniverses,
                     onContinueWatchingClick = {
                         selectedTab = WatchVerseTab.JOURNEY
                     },
@@ -158,6 +159,7 @@ fun MainTabScreen(
             WatchVerseTab.JOURNEY -> {
                 JourneyScreen(
                     universe = activeUniverse,
+                    badges = catalogStore.badges,
                     currentUser = currentUser,
                     onCurrentUserChanged = onCurrentUserChanged,
                     onSettingsClick = ::openSettings,
@@ -188,6 +190,8 @@ fun MainTabScreen(
 
             WatchVerseTab.BADGES -> {
                 BadgeGalleryScreen(
+                    catalogStore = catalogStore,
+                    badges = catalogStore.badges,
                     currentUser = currentUser,
                     scrollTargetBadgeID = badgeGalleryScrollTargetID,
                     onScrollTargetConsumed = {

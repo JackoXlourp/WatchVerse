@@ -33,7 +33,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.platform.LocalContext
 
 private val WatchVerseGold = Color(
     red = 0.87f,
@@ -43,17 +42,11 @@ private val WatchVerseGold = Color(
 
 @Composable
 fun HomeScreen(
+    activeUniverse: Universe,
+    comingSoonUniverses: List<Universe>,
     onContinueWatchingClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {}
 ) {
-    val context = LocalContext.current
-    val activeUniverse = JSONLoader.loadActiveUniverse(context)
-    val universeSummaries = JSONLoader.loadUniverseSummaries(context)
-
-    val comingSoonUniverses = universeSummaries.filter {
-        it.state == "comingSoon"
-    }
-
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -133,13 +126,7 @@ fun HomeScreen(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            rowUniverses.forEach { summary ->
-
-                                val universe = JSONLoader.loadUniverse(
-                                    context = context,
-                                    fileName = "${summary.file}.json"
-                                )
-
+                            rowUniverses.forEach { universe ->
                                 ComingSoonCard(
                                     universe = universe,
                                     modifier = Modifier.weight(1f)
@@ -186,18 +173,6 @@ private fun HeroUniverseCard(
     universe: Universe,
     onClick: () -> Unit
 ) {
-    val context = LocalContext.current
-
-    val bannerName = universe.banner
-        .substringBeforeLast(".")
-        .replace("-", "_")
-
-    val bannerRes = context.resources.getIdentifier(
-        bannerName,
-        "drawable",
-        context.packageName
-    )
-
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -207,11 +182,12 @@ private fun HeroUniverseCard(
                 onClick()
             }
     ) {
-        Image(
-            painter = painterResource(bannerRes),
+        ArtworkImage(
+            source = universe.banner,
             contentDescription = universe.fullTitle,
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            placeholder = R.drawable.placeholder_poster
         )
     }
 }
@@ -221,18 +197,6 @@ private fun ComingSoonCard(
     universe: Universe,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-
-    val posterName = universe.poster
-        .substringBeforeLast(".")
-        .replace("-", "_")
-
-    val posterRes = context.resources.getIdentifier(
-        posterName,
-        "drawable",
-        context.packageName
-    )
-
     Column(
         modifier = modifier
     ) {
@@ -244,10 +208,8 @@ private fun ComingSoonCard(
                 .clip(RoundedCornerShape(18.dp))
         ) {
 
-            Image(
-                painter = painterResource(
-                    if (posterRes != 0) posterRes else R.drawable.placeholder_poster
-                ),
+            ArtworkImage(
+                source = universe.poster,
                 contentDescription = universe.fullTitle,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop,
@@ -255,7 +217,8 @@ private fun ComingSoonCard(
                     ColorMatrix().apply {
                         setToSaturation(0f)
                     }
-                )
+                ),
+                placeholder = R.drawable.placeholder_poster
             )
 
             // Locked appearance

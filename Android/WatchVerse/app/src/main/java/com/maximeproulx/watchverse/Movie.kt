@@ -11,6 +11,8 @@ data class Movie(
     val genres: List<String>,
     val tags: List<String> = emptyList(),
     val releaseStatus: String = "released",
+    val type: String = "movie",
+    val timelineOrder: Int = 0,
     var isWatched: Boolean = false,
     var isSkipped: Boolean = false
 )

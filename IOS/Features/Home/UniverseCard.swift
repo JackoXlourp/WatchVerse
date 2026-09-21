@@ -79,11 +79,23 @@ struct UniverseCard: View {
 }
 
 #Preview {
+    let previewUniverse = Universe(
+        id: "preview",
+        title: "Marvel",
+        subtitle: "The Infinity Saga",
+        fullTitle: "Marvel Cinematic Universe",
+        description: "",
+        banner: "placeholder-poster",
+        poster: "placeholder-poster",
+        filters: nil,
+        movies: []
+    )
+
     ZStack {
         Color.black
             .ignoresSafeArea()
 
-        UniverseCard(universe: universes[0])
+        UniverseCard(universe: previewUniverse)
             .padding()
     }
 }
