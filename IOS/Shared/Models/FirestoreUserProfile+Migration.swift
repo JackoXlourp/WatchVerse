@@ -28,6 +28,8 @@ extension FirestoreUserProfile {
                 legacyUser.settings.showReleaseYears,
             notifyNewUniverses:
                 notifyNewUniverses,
+            currentUniverseID:
+                legacyUser.settings.currentUniverseID,
             selectedUniverseFilters:
                 legacyUser.settings.selectedUniverseFilters
                     .mapValues { Array($0) },

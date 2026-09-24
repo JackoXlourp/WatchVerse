@@ -17,6 +17,7 @@ final class ContentStore {
     var universe: Universe?
     var isLoading = true
     var errorMessage: String?
+    var availableUniverses: [Universe] = []
     var comingSoonUniverses: [Universe] = []
     var badges: [Badge] = []
     
@@ -66,6 +67,69 @@ final class ContentStore {
         }
     }
     
+    func preloadArtwork(for universe: Universe) async {
+
+        let sources = Set(
+            [universe.banner, universe.poster]
+            + universe.movies.map(\.poster)
+        )
+
+        await withTaskGroup(of: Void.self) { group in
+
+            for source in sources {
+                group.addTask {
+                    await ArtworkPreloader.preload(source)
+                }
+            }
+
+            await group.waitForAll()
+        }
+    }
+    
+    func loadCatalogWithoutSelectedUniverse() async {
+        isLoading = true
+        errorMessage = nil
+
+        do {
+            let loadedAvailable =
+                try await service.fetchAvailableUniverses()
+
+            let loadedComingSoon =
+                try await service.fetchComingSoonUniverses()
+
+            let loadedBadges =
+                try await service.fetchBadges()
+
+            universe = nil
+            content = []
+            availableUniverses = loadedAvailable
+            comingSoonUniverses = loadedComingSoon
+            badges = loadedBadges
+
+            for badge in loadedBadges {
+                await ArtworkPreloader.preload(
+                    badge.artwork
+                )
+            }
+
+            let artworkSources = Set(
+                loadedAvailable.map(\.poster) +
+                loadedComingSoon.map(\.poster)
+            )
+
+            for source in artworkSources {
+                await ArtworkPreloader.preload(
+                    source
+                )
+            }
+
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+
+        isLoading = false
+    }
+    
     func loadInitialContent(universeID: String) async {
         isLoading = true
         errorMessage = nil
@@ -75,11 +139,15 @@ final class ContentStore {
                 id: universeID
             )
 
+            let loadedAvailable = try await service.fetchAvailableUniverses()
             let loadedComingSoon = try await service.fetchComingSoonUniverses()
 
             universe = loadedUniverse
             content = loadedUniverse.movies
+            availableUniverses = loadedAvailable
             comingSoonUniverses = loadedComingSoon
+            
+            await preloadArtwork(for: loadedUniverse)
             
             badges = try await service.fetchBadges()
             
@@ -88,7 +156,8 @@ final class ContentStore {
             }
 
             let homeArtworkSources = Set(
-                [loadedUniverse.banner] +
+                [loadedUniverse.banner, loadedUniverse.poster] +
+                loadedAvailable.map(\.poster) +
                 loadedComingSoon.map(\.poster)
             )
 

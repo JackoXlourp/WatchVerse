@@ -19,7 +19,8 @@ struct FirestoreUserProfile {
 
     var showReleaseYears: Bool
     var notifyNewUniverses: Bool
-
+    var currentUniverseID: String?
+    
     var selectedUniverseFilters: [String: [String]]
     var journeyPositions: [String: String]
 
@@ -52,6 +53,10 @@ struct FirestoreUserProfile {
             "shownBadgePopups": shownBadgePopups,
             "schemaVersion": schemaVersion
         ]
+        
+        if let currentUniverseID {
+            data["currentUniverseID"] = currentUniverseID
+        }
 
         if let cloudKitMigrationVersion {
             data["cloudKitMigrationVersion"] =

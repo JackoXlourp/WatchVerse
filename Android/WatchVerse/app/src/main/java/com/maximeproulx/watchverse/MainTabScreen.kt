@@ -1,5 +1,6 @@
 package com.maximeproulx.watchverse
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.delay
 import androidx.compose.ui.Alignment
@@ -50,6 +52,7 @@ fun MainTabScreen(
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val activeUniverse = requireNotNull(catalogStore.activeUniverse)
+    val latestCurrentUser by rememberUpdatedState(currentUser)
 
     var selectedTab by remember {
         mutableStateOf(WatchVerseTab.HOME)
@@ -68,6 +71,9 @@ fun MainTabScreen(
     }
     var badgeGalleryScrollTargetID by remember {
         mutableStateOf<String?>(null)
+    }
+    var switchingUniverse by remember {
+        mutableStateOf(false)
     }
 
     fun queueBadgePopups(badges: List<Badge>) {
@@ -139,6 +145,13 @@ fun MainTabScreen(
         hideBottomBar = false
     }
 
+    BackHandler(
+        enabled = selectedTab != WatchVerseTab.HOME &&
+            !showSettings && popupBadge == null && !hideBottomBar
+    ) {
+        selectedTab = WatchVerseTab.HOME
+    }
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -148,9 +161,52 @@ fun MainTabScreen(
             WatchVerseTab.HOME -> {
                 HomeScreen(
                     activeUniverse = activeUniverse,
+                    availableUniverses = catalogStore.availableUniverses,
                     comingSoonUniverses = catalogStore.comingSoonUniverses,
                     onContinueWatchingClick = {
                         selectedTab = WatchVerseTab.JOURNEY
+                    },
+                    onUniverseClick = { universe ->
+                        if (!switchingUniverse) {
+                            if (universe.id == activeUniverse.id) {
+                                selectedTab = WatchVerseTab.JOURNEY
+                            } else {
+                                switchingUniverse = true
+                                val prepared = catalogStore
+                                    .prepareAvailableUniverse(universe.id)
+
+                                if (prepared == null) {
+                                    switchingUniverse = false
+                                    android.widget.Toast.makeText(
+                                        context,
+                                        "Unable to load this universe.",
+                                        android.widget.Toast.LENGTH_LONG
+                                    ).show()
+                                } else {
+                                    AuthenticationService.updateCurrentUniverseID(
+                                        universe.id
+                                    ) { success ->
+                                        switchingUniverse = false
+                                        if (success) {
+                                            catalogStore.activateUniverse(prepared)
+                                            onCurrentUserChanged(
+                                                latestCurrentUser.copy(
+                                                    currentUniverseID = universe.id
+                                                )
+                                            )
+                                            selectedTab = WatchVerseTab.JOURNEY
+                                            catalogStore.preloadArtworkInBackground(prepared)
+                                        } else {
+                                            android.widget.Toast.makeText(
+                                                context,
+                                                "Unable to save your current universe.",
+                                                android.widget.Toast.LENGTH_LONG
+                                            ).show()
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     onSettingsClick = ::openSettings
                 )
@@ -163,19 +219,18 @@ fun MainTabScreen(
                     currentUser = currentUser,
                     onCurrentUserChanged = onCurrentUserChanged,
                     onSettingsClick = ::openSettings,
-                    onResetJourney = {
-                        val movieIds = activeUniverse.movies.map { it.id }.toSet()
-
-                        AuthenticationService.resetUniverseProgress(
-                            movieIds = movieIds.toList()
-                        ) { success ->
-                            if (success) {
-                                onCurrentUserChanged(
-                                    currentUser.copy(
-                                        watchedMovies = currentUser.watchedMovies.filterNot(movieIds::contains),
-                                        skippedMovies = currentUser.skippedMovies.filterNot(movieIds::contains)
-                                    )
-                                )
+                    onCloseUniverse = {
+                        onCurrentUserChanged(currentUser.copy(currentUniverseID = null))
+                        catalogStore.clearActiveUniverse()
+                        AuthenticationService.updateCurrentUniverseID(null) { success ->
+                            if (!success) {
+                                catalogStore.activateUniverse(activeUniverse)
+                                onCurrentUserChanged(currentUser)
+                                android.widget.Toast.makeText(
+                                    context,
+                                    "Unable to close this universe. Please try again.",
+                                    android.widget.Toast.LENGTH_LONG
+                                ).show()
                             }
                         }
                     },
@@ -296,9 +351,10 @@ fun MainTabScreen(
                     }
                 },
                 onLogout = {
-                    AuthenticationService.signOut()
-                    closeSettings()
-                    onSignedOut()
+                    AuthenticationService.logout {
+                        closeSettings()
+                        onSignedOut()
+                    }
                 },
                 onDeleteAccount = {
                     val activity = context as? androidx.activity.ComponentActivity
@@ -345,6 +401,10 @@ fun MainTabScreen(
                     selectedTab = WatchVerseTab.BADGES
                 }
             )
+        }
+
+        BackHandler(enabled = popupBadge != null) {
+            popupBadge = null
         }
     }
 }

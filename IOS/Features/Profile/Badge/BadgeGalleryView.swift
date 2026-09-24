@@ -115,7 +115,7 @@ struct BadgeGalleryView: View {
             .sheet(item: $selectedBadge) { badge in
                 BadgeDetailView(
                     badge: badge,
-                    movies: []
+                    movies: selectedBadgeMovies
                 )
                 .task {
                     let loadedContent = await contentStore.content(

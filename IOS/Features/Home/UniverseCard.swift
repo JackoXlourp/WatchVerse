@@ -1,80 +1,108 @@
-//
-//  UniverseCard.swift
-//  WatchVerse
-//
-//  Created by Maxime Proulx on 2026-07-30.
-//
 import SwiftUI
 
 struct UniverseCard: View {
 
     let universe: Universe
     var isLocked = false
+    var isCurrent = false
+    var onTap: (() -> Void)? = nil
 
     var body: some View {
-        
-        NavigationLink {
-            JourneyView()
-        } label: {
-            
-            VStack(alignment: .leading, spacing: 16) {
-                
-                ArtworkImageView(
-                    source: universe.poster,
-                    placeholder: "placeholder-poster"
-                )
-                    .scaledToFill()
-                    .aspectRatio(0.68, contentMode: .fit)
-                    .frame(maxWidth: .infinity)
-                    .saturation(isLocked ? 0 : 1)
-                    .clipped()
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .overlay {
-                        if isLocked {
-                            Image(systemName: "lock.fill")
-                                .font(.system(size: 36, weight: .bold))
-                                .foregroundStyle(.white)
-                                .padding(10)
-                                .background(.ultraThinMaterial)
-                                .clipShape(Circle())
-                                .overlay(
-                                    Circle()
-                                        .stroke(Color.white.opacity(0.15), lineWidth: 1)
-                                )
-                        }
-                    }
-                
-                HStack(spacing: 12) {
-                    
-                    Text(universe.title)
-                        .font(.headline)
-                        .foregroundStyle(Color.watchVerseGold)
-                        .lineLimit(2)
-                        .frame(height: 44, alignment: .top)
-                    
-                    Spacer()
-                }
+
+        if let onTap, !isLocked {
+            Button(action: onTap) {
+                cardContent
             }
-            .padding()
-            .frame(maxWidth: .infinity)
-            .background(Color.white.opacity(0.05))
-            .overlay(
-                RoundedRectangle(cornerRadius: 24)
-                    .stroke(
-                        Color(red: 0.78, green: 0.70, blue: 0.50).opacity(0.35),
-                        lineWidth: 1
-                    )
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 24))
-            .shadow(
-                color: .black.opacity(0.25),
-                radius: 8,
-                x: 0,
-                y: 4
-            )
+            .buttonStyle(.plain)
+        } else {
+            cardContent
         }
-        .buttonStyle(.plain)
-        .disabled(isLocked)
+    }
+
+    private var cardContent: some View {
+
+        VStack(alignment: .leading, spacing: 16) {
+
+            Color.clear
+                .aspectRatio(0.68, contentMode: .fit)
+                .frame(maxWidth: .infinity)
+                .overlay {
+                    ArtworkImageView(
+                        source: universe.poster,
+                        placeholder: "placeholder-poster"
+                    )
+                    .scaledToFill()
+                }
+                .saturation(isLocked ? 0 : 1)
+                .clipped()
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(
+                            Color.watchVerseGold.opacity(0.8),
+                            lineWidth: 1
+                        )
+                )
+                .overlay {
+                    if isLocked {
+                        Image(systemName: "lock.fill")
+                            .font(.system(size: 36, weight: .bold))
+                            .foregroundStyle(.white)
+                            .padding(10)
+                            .background(.ultraThinMaterial)
+                            .clipShape(Circle())
+                            .overlay(
+                                Circle()
+                                    .stroke(
+                                        Color.white.opacity(0.15),
+                                        lineWidth: 1
+                                    )
+                            )
+                    }
+                }
+            
+            HStack(spacing: 12) {
+
+                Text(universe.title)
+                    .font(.headline)
+                    .foregroundStyle(Color.watchVerseGold)
+                    .lineLimit(2)
+                    .frame(height: 44, alignment: .top)
+
+                Spacer()
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity)
+        .background(Color.white.opacity(0.05))
+        .overlay(
+            RoundedRectangle(cornerRadius: 24)
+                .stroke(
+                    Color.watchVerseGold
+                        .opacity(isCurrent ? 0.9 : 0.35),
+                    lineWidth: isCurrent ? 2 : 1
+                )
+        )
+        .overlay(alignment: .topTrailing) {
+            if isCurrent {
+                Text("CURRENT")
+                    .font(.caption2.bold())
+                    .tracking(0.8)
+                    .foregroundStyle(.black)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 6)
+                    .background(Color.watchVerseGold)
+                    .clipShape(Capsule())
+                    .padding(10)
+            }
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 24))
+        .shadow(
+            color: .black.opacity(0.25),
+            radius: 8,
+            x: 0,
+            y: 4
+        )
     }
 }
 
@@ -95,7 +123,10 @@ struct UniverseCard: View {
         Color.black
             .ignoresSafeArea()
 
-        UniverseCard(universe: previewUniverse)
-            .padding()
+        UniverseCard(
+            universe: previewUniverse,
+            onTap: {}
+        )
+        .padding()
     }
 }

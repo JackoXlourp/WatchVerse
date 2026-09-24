@@ -10,11 +10,14 @@ import Foundation
 import AuthenticationServices
 import FirebaseAuth
 import CryptoKit
+import CloudKit
 
 @Observable
 final class AuthenticationService {
     
     private var currentNonce: String?
+    private var appleReauthenticationController: ASAuthorizationController?
+    private var appleReauthenticationDelegate: AppleReauthenticationDelegate?
 
     var isSignedIn = false
 
@@ -55,6 +58,7 @@ final class AuthenticationService {
             guard let firebaseCredential =
                 firebaseCredential(from: appleCredential) else {
 
+                currentNonce = nil
                 print("Could not create Firebase credential.")
                 return
             }
@@ -67,12 +71,11 @@ final class AuthenticationService {
 
                     DispatchQueue.main.async {
 
+                        self.existingFirestoreProfile = nil
+                        UserDefaults.standard.removeObject(
+                            forKey: "notifyNewUniverses"
+                        )
                         self.firebaseUID = authResult.user.uid
-                        Task {
-                            await self.loadExistingFirestoreProfile(
-                                uid: authResult.user.uid
-                            )
-                        }
                         self.currentNonce = nil
                         self.storedUserID = appleCredential.user
 
@@ -107,6 +110,7 @@ final class AuthenticationService {
 
         case .failure(let error):
 
+            currentNonce = nil
             print("Apple Sign In failed: \(error.localizedDescription)")
         }
     }
@@ -114,10 +118,73 @@ final class AuthenticationService {
     func restoreSession() {
         
         isLoading = true
+        existingFirestoreProfile = nil
+        currentUser = nil
+        needsName = false
+        isSignedIn = false
+        UserDefaults.standard.removeObject(
+            forKey: "notifyNewUniverses"
+        )
         firebaseUID = Auth.auth().currentUser?.uid
+        
+        guard firebaseUID != nil else {
+            isSignedIn = false
+            isLoading = false
+            return
+        }
 
         guard !storedUserID.isEmpty else {
-            isLoading = false
+
+            guard let firebaseUID else {
+                isLoading = false
+                return
+            }
+
+            Task {
+
+                do {
+
+                    let loadedFromFirestore =
+                        try await self.loadFirestoreUser(
+                            uid: firebaseUID
+                        )
+
+                    await MainActor.run {
+
+                        if !loadedFromFirestore {
+                            self.currentUser = User(
+                                userID: firebaseUID,
+                                displayName:
+                                    Auth.auth().currentUser?.displayName
+                                    ?? "",
+                                joinedDate: .now,
+                                isFounder: false,
+                                watchedMovies: [],
+                                skippedMovies: [],
+                                unlockedBadges: [],
+                                settings: UserSettings(),
+                                shownBadgePopups: []
+                            )
+                            self.needsName = true
+                        }
+
+                        self.isSignedIn = true
+                        self.isLoading = false
+                    }
+
+                } catch {
+
+                    print(
+                        "Firestore user load failed:",
+                        error.localizedDescription
+                    )
+
+                    await MainActor.run {
+                        self.isLoading = false
+                    }
+                }
+            }
+
             return
         }
 
@@ -130,24 +197,81 @@ final class AuthenticationService {
                 switch state {
 
                 case .authorized:
-                    
+
                     self.needsName = false
 
-                    CloudKitService().findOrCreateUser(
-                        id: self.storedUserID,
-                        name: self.currentUser?.displayName ?? "",
-                        onFailure: { _ in
+                    guard let firebaseUID = self.firebaseUID else {
+                        self.isLoading = false
+                        return
+                    }
+
+                    Task {
+
+                        do {
+
+                            let loadedFromFirestore =
+                                try await self.loadFirestoreUser(
+                                    uid: firebaseUID
+                                )
+
+                            if loadedFromFirestore {
+
+                                await MainActor.run {
+                                    self.isSignedIn = true
+                                    self.isLoading = false
+                                }
+
+                                return
+                            }
+
+                            let legacyUserExists =
+                                try await self.loadLegacyCloudKitUserIfPresent()
+
+                            await MainActor.run {
+
+                                if !legacyUserExists {
+
+                                    self.currentUser = User(
+                                        userID: self.storedUserID,
+                                        displayName: "",
+                                        joinedDate: .now,
+                                        isFounder: false,
+                                        watchedMovies: [],
+                                        skippedMovies: [],
+                                        unlockedBadges: [],
+                                        settings: UserSettings(),
+                                        shownBadgePopups: []
+                                    )
+
+                                    self.needsName = true
+                                }
+
+                                self.isSignedIn = true
                                 self.isLoading = false
                             }
-                    ) { user, isNewUser in
-                        self.currentUser = user
-                        self.needsName = isNewUser
-                        self.isSignedIn = true
-                        self.isLoading = false
+
+                        } catch {
+
+                            print(
+                                "Firestore user load failed:",
+                                error.localizedDescription
+                            )
+
+                            await MainActor.run {
+                                self.isLoading = false
+                            }
+                        }
                     }
                     
                     
                 default:
+                    try? Auth.auth().signOut()
+                    self.firebaseUID = nil
+                    self.existingFirestoreProfile = nil
+                    self.currentUser = nil
+                    UserDefaults.standard.removeObject(
+                        forKey: "notifyNewUniverses"
+                    )
                     self.isSignedIn = false
                     self.isLoading = false
                 }
@@ -156,31 +280,90 @@ final class AuthenticationService {
     }
     func logout() {
 
-        do {
-            try Auth.auth().signOut()
-        } catch {
-            print("Firebase sign out failed: \(error.localizedDescription)")
-        }
+        Task {
 
-        firebaseUID = nil
-        storedUserID = ""
-        currentUser = nil
-        isSignedIn = false
-        needsName = false
+            await NotificationTokenService
+                .removeStoredTokenFromCurrentUser()
+
+            await MainActor.run {
+
+                do {
+                    try Auth.auth().signOut()
+                } catch {
+                    print(
+                        "Firebase sign out failed:",
+                        error.localizedDescription
+                    )
+                }
+
+                self.firebaseUID = nil
+                self.existingFirestoreProfile = nil
+                self.storedUserID = ""
+
+                UserDefaults.standard.removeObject(
+                    forKey: "notifyNewUniverses"
+                )
+
+                self.currentUser = nil
+                self.isSignedIn = false
+                self.needsName = false
+            }
+        }
     }
-    func deleteAccount(cloudKit: CloudKitService) {
+    func deleteAccount() async -> Bool {
 
-        guard let userID = currentUser?.userID else {
-            return
+        guard let firebaseUser = Auth.auth().currentUser else {
+            return false
         }
 
-        cloudKit.deleteUser(id: userID) {
+        let uid = firebaseUser.uid
 
-            self.storedUserID = ""
-            self.currentUser = nil
-            self.isSignedIn = false
-            self.needsName = false
+        do {
 
+            try await reauthenticateCurrentUserWithApple(
+                firebaseUser
+            )
+
+            let profileToRestore = try await FirestoreUserService()
+                .fetchProfile(uid: uid)
+
+            try await FirestoreUserService()
+                .deleteProfile(uid: uid)
+
+            do {
+                try await firebaseUser.delete()
+            } catch {
+
+                if let profileToRestore {
+                    try? await FirestoreUserService()
+                        .saveProfile(profileToRestore)
+                }
+
+                throw error
+            }
+
+            await MainActor.run {
+                self.firebaseUID = nil
+                self.existingFirestoreProfile = nil
+                self.storedUserID = ""
+                UserDefaults.standard.removeObject(
+                    forKey: "notifyNewUniverses"
+                )
+                self.currentUser = nil
+                self.isSignedIn = false
+                self.needsName = false
+            }
+
+            return true
+
+        } catch {
+
+            print(
+                "❌ Account deletion failed:",
+                error.localizedDescription
+            )
+
+            return false
         }
     }
     
@@ -188,22 +371,31 @@ final class AuthenticationService {
         notifyNewUniverses: Bool
     ) async {
 
-        guard
-            let firebaseUID,
-            let legacyUser = currentUser
-        else {
+        guard let firebaseUID else {
             return
         }
 
         do {
+
+            let legacyUser =
+                try await fetchLegacyCloudKitUser()
 
             if let existingProfile =
                 try await FirestoreUserService()
                     .fetchProfile(uid: firebaseUID) {
 
                 await MainActor.run {
-                    self.existingFirestoreProfile = existingProfile
+                    self.existingFirestoreProfile =
+                        existingProfile
                 }
+                
+                await NotificationTokenService
+                    .syncStoredTokenIfPossible()
+
+                try await CloudKitService()
+                    .deleteUser(
+                        id: legacyUser.userID
+                    )
 
                 return
             }
@@ -212,22 +404,47 @@ final class AuthenticationService {
                 FirestoreUserProfile.migrated(
                     from: legacyUser,
                     firebaseUID: firebaseUID,
-                    email: Auth.auth().currentUser?.email ?? "",
-                    notifyNewUniverses: notifyNewUniverses
+                    email:
+                        Auth.auth().currentUser?.email
+                        ?? "",
+                    notifyNewUniverses:
+                        notifyNewUniverses
                 )
 
             try await CloudKitMigrationService()
-                .migrate(profile: migrationProfile)
+                .migrate(
+                    profile: migrationProfile
+                )
 
-            let migratedProfile =
+            guard let migratedProfile =
                 try await FirestoreUserService()
-                    .fetchProfile(uid: firebaseUID)
+                    .fetchProfile(
+                        uid: firebaseUID
+                    )
+            else {
 
-            await MainActor.run {
-                self.existingFirestoreProfile = migratedProfile
+                throw NSError(
+                    domain: "AuthenticationService",
+                    code: 3,
+                    userInfo: [
+                        NSLocalizedDescriptionKey:
+                            "Firestore migration could not be verified."
+                    ]
+                )
             }
 
-            print("✅ CloudKit user migrated to Firestore")
+            await MainActor.run {
+                self.existingFirestoreProfile =
+                    migratedProfile
+            }
+            
+            await NotificationTokenService
+                .syncStoredTokenIfPossible()
+
+            try await CloudKitService()
+                .deleteUser(
+                    id: legacyUser.userID
+                )
 
         } catch {
 
@@ -235,6 +452,237 @@ final class AuthenticationService {
                 "❌ CloudKit migration failed:",
                 error.localizedDescription
             )
+        }
+    }
+
+    func saveCurrentUserToFirestore() async {
+
+        let notifyNewUniverses =
+            UserDefaults.standard.bool(
+                forKey: "notifyNewUniverses"
+            )
+
+        await saveCurrentUserToFirestore(
+            notifyNewUniverses: notifyNewUniverses
+        )
+    }
+    
+    func saveCurrentUserToFirestore(
+        notifyNewUniverses: Bool
+    ) async {
+
+        guard
+            let firebaseUID,
+            let user = currentUser,
+            Auth.auth().currentUser?.uid == firebaseUID
+        else {
+            return
+        }
+
+        do {
+
+            let existingProfile: FirestoreUserProfile?
+
+            if let cachedProfile = existingFirestoreProfile {
+                existingProfile =
+                    cachedProfile.uid == firebaseUID
+                    ? cachedProfile
+                    : try await FirestoreUserService()
+                        .fetchProfile(uid: firebaseUID)
+            } else {
+                existingProfile = try await FirestoreUserService()
+                    .fetchProfile(uid: firebaseUID)
+            }
+
+            guard var profile = existingProfile else {
+                return
+            }
+
+            guard profile.uid == firebaseUID else {
+                return
+            }
+
+            guard Auth.auth().currentUser?.uid == firebaseUID else {
+                return
+            }
+
+            profile.displayName = user.displayName
+            profile.isFounder = user.isFounder
+            profile.showReleaseYears = user.settings.showReleaseYears
+            profile.notifyNewUniverses = notifyNewUniverses
+            profile.currentUniverseID = user.settings.currentUniverseID
+
+            profile.selectedUniverseFilters =
+                user.settings.selectedUniverseFilters.mapValues {
+                    Array($0)
+                }
+
+            profile.journeyPositions =
+                user.settings.journeyPositions
+
+            profile.watchedMovies =
+                user.watchedMovies
+
+            profile.skippedMovies =
+                user.skippedMovies
+
+            profile.unlockedBadges =
+                user.unlockedBadges
+
+            profile.shownBadgePopups =
+                user.shownBadgePopups
+
+            try await FirestoreUserService()
+                .updateMutableProfile(profile)
+
+            await MainActor.run {
+                self.existingFirestoreProfile = profile
+            }
+
+        } catch {
+
+            print(
+                "❌ Firestore user save failed:",
+                error.localizedDescription
+            )
+        }
+    }
+    
+    func createFirestoreProfileForNewUser(
+        notifyNewUniverses: Bool
+    ) async {
+
+        guard
+            let firebaseUID,
+            let user = currentUser
+        else {
+            return
+        }
+
+        let profile = FirestoreUserProfile(
+            uid: firebaseUID,
+            displayName: user.displayName,
+            email: Auth.auth().currentUser?.email ?? "",
+            joinedDate: Int64(
+                user.joinedDate.timeIntervalSince1970 * 1000
+            ),
+            isFounder: false,
+            showReleaseYears: user.settings.showReleaseYears,
+            notifyNewUniverses: notifyNewUniverses,
+            currentUniverseID: user.settings.currentUniverseID,
+            selectedUniverseFilters:
+                user.settings.selectedUniverseFilters.mapValues {
+                    Array($0)
+                },
+            journeyPositions:
+                user.settings.journeyPositions,
+            watchedMovies:
+                user.watchedMovies,
+            skippedMovies:
+                user.skippedMovies,
+            unlockedBadges:
+                user.unlockedBadges,
+            shownBadgePopups:
+                user.shownBadgePopups,
+            schemaVersion: 2,
+            cloudKitMigrationVersion: nil,
+            legacyCloudKitRecordID: nil
+        )
+
+        do {
+
+            try await FirestoreUserService()
+                .saveProfile(profile)
+
+            await MainActor.run {
+                self.existingFirestoreProfile = profile
+            }
+            
+            await NotificationTokenService
+                .syncStoredTokenIfPossible()
+
+        } catch {
+
+            print(
+                "❌ Firestore profile creation failed:",
+                error.localizedDescription
+            )
+        }
+    }
+    
+    func loadFirestoreUser(
+        uid: String
+    ) async throws -> Bool {
+
+        guard let profile =
+            try await FirestoreUserService()
+                .fetchProfile(uid: uid)
+        else {
+            return false
+        }
+
+        await MainActor.run {
+            self.existingFirestoreProfile = profile
+            self.currentUser = profile.user
+            self.needsName = false
+            UserDefaults.standard.set(
+                profile.notifyNewUniverses,
+                forKey: "notifyNewUniverses"
+            )
+        }
+        
+        await NotificationTokenService
+            .syncStoredTokenIfPossible()
+
+        return true
+    }
+    
+    func loadLegacyCloudKitUserIfPresent() async throws -> Bool {
+
+        guard !storedUserID.isEmpty else {
+            return false
+        }
+
+        do {
+
+            let legacyUser =
+                try await fetchLegacyCloudKitUser()
+
+            await MainActor.run {
+                self.currentUser = legacyUser
+                self.needsName = false
+            }
+
+            return true
+
+        } catch let error as CKError
+            where error.code == .unknownItem {
+
+            return false
+        }
+    }
+    
+    private func fetchLegacyCloudKitUser() async throws -> User {
+
+        guard !storedUserID.isEmpty else {
+            throw NSError(
+                domain: "AuthenticationService",
+                code: 2,
+                userInfo: [
+                    NSLocalizedDescriptionKey:
+                        "No legacy Apple user ID is available."
+                ]
+            )
+        }
+
+        return try await withCheckedThrowingContinuation { continuation in
+
+            CloudKitService().fetchUser(
+                id: storedUserID
+            ) { result in
+
+                continuation.resume(with: result)
+            }
         }
     }
     
@@ -317,25 +765,62 @@ final class AuthenticationService {
             fullName: appleCredential.fullName
         )
     }
-    private func loadExistingFirestoreProfile(
-        uid: String
-    ) async {
+    private func reauthenticateCurrentUserWithApple(
+        _ firebaseUser: FirebaseAuth.User
+    ) async throws {
 
-        do {
-            existingFirestoreProfile =
-                try await FirestoreUserService()
-                    .fetchProfile(uid: uid)
+        defer {
+            currentNonce = nil
+        }
 
-            print(
-                "Existing Firestore profile:",
-                existingFirestoreProfile != nil
+        let appleCredential =
+            try await requestAppleReauthenticationCredential()
+
+        guard let credential =
+            firebaseCredential(from: appleCredential) else {
+
+            throw NSError(
+                domain: "AuthenticationService",
+                code: 4,
+                userInfo: [
+                    NSLocalizedDescriptionKey:
+                        "Could not create a Firebase credential for Apple reauthentication."
+                ]
+            )
+        }
+
+        _ = try await firebaseUser.reauthenticate(
+            with: credential
+        )
+    }
+
+    private func requestAppleReauthenticationCredential() async throws
+        -> ASAuthorizationAppleIDCredential {
+
+        try await withCheckedThrowingContinuation {
+            (continuation: CheckedContinuation<ASAuthorizationAppleIDCredential, Error>) in
+
+            let request = ASAuthorizationAppleIDProvider()
+                .createRequest()
+
+            configure(request)
+
+            let delegate = AppleReauthenticationDelegate { result in
+
+                self.appleReauthenticationController = nil
+                self.appleReauthenticationDelegate = nil
+                continuation.resume(with: result)
+            }
+
+            let controller = ASAuthorizationController(
+                authorizationRequests: [request]
             )
 
-        } catch {
-            print(
-                "Firestore profile check failed:",
-                error.localizedDescription
-            )
+            appleReauthenticationDelegate = delegate
+            appleReauthenticationController = controller
+            controller.delegate = delegate
+            controller.presentationContextProvider = delegate
+            controller.performRequests()
         }
     }
     private func signInToFirebase(
@@ -368,5 +853,71 @@ final class AuthenticationService {
 
             completion(.success(result))
         }
+    }
+}
+
+private final class AppleReauthenticationDelegate: NSObject,
+    ASAuthorizationControllerDelegate,
+    ASAuthorizationControllerPresentationContextProviding {
+
+    private let completion:
+        (Result<ASAuthorizationAppleIDCredential, Error>) -> Void
+
+    init(
+        completion: @escaping (Result<ASAuthorizationAppleIDCredential, Error>) -> Void
+    ) {
+        self.completion = completion
+    }
+
+    func authorizationController(
+        controller: ASAuthorizationController,
+        didCompleteWithAuthorization authorization: ASAuthorization
+    ) {
+
+        guard let credential =
+            authorization.credential as? ASAuthorizationAppleIDCredential else {
+
+            completion(
+                .failure(
+                    NSError(
+                        domain: "AuthenticationService",
+                        code: 5,
+                        userInfo: [
+                            NSLocalizedDescriptionKey:
+                                "Apple reauthentication returned an unexpected credential."
+                        ]
+                    )
+                )
+            )
+
+            return
+        }
+
+        completion(.success(credential))
+    }
+
+    func authorizationController(
+        controller: ASAuthorizationController,
+        didCompleteWithError error: Error
+    ) {
+
+        completion(.failure(error))
+    }
+
+    func presentationAnchor(
+        for controller: ASAuthorizationController
+    ) -> ASPresentationAnchor {
+
+        let activeWindowScene = UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .first { $0.activationState == .foregroundActive }
+
+        guard let windowScene = activeWindowScene
+        else {
+            fatalError("Apple reauthentication requires an active window scene.")
+        }
+
+        return windowScene.windows.first(where: \.isKeyWindow)
+            ?? UIWindow(windowScene: windowScene)
     }
 }

@@ -26,11 +26,22 @@ struct FirestoreUserService {
             return nil
         }
 
-        let rawFilters =
-            data["selectedUniverseFilters"] as? [String: [String]] ?? [:]
+        let selectedUniverseFilters: [String: [String]]
+
+        if let perUniverseFilters =
+            data["selectedUniverseFilters"] as? [String: [String]] {
+
+            selectedUniverseFilters = perUniverseFilters
+        } else if let legacyFilters =
+            data["selectedUniverseFilters"] as? [String] {
+
+            selectedUniverseFilters = ["mcu": legacyFilters]
+        } else {
+            selectedUniverseFilters = [:]
+        }
 
         return FirestoreUserProfile(
-            uid: data["uid"] as? String ?? uid,
+            uid: uid,
             displayName: data["displayName"] as? String ?? "",
             email: data["email"] as? String ?? "",
             joinedDate: data["joinedDate"] as? Int64 ?? 0,
@@ -39,7 +50,9 @@ struct FirestoreUserService {
                 data["showReleaseYears"] as? Bool ?? true,
             notifyNewUniverses:
                 data["notifyNewUniverses"] as? Bool ?? true,
-            selectedUniverseFilters: rawFilters,
+            currentUniverseID:
+                data["currentUniverseID"] as? String,
+            selectedUniverseFilters: selectedUniverseFilters,
             journeyPositions:
                 data["journeyPositions"] as? [String: String] ?? [:],
             watchedMovies:
@@ -57,5 +70,85 @@ struct FirestoreUserService {
             legacyCloudKitRecordID:
                 data["legacyCloudKitRecordID"] as? String
         )
+    }
+    
+    func deleteProfile(
+        uid: String
+    ) async throws {
+
+        try await db
+            .collection("users")
+            .document(uid)
+            .delete()
+    }
+    
+    func saveProfile(
+        _ profile: FirestoreUserProfile
+    ) async throws {
+
+        try await db
+            .collection("users")
+            .document(profile.uid)
+            .setData(
+                profile.firestoreData,
+                merge: true
+            )
+    }
+    
+    func addFCMToken(
+        uid: String,
+        token: String
+    ) async throws {
+
+        try await db
+            .collection("users")
+            .document(uid)
+            .updateData([
+                "fcmTokens": FieldValue.arrayUnion([token])
+            ])
+    }
+    
+    func removeFCMToken(
+        uid: String,
+        token: String
+    ) async throws {
+
+        try await db
+            .collection("users")
+            .document(uid)
+            .updateData([
+                "fcmTokens": FieldValue.arrayRemove([token])
+            ])
+    }
+
+    func updateMutableProfile(
+        _ profile: FirestoreUserProfile
+    ) async throws {
+
+        var mutableData: [String: Any] = [
+            "displayName": profile.displayName,
+            "showReleaseYears": profile.showReleaseYears,
+            "notifyNewUniverses": profile.notifyNewUniverses,
+            "selectedUniverseFilters": profile.selectedUniverseFilters,
+            "journeyPositions": profile.journeyPositions,
+            "watchedMovies": profile.watchedMovies,
+            "skippedMovies": profile.skippedMovies,
+            "unlockedBadges": profile.unlockedBadges,
+            "shownBadgePopups": profile.shownBadgePopups
+        ]
+
+        if let currentUniverseID = profile.currentUniverseID {
+            mutableData["currentUniverseID"] = currentUniverseID
+        } else {
+            mutableData["currentUniverseID"] = FieldValue.delete()
+        }
+
+        try await db
+            .collection("users")
+            .document(profile.uid)
+            .setData(
+                mutableData,
+                merge: true
+            )
     }
 }

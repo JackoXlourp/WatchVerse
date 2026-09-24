@@ -11,6 +11,9 @@ import FirebaseCore
 @main
 struct WatchVerseApp: App {
     
+    @UIApplicationDelegateAdaptor(AppDelegate.self)
+    private var appDelegate
+    
     init() {
         FirebaseApp.configure()
         
@@ -36,7 +39,6 @@ struct WatchVerseApp: App {
     
     @State private var navigation = AppNavigation()
     @State private var authentication = AuthenticationService()
-    @State private var cloudKit = CloudKitService()
     @State private var contentStore = ContentStore()
     
     var body: some Scene{
@@ -45,21 +47,13 @@ struct WatchVerseApp: App {
                 .environment(viewModel)
                 .environment(navigation)
                 .environment(authentication)
-                .environment(cloudKit)
                 .environment(contentStore)
-                .task {
-                    await contentStore.loadInitialContent(
-                        universeID: "mcu"
-                    )
-
-                    if let universe = contentStore.universe {
-                        viewModel.replaceJourney(with: universe)
-                    }
-                }                .preferredColorScheme(.dark)
+                .preferredColorScheme(.dark)
                 .onAppear {
                     viewModel.authentication = authentication
-                    viewModel.cloudKit = cloudKit
                     viewModel.contentStore = contentStore
+                    
+                    appDelegate.requestNotificationPermission()
                 }
         }
     }

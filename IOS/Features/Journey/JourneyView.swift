@@ -22,8 +22,8 @@ struct JourneyView: View {
     @Environment(AuthenticationService.self)
     private var authentication
     
-    @Environment(CloudKitService.self)
-    private var cloudKit
+    @AppStorage("notifyNewUniverses")
+    private var notifyNewUniverses = false
     
     @Environment(ContentStore.self)
     private var contentStore
@@ -75,21 +75,24 @@ struct JourneyView: View {
                     Spacer()
                         .frame(height: 80)
                     
-                    HStack {
-                        
+                    VStack(spacing: 6) {
+
                         Text(viewModel.journey.title)
-                            .font(.system(size: 40, weight: .bold))
-                            .fontWeight(.bold)
-                            .foregroundStyle(.red)
-                        
-                        Divider()
-                            .frame(height: 20)
-                            .overlay(.white)
-                        
+                            .font(.system(size: 34, weight: .bold))
+                            .foregroundStyle(Color.watchVerseGold)
+                            .multilineTextAlignment(.center)
+                            .lineLimit(2)
+                            .minimumScaleFactor(0.8)
+
                         Text(viewModel.journey.subtitle)
-                            .font(.system(size: 24, weight: .medium))
-                            .foregroundStyle(.white)
+                            .font(.system(size: 18, weight: .medium))
+                            .foregroundStyle(.white.opacity(0.85))
+                            .multilineTextAlignment(.center)
+                            .lineLimit(2)
+                            .minimumScaleFactor(0.85)
                     }
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, 24)
                     
                     ZStack {
                         ForEach(
@@ -172,7 +175,7 @@ struct JourneyView: View {
                                         .overlay(.white.opacity(0.3))
                                         .padding(.horizontal, 20)
                                     
-                                    Label("Start Journey Again", systemImage: "arrow.counterclockwise")
+                                    Label("Close Universe", systemImage: "xmark.circle")
                                         .font(.headline)
                                         .foregroundStyle(.white)
                                 }
@@ -183,9 +186,14 @@ struct JourneyView: View {
                             )
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                withAnimation(.spring(response: 0.4, dampingFraction: 0.55)) {
-                                    viewModel.resetCurrentUniverseProgress()
-                                    currentIndex = 0
+                                Task {
+
+                                    if var user = authentication.currentUser {
+                                        user.settings.currentUniverseID = nil
+                                        authentication.currentUser = user
+
+                                        await authentication.saveCurrentUserToFirestore()
+                                    }
                                 }
                             }
                             .padding(.top, 60)
@@ -419,7 +427,12 @@ struct JourneyView: View {
                                     user.settings.selectedUniverseFilters[viewModel.journey.id] = selected
                                     
                                     authentication.currentUser = user
-                                    cloudKit.save(user: user)
+
+                                    Task {
+                                        await authentication.saveCurrentUserToFirestore(
+                                            notifyNewUniverses: notifyNewUniverses
+                                        )
+                                    }
                                 }
                                 
                                 showFilterMenu = false
@@ -483,7 +496,12 @@ struct JourneyView: View {
         
         user.settings.journeyPositions[viewModel.journey.id] = movieID
         authentication.currentUser = user
-        cloudKit.save(user: user)
+
+        Task {
+            await authentication.saveCurrentUserToFirestore(
+                notifyNewUniverses: notifyNewUniverses
+            )
+        }
     }
     
     private func advanceToNextUnfinishedMovie(after movieID: String) {

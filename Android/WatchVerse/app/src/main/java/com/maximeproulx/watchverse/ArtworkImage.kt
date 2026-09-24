@@ -27,7 +27,9 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 
 object ArtworkRepository {
     private const val MAX_ARTWORK_BYTES = 25L * 1024L * 1024L
-    private val memoryCache = LruCache<String, Bitmap>(64)
+    private val memoryCache = object : LruCache<String, Bitmap>(24 * 1024 * 1024) {
+        override fun sizeOf(key: String, value: Bitmap): Int = value.allocationByteCount
+    }
 
     suspend fun load(context: Context, source: String): Bitmap? {
         if (!source.startsWith("artwork/")) {

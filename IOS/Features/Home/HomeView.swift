@@ -13,6 +13,9 @@ struct HomeView: View {
     @Environment(AppNavigation.self) private var navigation
     @Environment(ContentStore.self) private var contentStore
     
+    @Environment(AuthenticationService.self)
+    private var authentication
+    
     var body: some View {
             
             ZStack {
@@ -33,9 +36,9 @@ struct HomeView: View {
                         Color.clear
                             .frame(height: 80)
                         
-                        // MARK: Continue Watching
+                        // MARK: Current Universe
                         
-                        Text("Continue Watching")
+                        Text("Current Universe")
                             .font(.headline)
                             .foregroundStyle(Color.watchVerseGold)
                         
@@ -47,12 +50,11 @@ struct HomeView: View {
                         )
                         
                         // MARK: Your Universes
-/*
+
                         Text("Your Universes")
                             .font(.headline)
                             .foregroundStyle(Color.watchVerseGold)
-                        
-                        
+
                         LazyVGrid(
                             columns: [
                                 GridItem(.flexible()),
@@ -60,13 +62,39 @@ struct HomeView: View {
                             ],
                             spacing: 20
                         ) {
-                            ForEach(viewModel.universes) { universe in
+                            ForEach(
+                                contentStore.availableUniverses.filter {
+                                    $0.id != viewModel.journey.id
+                                }
+                            ) { universe in
                                 UniverseCard(
-                                    universe: universe
+                                    universe: universe,
+                                    isCurrent: universe.id == viewModel.journey.id,
+                                    onTap: {
+                                        Task {
+
+                                            await contentStore.preloadArtwork(
+                                                for: universe
+                                            )
+
+                                            if var user = authentication.currentUser {
+                                                user.settings.currentUniverseID = universe.id
+                                                authentication.currentUser = user
+
+                                                await authentication.saveCurrentUserToFirestore()
+                                            }
+
+                                            viewModel.replaceJourney(
+                                                with: universe
+                                            )
+
+                                            navigation.selectedTab = .journey
+                                        }
+                                    }
                                 )
                             }
                         }
-*/
+                        
                         // MARK: Coming Soon!
                         
                         Text("Coming Soon")

@@ -43,8 +43,10 @@ fun BadgeDetailScreen(
     currentUser: WatchVerseUser,
     onClose: () -> Unit
 ) {
+    val availableMovieIDs = movies.map { movie -> movie.id }.toSet()
     val completedMovies = badge.requiredContentIDs.count { movieID ->
-        currentUser.watchedMovies.contains(movieID)
+        availableMovieIDs.contains(movieID) &&
+                currentUser.watchedMovies.contains(movieID)
     }
 
     val isCompleted =
@@ -81,7 +83,7 @@ fun BadgeDetailScreen(
                 textAlign = TextAlign.Center
             )
 
-            if (movies.isNotEmpty()) {
+            if (badge.requiredContentIDs.isNotEmpty()) {
                 Text(
                     text = "$completedMovies / ${badge.requiredContentIDs.size} completed",
                     color = Color.Gray,

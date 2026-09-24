@@ -11,9 +11,9 @@ struct NameSetupView: View {
     
     @Environment(AuthenticationService.self)
     private var authentication
-
-    @Environment(CloudKitService.self)
-    private var cloudKit
+    
+    @AppStorage("notifyNewUniverses")
+    private var notifyNewUniverses = false
 
     @State private var name = ""
 
@@ -56,9 +56,15 @@ struct NameSetupView: View {
 
                         authentication.currentUser = user
 
-                        cloudKit.save(user: user)
+                        Task {
+                            await authentication.createFirestoreProfileForNewUser(
+                                notifyNewUniverses: notifyNewUniverses
+                            )
 
-                        authentication.needsName = false
+                            await MainActor.run {
+                                authentication.needsName = false
+                            }
+                        }
                     }
 
                 }

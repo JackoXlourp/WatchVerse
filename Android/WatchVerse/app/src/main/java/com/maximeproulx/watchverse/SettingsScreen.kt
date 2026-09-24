@@ -1,5 +1,6 @@
 package com.maximeproulx.watchverse
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -38,6 +39,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import android.content.pm.PackageManager
+import androidx.compose.ui.platform.LocalContext
 
 private val SettingsGold = Color(
     red = 0.87f,
@@ -65,6 +68,26 @@ fun SettingsScreen(
     var showResetAllDialog by remember { mutableStateOf(false) }
     var showLogoutDialog by remember { mutableStateOf(false) }
     var showDeleteAccountDialog by remember { mutableStateOf(false) }
+
+    BackHandler(
+        enabled = !showResetUniverseDialog && !showResetAllDialog &&
+            !showLogoutDialog && !showDeleteAccountDialog
+    ) {
+        onClose()
+    }
+
+    val context = LocalContext.current
+
+    val resolvedAppVersion = remember {
+        try {
+            context.packageManager
+                .getPackageInfo(context.packageName, 0)
+                .versionName
+                .orEmpty()
+        } catch (_: PackageManager.NameNotFoundException) {
+            ""
+        }
+    }
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -260,7 +283,9 @@ fun SettingsScreen(
                     )
 
                     Text(
-                        text = appVersion,
+                        text = appVersion.ifBlank {
+                            resolvedAppVersion
+                        },
                         color = Color.Gray,
                         fontSize = 15.sp
                     )

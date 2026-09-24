@@ -85,6 +85,31 @@ struct FirestoreContentService {
         }
     }
     
+    func fetchAvailableUniverses() async throws -> [Universe] {
+        let snapshot = try await db
+            .collection("universes")
+            .order(by: "sortOrder")
+            .getDocuments()
+
+        var universes: [Universe] = []
+
+        for document in snapshot.documents {
+            let data = document.data()
+
+            guard data["state"] as? String == "available" else {
+                continue
+            }
+
+            let universe = try await fetchUniverse(
+                id: document.documentID
+            )
+
+            universes.append(universe)
+        }
+
+        return universes
+    }
+    
     func fetchUniverse(id: String) async throws -> Universe {
         let document = try await db
             .collection("universes")

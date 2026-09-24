@@ -8,106 +8,42 @@
 import CloudKit
 import Foundation
 
-@Observable
 final class CloudKitService {
 
-    let database = CKContainer.default().privateCloudDatabase
+    private let database = CKContainer.default().privateCloudDatabase
 
-    //MARK: findOrCreateUser
-    func findOrCreateUser(
+    // MARK: fetchUser
+    func fetchUser(
         id: String,
-        name: String,
-        onFailure: ((Error) -> Void)? = nil,
-        completion: @escaping (User, Bool) -> Void
+        completion: @escaping (Result<User, Error>) -> Void
     ) {
 
         let recordID = CKRecord.ID(recordName: id)
 
         database.fetch(withRecordID: recordID) { record, error in
 
-            if let record {
-                let user = self.makeUser(from: record)
-                completion(user, false)
-                return
-            }
-
-            if let error = error as? CKError {
-
-                if error.code != .unknownItem {
-
-                    print("❌ CloudKit fetch failed:", error.localizedDescription)
-                    onFailure?(error)
-                    return
-                }
-            }
-
-            let user = User(
-                userID: id,
-                displayName: name,
-                joinedDate: .now,
-                isFounder: false,
-                watchedMovies: [],
-                skippedMovies: [],
-                unlockedBadges: [],
-                settings: UserSettings(),
-                shownBadgePopups: []
-            )
-
-            let record = self.makeRecord(from: user)
-
-            self.database.save(record) { _, error in
-
-                if let error {
-                    print("❌ Failed to create user:", error.localizedDescription)
-                    return
-                }
-
-                completion(user, true)
-                print("✅ New user created")
-            }
-        }
-    }
-    // MARK: save
-    func save(user: User) {
-
-        let recordID = CKRecord.ID(recordName: user.userID)
-
-        database.fetch(withRecordID: recordID) { record, error in
-
             if let error {
-                print("❌ CloudKit save failed:", error.localizedDescription)
+                completion(.failure(error))
                 return
             }
 
             guard let record else {
-                print("❌ CloudKit save failed: User record not found")
+
+                let error = NSError(
+                    domain: "CloudKitService",
+                    code: 1,
+                    userInfo: [
+                        NSLocalizedDescriptionKey:
+                            "CloudKit user record was not found."
+                    ]
+                )
+
+                completion(.failure(error))
                 return
             }
 
-            record["displayName"] = user.displayName
-            record["joinedDate"] = user.joinedDate
-            record["isFounder"] = user.isFounder
-            record["showReleaseYears"] = user.settings.showReleaseYears
-            if let data = try? JSONEncoder().encode(user.settings.selectedUniverseFilters) {
-                record["selectedUniverseFilters"] = data
-            }
-            if let data = try? JSONEncoder().encode(user.settings.journeyPositions) {
-                record["journeyPositions"] = data
-            }
-
-            record["watchedMovies"] = user.watchedMovies
-            record["skippedMovies"] = user.skippedMovies
-            record["unlockedBadges"] = user.unlockedBadges
-            record["shownBadgePopups"] = user.shownBadgePopups
-
-            self.database.save(record) { _, error in
-
-                if let error {
-                    print("❌ CloudKit save failed:", error.localizedDescription)
-                    return
-                }
-                print("✅ CloudKit save success")
-            }
+            let user = self.makeUser(from: record)
+            completion(.success(user))
         }
     }
     
@@ -145,51 +81,41 @@ final class CloudKitService {
         )
     }
 
-    //MARK: makeRecord
-    private func makeRecord(from user: User) -> CKRecord {
-
-        let record = CKRecord(
-            recordType: "User",
-            recordID: CKRecord.ID(recordName: user.userID)
-        )
-
-        record["userID"] = user.userID
-        record["displayName"] = user.displayName
-        record["joinedDate"] = user.joinedDate
-        record["isFounder"] = user.isFounder
-        record["showReleaseYears"] = user.settings.showReleaseYears
-        if let data = try? JSONEncoder().encode(user.settings.selectedUniverseFilters) {
-            record["selectedUniverseFilters"] = data
-        }
-        if let data = try? JSONEncoder().encode(user.settings.journeyPositions) {
-            record["journeyPositions"] = data
-        }
-
-        record["watchedMovies"] = user.watchedMovies
-        record["skippedMovies"] = user.skippedMovies
-        record["unlockedBadges"] = user.unlockedBadges
-        record["shownBadgePopups"] = user.shownBadgePopups
-
-        return record
-    }
-    
     // MARK: Delete User
-
-    func deleteUser(id: String, completion: @escaping () -> Void) {
+    func deleteUser(
+        id: String
+    ) async throws {
 
         let recordID = CKRecord.ID(recordName: id)
 
-        database.delete(withRecordID: recordID) { _, error in
+        try await withCheckedThrowingContinuation {
+            (continuation: CheckedContinuation<Void, Error>) in
 
-            if let error {
-                print("❌ CloudKit delete failed:", error.localizedDescription)
-                return
-            }
+            database.delete(
+                withRecordID: recordID
+            ) { _, error in
 
-            print("🗑️ CloudKit user deleted:", id)
+                if let error = error as? CKError,
+                   error.code == .unknownItem {
 
-            DispatchQueue.main.async {
-                completion()
+                    continuation.resume(
+                        returning: ()
+                    )
+
+                    return
+                }
+
+                if let error {
+                    continuation.resume(
+                        throwing: error
+                    )
+
+                    return
+                }
+
+                continuation.resume(
+                    returning: ()
+                )
             }
         }
     }

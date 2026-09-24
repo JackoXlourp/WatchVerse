@@ -26,6 +26,13 @@ struct HeroUniverseCard: View {
                     .frame(maxWidth: .infinity, minHeight: 170, maxHeight: 170)
                     .clipped()
                     .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(
+                                Color.watchVerseGold.opacity(0.8),
+                                lineWidth: 1
+                            )
+                    )
             }
             .padding(12)
             .background(Color.white.opacity(0.05))

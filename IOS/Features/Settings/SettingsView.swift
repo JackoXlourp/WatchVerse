@@ -17,9 +17,6 @@ struct SettingsView: View {
     @Environment(AuthenticationService.self)
     private var authentication
     
-    @Environment(CloudKitService.self)
-    private var cloudKit
-    
     @AppStorage("notifyNewUniverses")
     private var notifyNewUniverses = false
     
@@ -29,8 +26,6 @@ struct SettingsView: View {
     @State private var showLogoutAlert = false
     
     @State private var showDeleteAccountAlert = false
-    
-    @State private var showCloudKitResetAlert = false
     
     private let appVersion =
     Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Uknown"
@@ -73,9 +68,9 @@ struct SettingsView: View {
                                     set: { newValue in
                                         
                                         authentication.currentUser?.settings.showReleaseYears = newValue
-                                        
-                                        if let user = authentication.currentUser {
-                                            cloudKit.save(user: user)
+
+                                        Task {
+                                            await authentication.saveCurrentUserToFirestore()
                                         }
                                     }
                                 )
@@ -128,6 +123,11 @@ struct SettingsView: View {
                             }
                             .tint(.watchVerseGold)
                             .padding()
+                            .onChange(of: notifyNewUniverses) { _, _ in
+                                Task {
+                                    await authentication.saveCurrentUserToFirestore()
+                                }
+                            }
                             
                             Divider()
                                 .overlay(.white.opacity(0.08))
@@ -426,9 +426,13 @@ struct SettingsView: View {
             }
             
             Button("Delete", role: .destructive) {
-                
-                authentication.deleteAccount(cloudKit: cloudKit)
-                
+
+                Task {
+                    if await authentication.deleteAccount() {
+                        dismiss()
+                    }
+                }
+
             }
             
         } message: {

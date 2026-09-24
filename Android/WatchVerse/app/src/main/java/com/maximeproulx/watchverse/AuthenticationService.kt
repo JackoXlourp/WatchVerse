@@ -3,6 +3,7 @@ package com.maximeproulx.watchverse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FieldValue
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
@@ -31,6 +32,17 @@ object AuthenticationService {
         auth.signOut()
     }
 
+    fun logout(onComplete: () -> Unit) {
+        NotificationTokenService.removeStoredTokenFromCurrentUser {
+            auth.signOut()
+            onComplete()
+        }
+    }
+
+    private fun isCurrentSession(uid: String): Boolean {
+        return auth.currentUser?.uid == uid
+    }
+
     fun createUserDocumentIfNeeded(
         onComplete: (Boolean) -> Unit = {}
     ) {
@@ -48,7 +60,13 @@ object AuthenticationService {
         userRef.get()
             .addOnSuccessListener { document ->
 
+                if (!isCurrentSession(user.uid)) {
+                    onComplete(false)
+                    return@addOnSuccessListener
+                }
+
                 if (document.exists()) {
+                    NotificationTokenService.syncStoredTokenIfPossible()
                     onComplete(true)
                     return@addOnSuccessListener
                 }
@@ -73,7 +91,8 @@ object AuthenticationService {
                 userRef
                     .set(userData)
                     .addOnSuccessListener {
-                        onComplete(true)
+                        NotificationTokenService.syncStoredTokenIfPossible()
+                        onComplete(isCurrentSession(user.uid))
                     }
                     .addOnFailureListener {
                         onComplete(false)
@@ -98,12 +117,29 @@ object AuthenticationService {
             .get()
             .addOnSuccessListener { document ->
 
-                if (!document.exists()) {
+                if (!isCurrentSession(user.uid)) {
                     onComplete(null)
                     return@addOnSuccessListener
                 }
 
-                onComplete(userFromDocument(document))
+                if (!document.exists()) {
+                    createUserDocumentIfNeeded { success ->
+                        if (success && isCurrentSession(user.uid)) {
+                            loadCurrentUser(onComplete)
+                        } else {
+                            onComplete(null)
+                        }
+                    }
+                    return@addOnSuccessListener
+                }
+
+                NotificationTokenService.syncStoredTokenIfPossible()
+                onComplete(
+                    userFromDocument(
+                        document = document,
+                        authenticatedUID = user.uid
+                    )
+                )
             }
             .addOnFailureListener {
                 onComplete(null)
@@ -182,21 +218,41 @@ object AuthenticationService {
             }
     }
 
+    fun updateCurrentUniverseID(
+        universeID: String?,
+        onComplete: (Boolean) -> Unit = {}
+    ) {
+        val user = auth.currentUser
+        if (user == null) {
+            onComplete(false)
+            return
+        }
+
+        db.collection("users")
+            .document(user.uid)
+            .update("currentUniverseID", universeID ?: FieldValue.delete())
+            .addOnSuccessListener { onComplete(isCurrentSession(user.uid)) }
+            .addOnFailureListener { onComplete(false) }
+    }
+
     private fun userFromDocument(
-        document: com.google.firebase.firestore.DocumentSnapshot
+        document: com.google.firebase.firestore.DocumentSnapshot,
+        authenticatedUID: String
     ): WatchVerseUser {
         val filters = decodeUniverseFilters(
             rawFilters = document.get("selectedUniverseFilters")
         )
 
         return WatchVerseUser(
-            uid = document.getString("uid") ?: document.id,
+            uid = authenticatedUID,
             displayName = document.getString("displayName") ?: "",
             email = document.getString("email") ?: "",
             joinedDate = document.getLong("joinedDate") ?: 0L,
             isFounder = document.getBoolean("isFounder") ?: false,
             showReleaseYears = document.getBoolean("showReleaseYears") ?: true,
             notifyNewUniverses = document.getBoolean("notifyNewUniverses") ?: true,
+            currentUniverseID = document.getString("currentUniverseID")
+                ?.takeIf(String::isNotBlank),
             selectedUniverseFilters = filters,
             journeyPositions = decodeStringMap(document.get("journeyPositions")),
             unlockedBadges = decodeStringList(document.get("unlockedBadges")),
@@ -602,20 +658,64 @@ object AuthenticationService {
         onComplete: (DeleteAccountResult) -> Unit
     ) {
         val uid = user.uid
+        val userRef = db.collection("users").document(uid)
 
-        db.collection("users")
-            .document(uid)
-            .delete()
-            .addOnSuccessListener {
-                user.delete()
+        userRef.get()
+            .addOnSuccessListener { document ->
+                if (!isCurrentSession(uid)) {
+                    onComplete(
+                        DeleteAccountResult.Failure(
+                            "The signed-in account changed before deletion completed."
+                        )
+                    )
+                    return@addOnSuccessListener
+                }
+
+                val profileToRestore = document.data
+
+                userRef.delete()
                     .addOnSuccessListener {
-                        onComplete(DeleteAccountResult.Success)
+                        user.delete()
+                            .addOnSuccessListener {
+                                onComplete(DeleteAccountResult.Success)
+                            }
+                            .addOnFailureListener { authError ->
+                                if (profileToRestore == null) {
+                                    onComplete(
+                                        DeleteAccountResult.Failure(
+                                            "Firebase Authentication deletion failed: " +
+                                                    (authError.localizedMessage ?: "Unknown error")
+                                        )
+                                    )
+                                    return@addOnFailureListener
+                                }
+
+                                userRef.set(profileToRestore)
+                                    .addOnSuccessListener {
+                                        onComplete(
+                                            DeleteAccountResult.Failure(
+                                                "Account deletion did not complete. Your WatchVerse profile was restored. Please try again."
+                                            )
+                                        )
+                                    }
+                                    .addOnFailureListener { restoreError ->
+                                        android.util.Log.e(
+                                            "WatchVerseAuth",
+                                            "Firebase Auth deletion failed and the Firestore profile could not be restored.",
+                                            restoreError
+                                        )
+                                        onComplete(
+                                            DeleteAccountResult.Failure(
+                                                "Account deletion could not be completed safely. Please contact support."
+                                            )
+                                        )
+                                    }
+                            }
                     }
                     .addOnFailureListener { error ->
                         onComplete(
                             DeleteAccountResult.Failure(
-                                "The account data was removed, but Firebase Authentication deletion failed: " +
-                                        (error.localizedMessage ?: "Unknown error")
+                                "Firestore account deletion failed: ${error.localizedMessage ?: "Unknown error"}"
                             )
                         )
                     }
@@ -623,7 +723,7 @@ object AuthenticationService {
             .addOnFailureListener { error ->
                 onComplete(
                     DeleteAccountResult.Failure(
-                        "Firestore account deletion failed: ${error.localizedMessage ?: "Unknown error"}"
+                        "Unable to prepare account deletion: ${error.localizedMessage ?: "Unknown error"}"
                     )
                 )
             }

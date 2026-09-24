@@ -36,6 +36,19 @@ class FirestoreCatalogService(
             .map { document -> document.toUniverse() }
     }
 
+    suspend fun fetchAvailableUniverses(): List<Universe> {
+        val snapshot = db.collection("universes")
+            .orderBy("sortOrder")
+            .get()
+            .awaitResult()
+
+        return snapshot.documents
+            .filter { document -> document.getString("state") == "available" }
+            .map { document ->
+                document.toUniverse(movies = fetchContent(document.id))
+            }
+    }
+
     suspend fun fetchContent(universeID: String): List<Movie> {
         val snapshot = db.collection("universes")
             .document(universeID)

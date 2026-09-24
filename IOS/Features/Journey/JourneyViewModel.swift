@@ -12,9 +12,6 @@ class JourneyViewModel {
     
     @ObservationIgnored
     var authentication: AuthenticationService?
-
-    @ObservationIgnored
-    var cloudKit: CloudKitService?
     
     @ObservationIgnored
     var contentStore: ContentStore?
@@ -76,7 +73,9 @@ class JourneyViewModel {
             user.skippedMovies.removeAll { $0 == id }
 
             authentication?.currentUser = user
-            cloudKit?.save(user: user)
+            Task {
+                await authentication?.saveCurrentUserToFirestore()
+            }
 
             checkForBadgeUnlocks()
         }
@@ -113,7 +112,9 @@ class JourneyViewModel {
 
         if didUnlockBadge {
             authentication?.currentUser = user
-            cloudKit?.save(user: user)
+            Task {
+                await authentication?.saveCurrentUserToFirestore()
+            }
         }
     }
     
@@ -130,7 +131,9 @@ class JourneyViewModel {
             user.watchedMovies.removeAll { $0 == id }
 
             authentication?.currentUser = user
-            cloudKit?.save(user: user)
+            Task {
+                await authentication?.saveCurrentUserToFirestore()
+            }
         }
     }
     
@@ -153,7 +156,9 @@ class JourneyViewModel {
             user.watchedMovies.removeAll { $0 == id }
 
             authentication?.currentUser = user
-            cloudKit?.save(user: user)
+            Task {
+                await authentication?.saveCurrentUserToFirestore()
+            }
         }
     }
 
@@ -170,7 +175,9 @@ class JourneyViewModel {
             user.skippedMovies.removeAll { $0 == id }
 
             authentication?.currentUser = user
-            cloudKit?.save(user: user)
+            Task {
+                await authentication?.saveCurrentUserToFirestore()
+            }
         }
     }
 
@@ -189,7 +196,9 @@ class JourneyViewModel {
             user.skippedMovies.removeAll { universeMovieIDs.contains($0) }
 
             authentication?.currentUser = user
-            cloudKit?.save(user: user)
+            Task {
+                await authentication?.saveCurrentUserToFirestore()
+            }
         }
     }
     
@@ -206,7 +215,9 @@ class JourneyViewModel {
             user.skippedMovies.removeAll()
 
             authentication?.currentUser = user
-            cloudKit?.save(user: user)
+            Task {
+                await authentication?.saveCurrentUserToFirestore()
+            }
         }
     }
     

@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -65,7 +66,7 @@ fun MovieDetailScreen(
                 .fillMaxSize()
                 .blur(28.dp),
             contentScale = ContentScale.Crop,
-            placeholder = R.drawable.placeholder_poster
+            placeholder = R.drawable.placeholder_movie
         )
 
         Box(
@@ -96,7 +97,7 @@ fun MovieDetailScreen(
                     )
                     .clip(RoundedCornerShape(18.dp)),
                 contentScale = ContentScale.Crop,
-                placeholder = R.drawable.placeholder_poster
+                placeholder = R.drawable.placeholder_movie
             )
 
             Spacer(
@@ -119,28 +120,36 @@ fun MovieDetailScreen(
                 badge.requiredContentIDs.contains(movie.id)
             }
 
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text =
-                        if (showReleaseYears) {
-                            "${movie.year}  •  ${movie.runtime}"
-                        } else {
-                            movie.runtime
-                        },
-                    color = Color.White.copy(alpha = 0.65f),
-                    fontSize = 15.sp
-                )
+            Text(
+                text =
+                    if (showReleaseYears) {
+                        "${movie.year}  •  ${movie.runtime}"
+                    } else {
+                        movie.runtime
+                    },
+                color = Color.White.copy(alpha = 0.65f),
+                fontSize = 15.sp
+            )
 
-                movieBadges.forEach { badge ->
-                    MovieBadgeCapsule(
-                        badge = badge,
-                        onClick = {
-                            onBadgeClick(badge)
-                        }
-                    )
+            if (movieBadges.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(12.dp))
+
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        10.dp,
+                        Alignment.CenterHorizontally
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    movieBadges.forEach { badge ->
+                        MovieBadgeCapsule(
+                            badge = badge,
+                            onClick = {
+                                onBadgeClick(badge)
+                            }
+                        )
+                    }
                 }
             }
 

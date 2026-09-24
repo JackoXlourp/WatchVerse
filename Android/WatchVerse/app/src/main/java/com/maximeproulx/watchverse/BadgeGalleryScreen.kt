@@ -1,5 +1,6 @@
 package com.maximeproulx.watchverse
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -60,6 +61,11 @@ fun BadgeGalleryScreen(
     }
     var selectedBadgeMovies by remember {
         mutableStateOf<List<Movie>>(emptyList())
+    }
+
+    BackHandler(enabled = selectedBadge != null) {
+        selectedBadge = null
+        onFullScreenOverlayChanged(false)
     }
 
     val displayBadges = badges

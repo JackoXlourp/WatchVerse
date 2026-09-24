@@ -1,5 +1,6 @@
 package com.maximeproulx.watchverse
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.fadeOut
@@ -136,7 +137,7 @@ fun JourneyScreen(
     onFilterClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {},
     onMovieClick: (Movie) -> Unit = {},
-    onResetJourney: () -> Unit = {},
+    onCloseUniverse: () -> Unit = {},
     onBadgesUnlocked: (List<Badge>) -> Unit = {},
     onFullScreenOverlayChanged: (Boolean) -> Unit = {},
 ) {
@@ -208,6 +209,21 @@ fun JourneyScreen(
             if (!showMovieDetail) {
                 selectedMovie = null
             }
+        }
+    }
+
+    BackHandler(
+        enabled = selectedBadge != null || selectedMovie != null || showFilterDropdown
+    ) {
+        when {
+            selectedBadge != null -> {
+                selectedBadge = null
+                onFullScreenOverlayChanged(showMovieDetail)
+            }
+            showMovieDetail -> dismissMovieDetail()
+            showFilterDropdown -> showFilterDropdown = false
+            // Keep Back within Journey while the detail exit animation completes.
+            selectedMovie != null -> Unit
         }
     }
 
@@ -332,38 +348,29 @@ fun JourneyScreen(
 
             Spacer(modifier = Modifier.height(72.dp))
 
-            // Universe title
-            Row(
+            // Universe title and subtitle
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(horizontal = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Universe title
                 Text(
                     text = universe.title,
                     color = JourneyGold,
-                    fontSize = 26.sp,
-                    fontWeight = FontWeight.Bold
+                    fontSize = 34.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    maxLines = 2
                 )
-
-                Spacer(modifier = Modifier.width(8.dp))
-
-                Box(
-                    modifier = Modifier
-                        .width(1.dp)
-                        .height(24.dp)
-                        .background(Color.White.copy(alpha = 0.65f))
-                )
-
-                Spacer(modifier = Modifier.width(8.dp))
-
                 Text(
                     text = universe.subtitle,
-                    color = Color.White,
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.Medium
+                    color = Color.White.copy(alpha = 0.85f),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
+                    textAlign = TextAlign.Center,
+                    maxLines = 2
                 )
             }
 
@@ -421,7 +428,7 @@ fun JourneyScreen(
                         }
                     }
                 },
-                onEndClick = onResetJourney
+                onEndClick = onCloseUniverse
             )
 
             // Current movie information
@@ -588,25 +595,27 @@ fun JourneyScreen(
             Spacer(modifier = Modifier.height(30.dp))
         }
 
-        Box(
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .statusBarsPadding()
-                .padding(top = 16.dp, start = 20.dp)
-                .size(42.dp)
-                .clip(CircleShape)
-                .background(Color(0xFF2C2C2C).copy(alpha = 0.85f))
-                .clickable {
-                    showFilterDropdown = true
-                    onFilterClick()
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "☷",
-                color = Color.White,
-                fontSize = 22.sp
-            )
+        if (universe.filters.isNotEmpty()) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .statusBarsPadding()
+                    .padding(top = 16.dp, start = 20.dp)
+                    .size(42.dp)
+                    .clip(CircleShape)
+                    .background(Color(0xFF2C2C2C).copy(alpha = 0.85f))
+                    .clickable {
+                        showFilterDropdown = true
+                        onFilterClick()
+                    },
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "☷",
+                    color = Color.White,
+                    fontSize = 22.sp
+                )
+            }
         }
 
         Box(
@@ -628,7 +637,7 @@ fun JourneyScreen(
             )
         }
 
-        if (showFilterDropdown) {
+        if (showFilterDropdown && universe.filters.isNotEmpty()) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -1041,7 +1050,7 @@ private fun JourneyPosterCard(
 
         ArtworkImage(
             source = poster,
-            placeholder = R.drawable.placeholder_poster,
+            placeholder = R.drawable.placeholder_movie,
             contentDescription = movie.title,
             modifier = Modifier
                 .fillMaxSize()
@@ -1223,7 +1232,7 @@ private fun JourneyEndCard(
             )
 
             Text(
-                text = "↻  Start Journey Again",
+                text = "⊗  Close Universe",
                 color = Color.White,
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold

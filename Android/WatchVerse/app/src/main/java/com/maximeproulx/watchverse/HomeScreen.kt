@@ -3,6 +3,7 @@ package com.maximeproulx.watchverse
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,8 +44,10 @@ private val WatchVerseGold = Color(
 @Composable
 fun HomeScreen(
     activeUniverse: Universe,
+    availableUniverses: List<Universe>,
     comingSoonUniverses: List<Universe>,
     onContinueWatchingClick: () -> Unit = {},
+    onUniverseClick: (Universe) -> Unit = {},
     onSettingsClick: () -> Unit = {}
 ) {
     Box(
@@ -88,9 +91,9 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            // MARK: Continue Watching
+            // MARK: Current Universe
             Text(
-                text = "Continue Watching",
+                text = "Current Universe",
                 color = WatchVerseGold,
                 fontSize = 17.sp,
                 fontWeight = FontWeight.SemiBold
@@ -102,6 +105,41 @@ fun HomeScreen(
                 universe = activeUniverse,
                 onClick = onContinueWatchingClick
             )
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            Text(
+                text = "Your Universes",
+                color = WatchVerseGold,
+                fontSize = 17.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
+                availableUniverses
+                    .filter { universe -> universe.id != activeUniverse.id }
+                    .chunked(2)
+                    .forEach { rowUniverses ->
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            rowUniverses.forEach { universe ->
+                                AvailableUniverseCard(
+                                    universe = universe,
+                                    isCurrent = false,
+                                    onClick = { onUniverseClick(universe) },
+                                    modifier = Modifier.weight(1f)
+                                )
+                            }
+                            if (rowUniverses.size == 1) {
+                                Spacer(modifier = Modifier.weight(1f))
+                            }
+                        }
+                    }
+            }
 
             Spacer(modifier = Modifier.height(30.dp))
 
@@ -169,6 +207,69 @@ fun HomeScreen(
 }
 
 @Composable
+fun AvailableUniverseCard(
+    universe: Universe,
+    isCurrent: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(24.dp))
+            .background(Color.White.copy(alpha = 0.05f))
+            .border(
+                width = if (isCurrent) 2.dp else 1.dp,
+                color = WatchVerseGold.copy(alpha = if (isCurrent) 0.9f else 0.35f),
+                shape = RoundedCornerShape(24.dp)
+            )
+            .clickable(onClick = onClick)
+            .padding(12.dp)
+    ) {
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            ArtworkImage(
+                source = universe.poster,
+                contentDescription = universe.fullTitle,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(0.68f)
+                    .clip(RoundedCornerShape(16.dp))
+                    .border(
+                        1.dp,
+                        WatchVerseGold.copy(alpha = 0.8f),
+                        RoundedCornerShape(16.dp)
+                    ),
+                contentScale = ContentScale.Crop,
+                placeholder = R.drawable.placeholder_poster
+            )
+
+            Text(
+                text = universe.title,
+                color = WatchVerseGold,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold,
+                maxLines = 2,
+                modifier = Modifier.height(44.dp)
+            )
+        }
+
+        if (isCurrent) {
+            Text(
+                text = "CURRENT",
+                color = Color.Black,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 0.8.sp,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .clip(RoundedCornerShape(50))
+                    .background(WatchVerseGold)
+                    .padding(horizontal = 10.dp, vertical = 6.dp)
+            )
+        }
+    }
+}
+
+@Composable
 private fun HeroUniverseCard(
     universe: Universe,
     onClick: () -> Unit
@@ -176,16 +277,25 @@ private fun HeroUniverseCard(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp)
-            .clip(RoundedCornerShape(18.dp))
+            .clip(RoundedCornerShape(24.dp))
+            .background(Color.White.copy(alpha = 0.05f))
             .clickable {
                 onClick()
             }
+            .padding(12.dp)
     ) {
         ArtworkImage(
             source = universe.banner,
             contentDescription = universe.fullTitle,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(170.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .border(
+                    1.dp,
+                    WatchVerseGold.copy(alpha = 0.8f),
+                    RoundedCornerShape(16.dp)
+                ),
             contentScale = ContentScale.Crop,
             placeholder = R.drawable.placeholder_poster
         )
@@ -199,13 +309,26 @@ private fun ComingSoonCard(
 ) {
     Column(
         modifier = modifier
+            .clip(RoundedCornerShape(24.dp))
+            .background(Color.White.copy(alpha = 0.05f))
+            .border(
+                1.dp,
+                WatchVerseGold.copy(alpha = 0.35f),
+                RoundedCornerShape(24.dp)
+            )
+            .padding(12.dp)
     ) {
 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(0.72f)
-                .clip(RoundedCornerShape(18.dp))
+                .aspectRatio(0.68f)
+                .clip(RoundedCornerShape(16.dp))
+                .border(
+                    1.dp,
+                    WatchVerseGold.copy(alpha = 0.8f),
+                    RoundedCornerShape(16.dp)
+                )
         ) {
 
             ArtworkImage(
@@ -237,13 +360,15 @@ private fun ComingSoonCard(
             )
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         Text(
             text = universe.title,
             color = WatchVerseGold,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium
+            fontSize = 16.sp,
+            fontWeight = FontWeight.SemiBold,
+            maxLines = 2,
+            modifier = Modifier.height(44.dp)
         )
     }
 }

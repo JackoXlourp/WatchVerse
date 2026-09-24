@@ -32,6 +32,8 @@ service cloud.firestore {
                'isFounder',
                'showReleaseYears',
                'notifyNewUniverses',
+               'currentUniverseID',
+               'fcmTokens',
                'selectedUniverseFilters',
                'journeyPositions',
                'unlockedBadges',
@@ -64,6 +66,10 @@ service cloud.firestore {
              request.resource.data.isFounder == false &&
              request.resource.data.showReleaseYears is bool &&
              request.resource.data.notifyNewUniverses is bool &&
+             (!request.resource.data.keys().hasAny(['currentUniverseID']) ||
+                request.resource.data.currentUniverseID is string) &&
+             (!request.resource.data.keys().hasAny(['fcmTokens']) ||
+                request.resource.data.fcmTokens is list) &&
              request.resource.data.selectedUniverseFilters is map &&
              request.resource.data.journeyPositions is map &&
              request.resource.data.unlockedBadges is list &&
@@ -80,6 +86,8 @@ service cloud.firestore {
                'displayName',
                'showReleaseYears',
                'notifyNewUniverses',
+               'currentUniverseID',
+               'fcmTokens',
                'selectedUniverseFilters',
                'journeyPositions',
                'unlockedBadges',
@@ -93,6 +101,12 @@ service cloud.firestore {
                request.resource.data.showReleaseYears is bool) &&
              (!changedKeys.hasAny(['notifyNewUniverses']) ||
                request.resource.data.notifyNewUniverses is bool) &&
+             (!changedKeys.hasAny(['currentUniverseID']) ||
+                !request.resource.data.keys().hasAny(['currentUniverseID']) ||
+                request.resource.data.currentUniverseID is string) &&
+             (!changedKeys.hasAny(['fcmTokens']) ||
+                !request.resource.data.keys().hasAny(['fcmTokens']) ||
+                request.resource.data.fcmTokens is list) &&
              (!changedKeys.hasAny(['selectedUniverseFilters']) ||
                isSupportedUniverseFilters(
                  request.resource.data.selectedUniverseFilters

@@ -1,7 +1,10 @@
 import {initializeApp} from "firebase-admin/app";
 import {getAuth} from "firebase-admin/auth";
 import {getFirestore} from "firebase-admin/firestore";
+import {getMessaging} from "firebase-admin/messaging";
+import {logger} from "firebase-functions/logger";
 import {setGlobalOptions} from "firebase-functions/v2";
+import {onDocumentUpdated} from "firebase-functions/v2/firestore";
 import {HttpsError, onCall} from "firebase-functions/v2/https";
 
 initializeApp();
@@ -400,5 +403,128 @@ export const migrateCloudKitUser = onCall(
       schemaVersion: 2,
       cloudKitMigrationVersion: 1,
     };
+  }
+);
+
+export const notifyUniverseAvailable = onDocumentUpdated(
+  "universes/{universeID}",
+  async (event) => {
+    const beforeData = event.data?.before.data();
+    const afterData = event.data?.after.data();
+
+    if (
+      !beforeData ||
+      !afterData ||
+      beforeData.state !== "comingSoon" ||
+      afterData.state !== "available"
+    ) {
+      return;
+    }
+
+    const universeID = event.params.universeID;
+    const universeTitle =
+      typeof afterData.title === "string" &&
+      afterData.title.trim().length > 0
+        ? afterData.title.trim()
+        : "A new universe";
+
+    const usersSnapshot = await getFirestore()
+      .collection("users")
+      .where("notifyNewUniverses", "==", true)
+      .get();
+
+    const tokens = new Set<string>();
+
+    usersSnapshot.forEach((userDocument) => {
+      const userTokens = userDocument.get("fcmTokens");
+
+      if (!Array.isArray(userTokens)) {
+        return;
+      }
+
+      for (const token of userTokens) {
+        if (
+          typeof token === "string" &&
+          token.trim().length > 0
+        ) {
+          tokens.add(token.trim());
+        }
+      }
+    });
+
+    const uniqueTokens = Array.from(tokens);
+
+    if (uniqueTokens.length === 0) {
+      logger.info("No eligible FCM tokens for new universe notification.", {
+        universeID,
+      });
+      return;
+    }
+
+    const batchSize = 500;
+
+    for (
+      let startIndex = 0;
+      startIndex < uniqueTokens.length;
+      startIndex += batchSize
+    ) {
+      const batchTokens = uniqueTokens.slice(
+        startIndex,
+        startIndex + batchSize
+      );
+
+      try {
+        const response = await getMessaging().sendEachForMulticast({
+          tokens: batchTokens,
+          notification: {
+            title: "New Universe Available",
+            body: `${universeTitle} is now available in WatchVerse.`,
+          },
+          data: {
+            type: "new_universe",
+            universeID,
+          },
+            android: {
+              notification: {
+                sound: "watchverse",
+                channelId: "new_universes_watchverse",
+              },
+            },
+          apns: {
+            payload: {
+              aps: {
+                sound: "watchverse.caf",
+              },
+            },
+          },
+        });
+
+        response.responses.forEach((result, index) => {
+          if (result.success) {
+            return;
+          }
+
+          logger.warn("New universe notification send failed.", {
+            universeID,
+            tokenIndex: startIndex + index,
+            errorCode: result.error?.code,
+            errorMessage: result.error?.message,
+          });
+        });
+
+        logger.info("New universe notification batch completed.", {
+          universeID,
+          batchStartIndex: startIndex,
+          successCount: response.successCount,
+          failureCount: response.failureCount,
+        });
+      } catch (error) {
+        logger.error("New universe notification batch failed.", {
+          universeID,
+          batchStartIndex: startIndex,
+          error,
+        });
+      }
+    }
   }
 );
