@@ -122,6 +122,9 @@ class MainActivity : ComponentActivity() {
                 var selectingUniverse by androidx.compose.runtime.remember(sessionUID) {
                     androidx.compose.runtime.mutableStateOf(false)
                 }
+                var openJourneyAfterSelection by androidx.compose.runtime.remember(sessionUID) {
+                    androidx.compose.runtime.mutableStateOf(false)
+                }
 
                 androidx.compose.runtime.LaunchedEffect(sessionUID, profileLoadAttempt) {
                     if (sessionUID != null) {
@@ -224,6 +227,7 @@ class MainActivity : ComponentActivity() {
                                                     selectingUniverse = false
                                                     if (success) {
                                                         catalogStore.activateUniverse(prepared)
+                                                        openJourneyAfterSelection = true
                                                         currentUser = currentUser?.copy(
                                                             currentUniverseID = universe.id
                                                         )
@@ -247,6 +251,7 @@ class MainActivity : ComponentActivity() {
                                 MainTabScreen(
                                     catalogStore = catalogStore,
                                     currentUser = currentUser!!,
+                                    startOnJourney = openJourneyAfterSelection,
                                     onCurrentUserChanged = { user ->
                                         currentUser = user
                                     },

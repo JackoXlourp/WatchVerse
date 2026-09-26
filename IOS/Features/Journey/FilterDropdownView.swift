@@ -10,6 +10,8 @@ import SwiftUI
 struct FilterDropdownView: View {
     
     @State private var selectedFilters: Set<String>
+    
+    @Environment(\.dismiss) private var dismiss
 
     let filters: [String]
     var onApply: (Set<String>) -> Void
@@ -38,7 +40,9 @@ struct FilterDropdownView: View {
                             selectedFilters = Set(filters)
                         }
                     } else {
-                        if selectedFilters.contains(filter) {
+                        if selectedFilters.isEmpty || selectedFilters.count == filters.count {
+                            selectedFilters = [filter]
+                        } else if selectedFilters.contains(filter) {
                             selectedFilters.remove(filter)
                         } else {
                             selectedFilters.insert(filter)
@@ -68,6 +72,7 @@ struct FilterDropdownView: View {
             
             Button("Apply") {
                 onApply(selectedFilters)
+                dismiss()
             }
             .frame(maxWidth: .infinity)
             .foregroundStyle(Color.watchVerseGold)

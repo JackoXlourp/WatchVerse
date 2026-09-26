@@ -22,6 +22,12 @@ final class ContentStore {
     var badges: [Badge] = []
     
     private var contentCache: [String: [Movie]] = [:]
+
+    func visibleBadges(for user: User?) -> [Badge] {
+        badges.filter {
+            $0.id != "founder" || user?.isFounder == true
+        }
+    }
     
     func loadBadges() async {
         do {

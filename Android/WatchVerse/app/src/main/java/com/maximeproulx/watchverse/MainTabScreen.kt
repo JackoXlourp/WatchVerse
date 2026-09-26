@@ -40,13 +40,20 @@ private val TabGold = Color(
 private enum class WatchVerseTab {
     HOME,
     JOURNEY,
+    SEARCH,
     BADGES
 }
+
+private data class PendingContentDestination(
+    val universeID: String,
+    val contentID: String
+)
 
 @Composable
 fun MainTabScreen(
     catalogStore: CatalogStore,
     currentUser: WatchVerseUser,
+    startOnJourney: Boolean = false,
     onCurrentUserChanged: (WatchVerseUser) -> Unit,
     onSignedOut: () -> Unit = {}
 ) {
@@ -55,7 +62,9 @@ fun MainTabScreen(
     val latestCurrentUser by rememberUpdatedState(currentUser)
 
     var selectedTab by remember {
-        mutableStateOf(WatchVerseTab.HOME)
+        mutableStateOf(
+            if (startOnJourney) WatchVerseTab.JOURNEY else WatchVerseTab.HOME
+        )
     }
     var hideBottomBar by remember {
         mutableStateOf(false)
@@ -69,8 +78,11 @@ fun MainTabScreen(
     var popupBadge by remember {
         mutableStateOf<Badge?>(null)
     }
-    var badgeGalleryScrollTargetID by remember {
+    var pendingBadgeID by remember {
         mutableStateOf<String?>(null)
+    }
+    var pendingContent by remember {
+        mutableStateOf<PendingContentDestination?>(null)
     }
     var switchingUniverse by remember {
         mutableStateOf(false)
@@ -145,6 +157,52 @@ fun MainTabScreen(
         hideBottomBar = false
     }
 
+    fun openBadge(badgeID: String) {
+        if (catalogStore.visibleBadges(currentUser).none { it.id == badgeID }) return
+        pendingBadgeID = badgeID
+        selectedTab = WatchVerseTab.BADGES
+    }
+
+    fun openUniverse(universe: Universe, contentID: String? = null) {
+        if (switchingUniverse) return
+        if (universe.id == activeUniverse.id) {
+            pendingContent = contentID?.let {
+                PendingContentDestination(universe.id, it)
+            }
+            selectedTab = WatchVerseTab.JOURNEY
+            return
+        }
+
+        switchingUniverse = true
+        val prepared = catalogStore.prepareAvailableUniverse(universe.id)
+        if (prepared == null) {
+            switchingUniverse = false
+            android.widget.Toast.makeText(
+                context, "Unable to load this universe.", android.widget.Toast.LENGTH_LONG
+            ).show()
+            return
+        }
+        AuthenticationService.updateCurrentUniverseID(universe.id) { success ->
+            switchingUniverse = false
+            if (success) {
+                catalogStore.activateUniverse(prepared)
+                onCurrentUserChanged(
+                    latestCurrentUser.copy(currentUniverseID = universe.id)
+                )
+                pendingContent = contentID?.let {
+                    PendingContentDestination(universe.id, it)
+                }
+                selectedTab = WatchVerseTab.JOURNEY
+                catalogStore.preloadArtworkInBackground(prepared)
+            } else {
+                android.widget.Toast.makeText(
+                    context, "Unable to save your current universe.",
+                    android.widget.Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
+
     BackHandler(
         enabled = selectedTab != WatchVerseTab.HOME &&
             !showSettings && popupBadge == null && !hideBottomBar
@@ -167,46 +225,7 @@ fun MainTabScreen(
                         selectedTab = WatchVerseTab.JOURNEY
                     },
                     onUniverseClick = { universe ->
-                        if (!switchingUniverse) {
-                            if (universe.id == activeUniverse.id) {
-                                selectedTab = WatchVerseTab.JOURNEY
-                            } else {
-                                switchingUniverse = true
-                                val prepared = catalogStore
-                                    .prepareAvailableUniverse(universe.id)
-
-                                if (prepared == null) {
-                                    switchingUniverse = false
-                                    android.widget.Toast.makeText(
-                                        context,
-                                        "Unable to load this universe.",
-                                        android.widget.Toast.LENGTH_LONG
-                                    ).show()
-                                } else {
-                                    AuthenticationService.updateCurrentUniverseID(
-                                        universe.id
-                                    ) { success ->
-                                        switchingUniverse = false
-                                        if (success) {
-                                            catalogStore.activateUniverse(prepared)
-                                            onCurrentUserChanged(
-                                                latestCurrentUser.copy(
-                                                    currentUniverseID = universe.id
-                                                )
-                                            )
-                                            selectedTab = WatchVerseTab.JOURNEY
-                                            catalogStore.preloadArtworkInBackground(prepared)
-                                        } else {
-                                            android.widget.Toast.makeText(
-                                                context,
-                                                "Unable to save your current universe.",
-                                                android.widget.Toast.LENGTH_LONG
-                                            ).show()
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        openUniverse(universe)
                     },
                     onSettingsClick = ::openSettings
                 )
@@ -217,6 +236,9 @@ fun MainTabScreen(
                     universe = activeUniverse,
                     badges = catalogStore.badges,
                     currentUser = currentUser,
+                    pendingContentID = pendingContent
+                        ?.takeIf { it.universeID == activeUniverse.id }?.contentID,
+                    onPendingContentConsumed = { pendingContent = null },
                     onCurrentUserChanged = onCurrentUserChanged,
                     onSettingsClick = ::openSettings,
                     onCloseUniverse = {
@@ -243,14 +265,25 @@ fun MainTabScreen(
                 )
             }
 
+            WatchVerseTab.SEARCH -> {
+                SearchScreen(
+                    universes = catalogStore.availableUniverses,
+                    visibleBadges = catalogStore.visibleBadges(currentUser),
+                    isActivatingUniverse = switchingUniverse,
+                    onUniverseClick = ::openUniverse,
+                    onBadgeClick = ::openBadge,
+                    onSettingsClick = ::openSettings
+                )
+            }
+
             WatchVerseTab.BADGES -> {
                 BadgeGalleryScreen(
                     catalogStore = catalogStore,
                     badges = catalogStore.badges,
                     currentUser = currentUser,
-                    scrollTargetBadgeID = badgeGalleryScrollTargetID,
-                    onScrollTargetConsumed = {
-                        badgeGalleryScrollTargetID = null
+                    pendingBadgeID = pendingBadgeID,
+                    onPendingBadgeConsumed = {
+                        pendingBadgeID = null
                     },
                     onSettingsClick = ::openSettings,
                     onFullScreenOverlayChanged = { hidden ->
@@ -304,6 +337,24 @@ fun MainTabScreen(
                     }
                 },
                 displayName = currentUser.displayName,
+                onDisplayNameChanged = { name ->
+                    val previousName = currentUser.displayName
+                    onCurrentUserChanged(currentUser.copy(displayName = name))
+                    AuthenticationService.updateDisplayName(name) { success ->
+                        if (!success) {
+                            if (latestCurrentUser.displayName == name) {
+                                onCurrentUserChanged(
+                                    latestCurrentUser.copy(displayName = previousName)
+                                )
+                            }
+                            android.widget.Toast.makeText(
+                                context,
+                                "Unable to save name. Please try again.",
+                                android.widget.Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                },
                 accountSubtitle = currentUser.let { user ->
                     val formattedDate =
                         java.text.SimpleDateFormat(
@@ -397,8 +448,7 @@ fun MainTabScreen(
                 },
                 onSeeBadge = {
                     popupBadge = null
-                    badgeGalleryScrollTargetID = badge.id
-                    selectedTab = WatchVerseTab.BADGES
+                    openBadge(badge.id)
                 }
             )
         }
@@ -452,6 +502,16 @@ private fun WatchVerseBottomBar(
             selected = selectedTab == WatchVerseTab.BADGES,
             onClick = {
                 onTabSelected(WatchVerseTab.BADGES)
+            },
+            modifier = Modifier.weight(1f)
+        )
+
+        TabItem(
+            label = "Search",
+            iconRes = R.drawable.ic_search,
+            selected = selectedTab == WatchVerseTab.SEARCH,
+            onClick = {
+                onTabSelected(WatchVerseTab.SEARCH)
             },
             modifier = Modifier.weight(1f)
         )

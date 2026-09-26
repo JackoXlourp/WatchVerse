@@ -27,6 +27,9 @@ struct SettingsView: View {
     
     @State private var showDeleteAccountAlert = false
     
+    @State private var showEditNameAlert = false
+    @State private var editedDisplayName = ""
+    
     private let appVersion =
     Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Uknown"
     
@@ -247,6 +250,15 @@ struct SettingsView: View {
                                 }
                                 
                                 Spacer()
+                                
+                                Button {
+                                    editedDisplayName = authentication.currentUser?.displayName ?? ""
+                                    showEditNameAlert = true
+                                } label: {
+                                    Image(systemName: "pencil")
+                                        .foregroundStyle(.white.opacity(0.85))
+                                }
+                                .buttonStyle(.plain)
                             }
                             .padding()
                             
@@ -440,7 +452,29 @@ struct SettingsView: View {
             Text("This will permanently delete your WatchVerse account, progress, badges, and settings.")
             
         }
-        
+        .alert("Edit Name", isPresented: $showEditNameAlert) {
+            TextField("Name", text: $editedDisplayName)
+
+            Button("Cancel", role: .cancel) {}
+
+            Button("Save") {
+                let trimmedName = editedDisplayName.trimmingCharacters(in: .whitespacesAndNewlines)
+
+                guard !trimmedName.isEmpty,
+                      var user = authentication.currentUser else {
+                    return
+                }
+
+                user.displayName = trimmedName
+                authentication.currentUser = user
+
+                Task {
+                    await authentication.saveCurrentUserToFirestore()
+                }
+            }
+        } message: {
+            Text("Choose the name shown on your WatchVerse profile.")
+        }
     }
 }
     

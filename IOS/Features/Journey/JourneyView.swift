@@ -18,6 +18,7 @@ struct JourneyView: View {
     @State private var selectedBadge: Badge?
     
     @Environment(JourneyViewModel.self) private var viewModel
+    @Environment(AppNavigation.self) private var navigation
     
     @Environment(AuthenticationService.self)
     private var authentication
@@ -373,11 +374,53 @@ struct JourneyView: View {
             
         }
         .navigationBarBackButtonHidden(true)
+        .popover(isPresented: $showFilterMenu) {
+            if let filters = viewModel.journey.filters, !filters.isEmpty {
+                FilterDropdownView(
+                    filters: filters,
+                    selectedFilters: Set(
+                        authentication.currentUser?
+                            .settings
+                            .selectedUniverseFilters[viewModel.journey.id]
+                        ?? []
+                    ),
+                    onApply: { selected in
+                        showFilterMenu = false
+
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            if var user = authentication.currentUser {
+                                user.settings.selectedUniverseFilters[viewModel.journey.id] = selected
+
+                                authentication.currentUser = user
+
+                                Task {
+                                    await authentication.saveCurrentUserToFirestore(
+                                        notifyNewUniverses: notifyNewUniverses
+                                    )
+                                }
+                            }
+                        }
+                    }
+                )
+                .presentationCompactAdaptation(.popover)
+            }
+        }
         .onChange(of: authentication.currentUser?.settings.selectedUniverseFilters) {
             restoreJourneyPosition()
         }
+        .onChange(of: viewModel.journey.id) {
+            restoreJourneyPosition()
+            consumePendingContent()
+        }
+        .onChange(of: navigation.pendingContent) {
+            consumePendingContent()
+        }
+        .onChange(of: navigation.selectedTab) {
+            consumePendingContent()
+        }
         .onAppear {
             restoreJourneyPosition()
+            consumePendingContent()
         }
         .sheet(item: $selectedMovie) { movie in
             NavigationStack {
@@ -407,38 +450,11 @@ struct JourneyView: View {
             ToolbarItem(placement: .topBarLeading) {
                 if let filters = viewModel.journey.filters, !filters.isEmpty {
                     Button {
-                        showFilterMenu.toggle()
+                        showFilterMenu = true
                     } label: {
                         Image(systemName: "line.3.horizontal.decrease.circle")
                             .font(.title2)
                             .foregroundStyle(.white)
-                    }
-                    .popover(isPresented: $showFilterMenu) {
-                        FilterDropdownView(
-                            filters: filters,
-                            selectedFilters: Set(
-                                authentication.currentUser?
-                                    .settings
-                                    .selectedUniverseFilters[viewModel.journey.id]
-                                ?? []
-                            ),
-                            onApply: { selected in
-                                if var user = authentication.currentUser {
-                                    user.settings.selectedUniverseFilters[viewModel.journey.id] = selected
-                                    
-                                    authentication.currentUser = user
-
-                                    Task {
-                                        await authentication.saveCurrentUserToFirestore(
-                                            notifyNewUniverses: notifyNewUniverses
-                                        )
-                                    }
-                                }
-                                
-                                showFilterMenu = false
-                            }
-                        )
-                        .presentationCompactAdaptation(.popover)
                     }
                 }
             }
@@ -448,6 +464,23 @@ struct JourneyView: View {
             }
         }
     }
+    private func consumePendingContent() {
+        guard navigation.selectedTab == .journey,
+              let destination = navigation.pendingContent,
+              destination.universeID == viewModel.journey.id else {
+            return
+        }
+
+        navigation.pendingContent = nil
+        guard let movie = viewModel.movies.first(where: {
+            $0.id == destination.contentID
+        }) else {
+            return
+        }
+
+        selectedMovie = movie
+    }
+
     private func restoreJourneyPosition() {
         let savedMovieID = authentication.currentUser?
             .settings

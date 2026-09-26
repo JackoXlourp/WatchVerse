@@ -51,8 +51,8 @@ fun BadgeGalleryScreen(
     catalogStore: CatalogStore,
     badges: List<Badge>,
     currentUser: WatchVerseUser,
-    scrollTargetBadgeID: String? = null,
-    onScrollTargetConsumed: () -> Unit = {},
+    pendingBadgeID: String? = null,
+    onPendingBadgeConsumed: () -> Unit = {},
     onSettingsClick: () -> Unit = {},
     onFullScreenOverlayChanged: (Boolean) -> Unit = {}
 ) {
@@ -68,10 +68,7 @@ fun BadgeGalleryScreen(
         onFullScreenOverlayChanged(false)
     }
 
-    val displayBadges = badges
-        .filter { badge ->
-            badge.id != "founder" || currentUser.isFounder
-        }
+    val displayBadges = catalogStore.visibleBadges(currentUser)
         .map { badge ->
             badge.copy(
                 isUnlocked =
@@ -108,18 +105,26 @@ fun BadgeGalleryScreen(
     }
     val galleryListState = rememberLazyListState()
 
-    LaunchedEffect(scrollTargetBadgeID, galleryRows) {
-        val targetID = scrollTargetBadgeID ?: return@LaunchedEffect
+    LaunchedEffect(pendingBadgeID, galleryRows) {
+        val targetID = pendingBadgeID ?: return@LaunchedEffect
+        val targetBadge = displayBadges.firstOrNull { it.id == targetID }
         val targetIndex = galleryRows.indexOfFirst { row ->
             row is BadgeGalleryRow.Badges && row.badges.any { badge -> badge.id == targetID }
         }
 
-        if (targetIndex >= 0) {
+        if (targetIndex >= 0 && targetBadge != null) {
             galleryListState.animateScrollToItem(
                 index = targetIndex,
                 scrollOffset = -120
             )
-            onScrollTargetConsumed()
+            kotlinx.coroutines.delay(150)
+            if (pendingBadgeID == targetID) {
+                selectedBadge = targetBadge
+                onFullScreenOverlayChanged(true)
+                onPendingBadgeConsumed()
+            }
+        } else {
+            onPendingBadgeConsumed()
         }
     }
 

@@ -73,22 +73,12 @@ struct HomeView: View {
                                     onTap: {
                                         Task {
 
-                                            await contentStore.preloadArtwork(
-                                                for: universe
+                                            await navigation.openUniverse(
+                                                universe,
+                                                contentStore: contentStore,
+                                                authentication: authentication,
+                                                viewModel: viewModel
                                             )
-
-                                            if var user = authentication.currentUser {
-                                                user.settings.currentUniverseID = universe.id
-                                                authentication.currentUser = user
-
-                                                await authentication.saveCurrentUserToFirestore()
-                                            }
-
-                                            viewModel.replaceJourney(
-                                                with: universe
-                                            )
-
-                                            navigation.selectedTab = .journey
                                         }
                                     }
                                 )

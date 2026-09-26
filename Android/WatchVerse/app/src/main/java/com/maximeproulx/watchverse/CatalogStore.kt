@@ -94,6 +94,9 @@ class CatalogStore(
     fun prepareAvailableUniverse(universeID: String): Universe? =
         availableUniverses.firstOrNull { it.id == universeID }
 
+    fun visibleBadges(user: WatchVerseUser): List<Badge> =
+        badges.filter { badge -> badge.id != "founder" || user.isFounder }
+
     fun preloadArtworkInBackground(universe: Universe) {
         preloadInBackground(
             buildSet {

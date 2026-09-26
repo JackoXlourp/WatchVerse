@@ -21,6 +21,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -58,6 +59,7 @@ fun SettingsScreen(
     appVersion: String = "",
     onShowReleaseYearsChanged: (Boolean) -> Unit = {},
     onNotifyNewUniversesChanged: (Boolean) -> Unit = {},
+    onDisplayNameChanged: (String) -> Unit = {},
     onResetUniverseProgress: () -> Unit = {},
     onResetAllProgress: () -> Unit = {},
     onLogout: () -> Unit = {},
@@ -68,10 +70,12 @@ fun SettingsScreen(
     var showResetAllDialog by remember { mutableStateOf(false) }
     var showLogoutDialog by remember { mutableStateOf(false) }
     var showDeleteAccountDialog by remember { mutableStateOf(false) }
+    var showEditNameDialog by remember { mutableStateOf(false) }
+    var editedDisplayName by remember { mutableStateOf("") }
 
     BackHandler(
         enabled = !showResetUniverseDialog && !showResetAllDialog &&
-            !showLogoutDialog && !showDeleteAccountDialog
+            !showLogoutDialog && !showDeleteAccountDialog && !showEditNameDialog
     ) {
         onClose()
     }
@@ -216,7 +220,7 @@ fun SettingsScreen(
 
                     Spacer(modifier = Modifier.size(12.dp))
 
-                    Column {
+                    Column(modifier = Modifier.weight(1f)) {
                         Text(
                             text = displayName,
                             color = Color.White,
@@ -232,6 +236,18 @@ fun SettingsScreen(
                             )
                         }
                     }
+
+                    Icon(
+                        painter = painterResource(R.drawable.ic_settings_edit),
+                        contentDescription = "Edit name",
+                        tint = Color.White.copy(alpha = 0.85f),
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clickable {
+                                editedDisplayName = displayName
+                                showEditNameDialog = true
+                            }
+                    )
                 }
 
                 SettingsDivider()
@@ -319,6 +335,43 @@ fun SettingsScreen(
                 }
             }
         }
+    }
+
+    if (showEditNameDialog) {
+        AlertDialog(
+            onDismissRequest = { showEditNameDialog = false },
+            title = { Text("Edit Name") },
+            text = {
+                Column {
+                    Text("Choose the name shown on your WatchVerse profile.")
+                    OutlinedTextField(
+                        value = editedDisplayName,
+                        onValueChange = { editedDisplayName = it },
+                        label = { Text("Name") },
+                        singleLine = true
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    enabled = editedDisplayName.isNotBlank(),
+                    onClick = {
+                        val trimmedName = editedDisplayName.trim()
+                        if (trimmedName.isNotEmpty()) {
+                            showEditNameDialog = false
+                            onDisplayNameChanged(trimmedName)
+                        }
+                    }
+                ) {
+                    Text("Save")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showEditNameDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
     }
 
     if (showResetUniverseDialog) {

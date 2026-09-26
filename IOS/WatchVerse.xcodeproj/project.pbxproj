@@ -31,6 +31,11 @@
 		9C3527353028FE2D00BF69FD /* CloudKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3527343028FE2B00BF69FD /* CloudKitService.swift */; };
 		9C352737302909B300BF69FD /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C352736302909B200BF69FD /* UserSettings.swift */; };
 		9C35273C302909F600BF69FD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C35273B302909F300BF69FD /* User.swift */; };
+		9C456948306719CA004C4180 /* SearchResultGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C456947306719C8004C4180 /* SearchResultGroup.swift */; };
+		9C45694B30671C1D004C4180 /* SearchEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C45694A30671C11004C4180 /* SearchEngine.swift */; };
+		9C45694D30672639004C4180 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C45694C30672630004C4180 /* SearchView.swift */; };
+		9C45694F30672D8C004C4180 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C45694E30672D8B004C4180 /* SearchBarView.swift */; };
+		9C456951306758F6004C4180 /* AppBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C456950306758F4004C4180 /* AppBackground.swift */; };
 		9C717E2330632E5300F4C669 /* UniverseSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C717E2230632E5200F4C669 /* UniverseSelectionView.swift */; };
 		9C717E2530633EB000F4C669 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 9C717E2430633EB000F4C669 /* FirebaseMessaging */; };
 		9C717E2730633EF400F4C669 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C717E2630633EF100F4C669 /* AppDelegate.swift */; };
@@ -102,6 +107,11 @@
 		9C3527343028FE2B00BF69FD /* CloudKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitService.swift; sourceTree = "<group>"; };
 		9C352736302909B200BF69FD /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		9C35273B302909F300BF69FD /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		9C456947306719C8004C4180 /* SearchResultGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultGroup.swift; sourceTree = "<group>"; };
+		9C45694A30671C11004C4180 /* SearchEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEngine.swift; sourceTree = "<group>"; };
+		9C45694C30672630004C4180 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		9C45694E30672D8B004C4180 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		9C456950306758F4004C4180 /* AppBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBackground.swift; sourceTree = "<group>"; };
 		9C717E2230632E5200F4C669 /* UniverseSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniverseSelectionView.swift; sourceTree = "<group>"; };
 		9C717E2630633EF100F4C669 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9C717E283063456D00F4C669 /* NotificationTokenService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTokenService.swift; sourceTree = "<group>"; };
@@ -182,6 +192,7 @@
 		505094F13016C603004E8760 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				9C456950306758F4004C4180 /* AppBackground.swift */,
 				9C717E2630633EF100F4C669 /* AppDelegate.swift */,
 				9C13D035303A4E9B0099CE3C /* NameSetupView.swift */,
 				505094E73016C0A8004E8760 /* WatchVerseApp.swift */,
@@ -197,6 +208,7 @@
 		505094F23016C79C004E8760 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				9C45694930671BBC004C4180 /* Search */,
 				9C35272D3028F00600BF69FD /* Authentication */,
 				5083E494301C26F8004A7AE7 /* Home */,
 				505094F33016C7DC004E8760 /* Journey */,
@@ -290,6 +302,17 @@
 				9C352736302909B200BF69FD /* UserSettings.swift */,
 			);
 			path = Authentication;
+			sourceTree = "<group>";
+		};
+		9C45694930671BBC004C4180 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				9C45694E30672D8B004C4180 /* SearchBarView.swift */,
+				9C45694C30672630004C4180 /* SearchView.swift */,
+				9C45694A30671C11004C4180 /* SearchEngine.swift */,
+				9C456947306719C8004C4180 /* SearchResultGroup.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		9C9EB15030221DC800858C9E /* Tools */ = {
@@ -538,6 +561,7 @@
 				505094EA3016C0A8004E8760 /* WatchVerseApp.swift in Sources */,
 				9C717E2730633EF400F4C669 /* AppDelegate.swift in Sources */,
 				9C35273C302909F600BF69FD /* User.swift in Sources */,
+				9C45694F30672D8C004C4180 /* SearchBarView.swift in Sources */,
 				5083E44F301826DD004A7AE7 /* MoviePosterView.swift in Sources */,
 				5083E469301A4937004A7AE7 /* JourneyViewModel.swift in Sources */,
 				9CDD366F305CB3E100C36B13 /* FirestoreContentService.swift in Sources */,
@@ -546,6 +570,7 @@
 				9C352737302909B300BF69FD /* UserSettings.swift in Sources */,
 				9C3527313028F01D00BF69FD /* AuthenticationView.swift in Sources */,
 				9C9EB15330237AD000858C9E /* completionStage.swift in Sources */,
+				9C45694B30671C1D004C4180 /* SearchEngine.swift in Sources */,
 				5083E47F301BAD2F004A7AE7 /* Universe.swift in Sources */,
 				5083E485301BDE7D004A7AE7 /* UniverseCard.swift in Sources */,
 				9CDD36B53060BCB900C36B13 /* CloudKitMigrationService.swift in Sources */,
@@ -553,6 +578,7 @@
 				9C717E293063456F00F4C669 /* NotificationTokenService.swift in Sources */,
 				50B7A139301EBE2000D4A1BF /* CarouselLayout.swift in Sources */,
 				9CC798733021709E0011DC42 /* SettingsButton.swift in Sources */,
+				9C456951306758F6004C4180 /* AppBackground.swift in Sources */,
 				9C3527073026C10400BF69FD /* WatchVerseColors.swift in Sources */,
 				9C35271D3027E66700BF69FD /* AppNavigation.swift in Sources */,
 				9C3527353028FE2D00BF69FD /* CloudKitService.swift in Sources */,
@@ -563,7 +589,9 @@
 				9CF398F7302A98660093B14D /* Badge.swift in Sources */,
 				9CF398FD302BFA6C0093B14D /* BadgeDetailView.swift in Sources */,
 				9CF39913302C89970093B14D /* BadgeUnlockOverlay.swift in Sources */,
+				9C456948306719CA004C4180 /* SearchResultGroup.swift in Sources */,
 				5083E483301BB9EB004A7AE7 /* HomeView.swift in Sources */,
+				9C45694D30672639004C4180 /* SearchView.swift in Sources */,
 				9CDD36B73061956A00C36B13 /* FirestoreUserProfile+User.swift in Sources */,
 				9C717E2330632E5300F4C669 /* UniverseSelectionView.swift in Sources */,
 				50B7A13B301F605400D4A1BF /* splashScreenView.swift in Sources */,

@@ -13,6 +13,7 @@ struct BadgeGalleryView: View {
     private var authentication
     
     @Environment(ContentStore.self) private var contentStore
+    @Environment(AppNavigation.self) private var navigation
     
     @State private var selectedBadge: Badge?
     @State private var selectedBadgeMovies: [Movie] = []
@@ -25,10 +26,11 @@ struct BadgeGalleryView: View {
     ]
     
     private var badges: [Badge] {
-        contentStore.badges.filter { badge in
-            badge.id != "founder" ||
-            authentication.currentUser?.isFounder == true
-        }
+        contentStore.visibleBadges(for: authentication.currentUser)
+    }
+
+    private var activePendingBadgeID: String? {
+        navigation.selectedTab == .badges ? navigation.pendingBadgeID : nil
     }
     
     private func isUnlocked(_ badge: Badge) -> Bool {
@@ -55,94 +57,146 @@ struct BadgeGalleryView: View {
                 .clipped()
                 .ignoresSafeArea()
             
-            ScrollView {
-                VStack(alignment: .leading, spacing: 40) {
-                    
-                    Spacer()
-                        .frame(height: 50)
-                    
-                    let groupedBadges = Dictionary(grouping: badges) { badge in
-                        badge.universeTitle
-                    }
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 40) {
 
-                    ForEach(
-                        groupedBadges.keys.sorted {
-                            if $0 == "WATCHVERSE" {
-                                return true
-                            }
-                            
-                            if $1 == "WATCHVERSE" {
-                                return false
-                            }
-                            
-                            return $0 < $1
-                        },
-                        id: \.self
-                    ) { universe in
-                        
-                        if let universeBadges = groupedBadges[universe] {
-                            
-                            badgeSection(title: universe) {
-                                
-                                LazyVGrid(columns: columns, spacing: 28) {
-                                    
-                                    ForEach(universeBadges) { badge in
-                                        
-                                        BadgeCardView(
-                                            title: badge.title,
-                                            artwork: badge.artwork,
-                                            isUnlocked: isUnlocked(badge)
-                                        )
-                                        .onTapGesture {
-                                            selectedBadgeMovies = []
-                                            selectedBadge = badge
+                        Spacer()
+                            .frame(height: 50)
+
+                        let groupedBadges = Dictionary(grouping: badges) { badge in
+                            badge.universeTitle
+                        }
+
+                        ForEach(
+                            groupedBadges.keys.sorted {
+                                if $0 == "WATCHVERSE" {
+                                    return true
+                                }
+
+                                if $1 == "WATCHVERSE" {
+                                    return false
+                                }
+
+                                return $0 < $1
+                            },
+                            id: \.self
+                        ) { universe in
+
+                            if let universeBadges = groupedBadges[universe] {
+
+                                badgeSection(title: universe) {
+
+                                    LazyVGrid(columns: columns, spacing: 28) {
+
+                                        ForEach(universeBadges) { badge in
+
+                                            BadgeCardView(
+                                                title: badge.title,
+                                                artwork: badge.artwork,
+                                                isUnlocked: isUnlocked(badge)
+                                            )
+                                            .id(badge.id)
+                                            .onTapGesture {
+                                                openBadge(badge)
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
+                    .padding()
+                    .padding(.bottom, 150)
                 }
-                .padding()
-                .padding(.bottom, 150)
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    SettingsButton()
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        SettingsButton()
+                    }
                 }
-            }
-            .sheet(item: $selectedBadge) { badge in
-                BadgeDetailView(
-                    badge: badge,
-                    movies: selectedBadgeMovies
-                )
-                .task {
-                    let loadedContent = await contentStore.content(
-                        for: badge.universeID
+                .sheet(item: $selectedBadge) { badge in
+                    BadgeDetailView(
+                        badge: badge,
+                        movies: selectedBadgeMovies
                     )
+                    .task(id: badge.id) {
+                        let loadedContent = await contentStore.content(
+                            for: badge.universeID
+                        )
 
-                    selectedBadgeMovies = loadedContent
-                        .filter {
-                            badge.requiredContentIDs.contains($0.id)
+                        guard !Task.isCancelled, selectedBadge?.id == badge.id else {
+                            return
                         }
-                        .sorted { first, second in
 
-                            let firstWatched =
-                                authentication.currentUser?
-                                    .watchedMovies
-                                    .contains(first.id) == true
+                        selectedBadgeMovies = loadedContent
+                            .filter {
+                                badge.requiredContentIDs.contains($0.id)
+                            }
+                            .sorted { first, second in
 
-                            let secondWatched =
-                                authentication.currentUser?
-                                    .watchedMovies
-                                    .contains(second.id) == true
+                                let firstWatched =
+                                    authentication.currentUser?
+                                        .watchedMovies
+                                        .contains(first.id) == true
 
-                            return firstWatched == false &&
-                                   secondWatched == true
-                        }
+                                let secondWatched =
+                                    authentication.currentUser?
+                                        .watchedMovies
+                                        .contains(second.id) == true
+
+                                return firstWatched == false &&
+                                       secondWatched == true
+                            }
+                    }
+                }
+                .task(id: activePendingBadgeID) {
+                    await consumePendingBadge(using: proxy)
                 }
             }
+        }
+    }
+
+    private func openBadge(_ badge: Badge) {
+        selectedBadgeMovies = []
+        selectedBadge = badge
+    }
+
+    private func consumePendingBadge(using proxy: ScrollViewProxy) async {
+        guard let badgeID = activePendingBadgeID else {
+            return
+        }
+
+        guard let badge = badges.first(where: { $0.id == badgeID }) else {
+            navigation.pendingBadgeID = nil
+            return
+        }
+
+        // Let the destination tab lay out before resolving the card's position.
+        do {
+            try await Task.sleep(for: .milliseconds(150))
+        } catch {
+            return
+        }
+        guard !Task.isCancelled, activePendingBadgeID == badgeID else {
+            return
+        }
+
+        proxy.scrollTo(badgeID, anchor: .center)
+
+        // Commit the scroll position before presenting the detail sheet.
+        do {
+            try await Task.sleep(for: .milliseconds(150))
+        } catch {
+            return
+        }
+        guard !Task.isCancelled, activePendingBadgeID == badgeID else {
+            return
+        }
+
+        navigation.pendingBadgeID = nil
+        if selectedBadge == nil {
+            openBadge(badge)
         }
     }
     
@@ -202,4 +256,3 @@ struct BadgeCardView: View {
         }
     }
 }
-

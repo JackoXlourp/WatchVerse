@@ -134,6 +134,8 @@ fun JourneyScreen(
     badges: List<Badge>,
     currentUser: WatchVerseUser,
     onCurrentUserChanged: (WatchVerseUser) -> Unit,
+    pendingContentID: String? = null,
+    onPendingContentConsumed: () -> Unit = {},
     onFilterClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {},
     onMovieClick: (Movie) -> Unit = {},
@@ -141,6 +143,7 @@ fun JourneyScreen(
     onBadgesUnlocked: (List<Badge>) -> Unit = {},
     onFullScreenOverlayChanged: (Boolean) -> Unit = {},
 ) {
+    var searchedMovieID by remember(universe.id) { mutableStateOf<String?>(null) }
     var selectedFilters by remember(currentUser.selectedUniverseFilters, universe.id) {
         mutableStateOf(
             currentUser.selectedUniverseFilters[universe.id]
@@ -148,8 +151,8 @@ fun JourneyScreen(
                 ?: emptySet()
         )
     }
-    val movies = remember(universe.movies, selectedFilters) {
-        if (selectedFilters.isEmpty()) {
+    val movies = remember(universe.movies, selectedFilters, searchedMovieID) {
+        val filtered = if (selectedFilters.isEmpty()) {
             universe.movies
         } else {
             universe.movies.filter { movie ->
@@ -158,6 +161,9 @@ fun JourneyScreen(
                 }
             }
         }
+        if (filtered.isEmpty() && searchedMovieID != null) {
+            universe.movies.filter { it.id == searchedMovieID }
+        } else filtered
     }
     val watchedMovieIDs = remember(currentUser.watchedMovies) {
         currentUser.watchedMovies.toSet()
@@ -200,6 +206,18 @@ fun JourneyScreen(
     }
     val animationScope = rememberCoroutineScope()
 
+    androidx.compose.runtime.LaunchedEffect(pendingContentID, universe.id) {
+        val contentID = pendingContentID ?: return@LaunchedEffect
+        val target = universe.movies.firstOrNull { it.id == contentID }
+        onPendingContentConsumed()
+        if (target != null) {
+            searchedMovieID = contentID
+            selectedMovie = target
+            showMovieDetail = true
+            onFullScreenOverlayChanged(true)
+        }
+    }
+
     fun dismissMovieDetail() {
         showMovieDetail = false
         onFullScreenOverlayChanged(false)
@@ -208,6 +226,7 @@ fun JourneyScreen(
             delay(300)
             if (!showMovieDetail) {
                 selectedMovie = null
+                searchedMovieID = null
             }
         }
     }

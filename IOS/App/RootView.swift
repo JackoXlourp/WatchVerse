@@ -58,6 +58,7 @@ struct RootView: View {
             }
             
         }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
         .task {
             authentication.restoreSession()
         }
@@ -229,7 +230,7 @@ struct RootView: View {
                     },
                     onSeeBadge: {
                         showingBadgeOverlay = false
-                        navigation.selectedTab = .badges
+                        navigation.openBadge(id: badge.id)
                     }
                 )
             }

@@ -32,7 +32,7 @@ struct MainTabView: View {
             .tabItem {
                 Label("Journey", systemImage: "map.fill")
             }
-            
+
             NavigationStack {
                 BadgeGalleryView()
             }
@@ -40,7 +40,14 @@ struct MainTabView: View {
             .tabItem {
                 Label("Badges", systemImage: "medal.fill")
             }
+
+            NavigationStack {
+                SearchView()
+            }
+            .tag(AppNavigation.Tab.search)
+            .tabItem {
+                Label("Search", systemImage: "magnifyingglass")
+            }
         }
     }
 }
-
